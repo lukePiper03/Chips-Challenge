@@ -3,7 +3,7 @@
 |--------|------------------| ---------------------------|
 | Domain | Linda Zhang | zhanglind1 | 
 | App    | | |
-| Renderer | | |
+| Renderer | Declan Cross | crossdecl |
 | Persistence | Jarvis Warnock | warnocjarv |
 | Recorder | | |
 | Fuzz | | |
