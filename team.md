@@ -5,5 +5,5 @@
 | App    | Luke Piper | piperluke |
 | Renderer | Declan Cross | crossdecl |
 | Persistence | Jarvis Warnock | warnocjarv |
-| Recorder | | |
-| Fuzz | | |
+| Recorder | Quinten Smit | smitquin |
+| Fuzz | Willy K | khowill |
