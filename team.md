@@ -4,6 +4,6 @@
 | Domain | Linda Zhang | zhanglind1 | 
 | App    | | |
 | Renderer | | |
-| Persistence | | |
+| Persistence | Jarvis Warnock | warnocjarv |
 | Recorder | | |
 | Fuzz | | |
