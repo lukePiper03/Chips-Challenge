@@ -1,16 +1,22 @@
 package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.*;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.*;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Point;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Cells;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Cell;
+
+
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+
 import javax.swing.JPanel;
 
 
 
 public class LevelView extends JPanel{
-	
 	
 	Level l;
 	
