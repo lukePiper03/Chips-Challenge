@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
+
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -12,6 +14,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -23,15 +26,18 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.LevelView;
+
 public class Chips extends JFrame{
 //	State curState;
-	Controller c;
+	Controller controller;
 	Runnable closePhase = ()->{};
 	
 	Chips(){
 	    assert SwingUtilities.isEventDispatchThread();
 	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	    c = new Controller();
+	    controller = new Controller();
 	    initialPhase();
 	    System.out.println("Initialising pane");
 	    setVisible(true);
@@ -66,6 +72,29 @@ public class Chips extends JFrame{
 	}
 	
 	void setPhase(){
-		System.out.println("Lets go");
+		System.out.println("Setting level");
+		// Set up new Level
+		Level level = new Level();
+			
+	    // Set up the viewport
+	    LevelView view = new LevelView(level);
+	    
+//	    v.addKeyListener(controller);
+//	    controller.newInstance(l.getPlayer());
+	    
+	    view.setFocusable(true);
+	    // New timer
+	    Timer timer = new Timer(34,unused->{
+	      assert SwingUtilities.isEventDispatchThread();
+	      level.tick();
+	      view.repaint();
+	    });
+	    closePhase.run();//close phase before adding any element of the new phase
+	    closePhase=()->{ timer.stop(); remove(view); };
+	    add(BorderLayout.CENTER,view);//add the new phase viewport
+	    setPreferredSize(getSize());//to keep the current size
+	    pack();                     //after pack
+	    view.requestFocus();//need to be after pack
+	    timer.start();
 	  }
 }
