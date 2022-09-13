@@ -11,7 +11,7 @@ public class Level {
 	// make it recieve the text file to generate a map
 	
 	//make a simple map for demo (change later)
-	Level(){
+	public Level(){
 //		char[][] map = new char[10][8];
 		char[][] map = {
 				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'},
