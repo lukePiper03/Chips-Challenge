@@ -23,15 +23,15 @@ public class Cells{
       inner.add(tmp);
       for(int y=0;y<maxY;y++){
     	 if(map[y][x] == '#') {
-    		 tmp.add(new Cell(List.of(Img.wall), x, y));
+    		 tmp.add(new Cell(new Wall(), x, y));
     	 } 
     	 else if(map[y][x] == 's') {
-    		 tmp.add(new Cell(List.of(Img.floor, Img.spawn), x, y));
+    		 tmp.add(new Cell(new Spawn(), x, y));
     		 spawn = new Point(x, y);
     	 }
     	 else {
 //    		 tmp.add(new Cell(List.of(Img.Grass,Img.Tree),x,y));
-    		 tmp.add(new Cell(List.of(Img.floor),x,y));
+    		 tmp.add(new Cell(new Floor(),x,y));
     	 }
     	  
         
@@ -45,7 +45,7 @@ public class Cells{
   public Cell get(int x,int y){
     var isOut = x<0 || y<0 || x>=maxX || y>=maxY;
     if(isOut){
-    	return new Cell(List.of(Img.water),x,y); }
+    	return new Cell(new Water(),x,y); }
     var res = inner.get(x).get(y);
     assert res!=null;
     return res;
@@ -57,25 +57,25 @@ public class Cells{
   
 
 
-	public void drawAll(Point pos, Graphics g, Dimension s, Point player) {
-//		inner.stream().flatMap(a -> a.stream()).forEach(b -> b.draw(g, pos, s, player));
-		ArrayList<Cell> wallTiles = new ArrayList<>();
-		int range = 10;
-		for(int x=(int)player.x()-range;x<=player.x()+range;x++){
-	      for(int y=(int) (player.y()-range);y<=player.y()+range;y++){
-	    	  if(this.get(x, y).type() == Img.wall) {
-	    		  wallTiles.add(this.get(x, y));
-	    	  } else {
-	    		  this.get(x, y).draw(g, pos, s, player);
-	    	  }
-	      }
-	    }
-		
-		// draw walls on top
-		for(Cell c : wallTiles) {
-			c.draw(g,  pos, s, player);
-		}
-	}
+//	public void drawAll(Point pos, Graphics g, Dimension s, Point player) {
+////		inner.stream().flatMap(a -> a.stream()).forEach(b -> b.draw(g, pos, s, player));
+//		ArrayList<Cell> wallTiles = new ArrayList<>();
+//		int range = 10;
+//		for(int x=(int)player.x()-range;x<=player.x()+range;x++){
+//	      for(int y=(int) (player.y()-range);y<=player.y()+range;y++){
+//	    	  if(this.get(x, y).type() == Img.wall) {
+//	    		  wallTiles.add(this.get(x, y));
+//	    	  } else {
+//	    		  this.get(x, y).draw(g, pos, s, player);
+//	    	  }
+//	      }
+//	    }
+//		
+//		// draw walls on top
+//		for(Cell c : wallTiles) {
+//			c.draw(g,  pos, s, player);
+//		}
+//	}
   
 //  public void forAll(Point p,int range,Consumer<Cell>action){
 //    assert range>=0;

@@ -28,6 +28,7 @@ public class Level {
 	}
 	
 	public void tick() {
+		//change this
 		p.tick(cells);
 	}
 	
