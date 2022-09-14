@@ -22,8 +22,9 @@ public class Player {
 	}
 	
 	
-//	  public Direction direction(){ return direction; }
-//	  public void direction(Direction d){ direction=d; }
+	
+	  public Direction direction(){ return direction; }
+	  public void direction(Direction d){ direction=d; }
 	  public Runnable set(Function<Direction,Direction> f){
 	    return ()->direction=f.apply(direction);
 	  }
@@ -41,7 +42,7 @@ public class Player {
 			
 			){
 			newPos = new Point(0, newPos.y());
-//			System.out.println("block horizontal") ;
+			System.out.println("block horizontal") ;
 		}
 		// moving up or down
 		if( 
@@ -52,9 +53,8 @@ public class Player {
 			
 			){
 			newPos = new Point(newPos.x(), 0);
-//			System.out.println("block vertical") ;
+			System.out.println("block vertical") ;
 		}
-		
 		
 		pos = pos.add(newPos);
 		

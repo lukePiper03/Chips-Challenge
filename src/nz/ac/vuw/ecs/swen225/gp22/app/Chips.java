@@ -79,8 +79,8 @@ public class Chips extends JFrame{
 	    // Set up the viewport
 	    LevelView view = new LevelView(level);
 	    
-//	    v.addKeyListener(controller);
-//	    controller.newInstance(l.getPlayer());
+	    view.addKeyListener(controller);
+	    controller.newInstance(level.getPlayer());
 	    
 	    view.setFocusable(true);
 	    // New timer

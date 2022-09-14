@@ -75,7 +75,7 @@ class ExitLock implements CellState{
 }
 
 class Spawn implements CellState{
-	public boolean isSolid(Cell self) {return true;}
+	public boolean isSolid(Cell self) {return false;}
 	public char symbol(Cell self) {return 's';}
 	//public void onPing(Cell self) {}
 	public Img getImage(Cell self) {return Img.spawn;}
