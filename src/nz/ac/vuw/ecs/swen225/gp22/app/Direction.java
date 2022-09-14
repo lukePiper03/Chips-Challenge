@@ -1,6 +1,8 @@
-package nz.ac.vuw.ecs.swen225.gp22.domain;
+package nz.ac.vuw.ecs.swen225.gp22.app;
 
-enum Direction{
+import nz.ac.vuw.ecs.swen225.gp22.domain.Point;
+
+public enum Direction{
   None(0d,0d){},
   Up(0d,-1d){ 
     Direction right(){return UpRight;}
@@ -56,6 +58,6 @@ enum Direction{
   Direction unRight(){return this;}
   Direction unDown(){return this;}
   Direction unLeft(){return this;}
-  Point arrow(Double speed){ return arrow.times(speed,speed);}
+  public Point arrow(Double speed){ return arrow.times(speed,speed);}
   Direction(double x,double y){ arrow=new Point(x,y); }
 }

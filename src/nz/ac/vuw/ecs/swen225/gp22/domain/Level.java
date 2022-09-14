@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.Cells;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Player;
 
 public class Level {
 	Cells cells;
