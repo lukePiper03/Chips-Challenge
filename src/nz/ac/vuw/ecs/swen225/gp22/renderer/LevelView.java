@@ -29,8 +29,8 @@ public class LevelView extends JPanel{
 	   super.paintComponent(g);//Cell.renderX,Cell.renderY
 	   Dimension s = getSize();
 	   var centerP = new Point(
-	      -s.width/(double)(2*renderSize),
-	      -s.height/(double)(2*renderSize));
+	      -s.width/(int)(2*renderSize),
+	      -s.height/(int)(2*renderSize));
 	   var c = l.getPlayer().getPos().add(centerP);
 	   drawMap(g, c, s, l.getPlayer().getPos());
 	   l.getPlayer().draw(Img.player.image, g, c, s);

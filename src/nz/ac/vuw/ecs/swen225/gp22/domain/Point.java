@@ -1,17 +1,24 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-public record Point(double x, double y){
-	  //Note: x==with, y==height
-	  public Point add(double x,double y){
+/**
+ * @author Linda Zhang
+ *
+ * represents a point in space. A helper class
+ * @param x x position
+ * @param y y position
+ */
+public record Point(int x, int y){
+	  //Note: x==width, y==height
+	  public Point add(int x,int y){
 	    return new Point(x()+x, y()+y);
 	  }
 	  public Point add(Point p){
 	    return add(p.x, p.y);
 	  }
-	  public Point times(double x, double y) {
+	  public Point times(int x, int y) {
 	    return new Point(x()*x, y()*y);
 	  }
-	  public Point times(double v) {
+	  public Point times(int v) {
 	    return new Point(x()*v, y()*v);
 	  }
 	  
@@ -23,8 +30,4 @@ public record Point(double x, double y){
 	    return Math.sqrt(x*x+y*y);
 	  }
 
-	  public Point toCoord(){
-		  return this;
-//	    return new Point((int)(x-0.5d), (int)(y-0.5d));
-	  }
 	}

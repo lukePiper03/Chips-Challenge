@@ -3,53 +3,20 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Point;
 
 public enum Direction{
-  None(0d,0d){},
-  Up(0d,-1d){ 
-    Direction right(){return UpRight;}
-    Direction left(){return UpLeft;}
+  None(0,0){},
+  Up(0,-1){ 
     Direction unUp(){return None;}
   },
-  UpRight(+0.7071d,-0.7071d){
-    Direction up(){return this;}
-    Direction right(){return this;}
-    Direction unUp(){return Right;}
-    Direction unRight(){return Up;}
+  Right(+1,0){
   },
-  Right(+1d,0d){
-    Direction up(){return UpRight;}
-    Direction down(){return DownRight;}
-    Direction unRight(){return None;}
-  },
-  DownRight(+0.7071d,+0.7071d){
-    Direction right(){return this;}
-    Direction down(){return this;}
-    Direction unDown(){return Right;}
-    Direction unRight(){return Down;}
-  },
-  Down(0d,+1d){
-    Direction right(){return DownRight;}
-    Direction left(){return DownLeft;}
+  Down(0,+1){
     Direction unDown(){return None;}
   },
-  DownLeft(-0.7071d,+0.7071d){
-    Direction down(){return this;}
-    Direction left(){return this;}
-    Direction unDown(){return Left;}
-    Direction unLeft(){return Down;}
-  },
-  Left(-1d,0d){
-    Direction up(){return UpLeft;}
-    Direction down(){return DownLeft;}
+  Left(-1,0){
     Direction unLeft(){return None;}
-  },
-  UpLeft(-0.7071d,-0.7071d){
-    Direction up(){return this;}
-    Direction left(){return this;}
-    Direction unUp(){return Left;}
-    Direction unLeft(){return Up;}
   };
-	
-  public final Point arrow;
+
+  public final Point next;
   Direction up(){return Up;}
   Direction right(){return Right;}
   Direction down(){return Down;}
@@ -58,6 +25,7 @@ public enum Direction{
   Direction unRight(){return this;}
   Direction unDown(){return this;}
   Direction unLeft(){return this;}
-  public Point arrow(Double speed){ return arrow.times(speed,speed);}
-  Direction(double x,double y){ arrow=new Point(x,y); }
+  
+  public Point point() {return next;}
+  Direction(int x,int y){next = new Point(x, y); }
 }

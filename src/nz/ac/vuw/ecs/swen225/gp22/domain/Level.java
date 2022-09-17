@@ -1,17 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import nz.ac.vuw.ecs.swen225.gp22.domain.Cells;
-
+/**
+ * @author Linda Zhang
+ * simulates a level of the game. Contains the playing board and the player.
+ */
 public class Level {
 	Cells cells;
 	Player p;
-//	Entities
+	//Entities
 	
-	// make it recieve the text file to generate a map
-	
-	//make a simple map for demo (change later)
+	/**
+	 * Makes a simple map for demo
+	 */
 	public Level(){
-//		char[][] map = new char[10][8];
 		char[][] map = {
 				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'},
 				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
@@ -26,15 +27,23 @@ public class Level {
 		p = new Player(cells.getSpawn());
 	}
 	
+	/**
+	 * Every tick of the game. States of cells and obejcts may change.
+	 */
 	public void tick() {
-		//change this
 		p.tick(cells);
 	}
 	
+	/**
+	 * @return player
+	 */
 	public Player getPlayer() {
 		return p;
 	}
 	
+	/**
+	 * @return cell board
+	 */
 	public Cells getCells() {
 		return cells;
 	}

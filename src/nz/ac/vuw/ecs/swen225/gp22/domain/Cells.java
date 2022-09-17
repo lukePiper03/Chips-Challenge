@@ -1,20 +1,23 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.awt.Dimension;
 
-import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.*;
-
+/**
+ * @author Linda Zhang
+ * The board of the current level in the game.
+ * Cells consists of many single cell objects.
+ */
 public class Cells{
   int maxX;
   int maxY;
   Point spawn; 
   private final List<List<Cell>> inner=new ArrayList<>();
   
-  public Cells(char[][] map){
+  /**
+ * @param map cells loaded from the demo
+ */
+public Cells(char[][] map){
 	 maxX = map[0].length; 
 	 maxY = map.length;
 	  
@@ -30,19 +33,19 @@ public class Cells{
     		 spawn = new Point(x, y);
     	 }
     	 else {
-//    		 tmp.add(new Cell(List.of(Img.Grass,Img.Tree),x,y));
     		 tmp.add(new Cell(new Floor(),x,y));
     	 }
-    	  
-        
       }
     }
-//    inner.get(3).set(3,new Cell(List.of(Img.Grass),3,3));//a patch of grass
-//    inner.get(4).set(4,new Cell(List.of(Img.Grass),4,4));
-//    inner.get(3).set(4,new Cell(List.of(Img.Grass),3,4));
   }
   
-  public Cell get(int x,int y){
+  /**
+   * Gets the cell on the x and y positon
+ * @param x x position on the board
+ * @param y y position on the board
+ * @return the cell on the x and y position. If out of range, return a water cell.
+ */
+public Cell get(int x,int y){
     var isOut = x<0 || y<0 || x>=maxX || y>=maxY;
     if(isOut){
     	return new Cell(new Water(),x,y); }
@@ -51,38 +54,24 @@ public class Cells{
     return res;
   }
   
-  public Point getSpawn() {
-	  return spawn;
+  /**
+   * Gets the cell on the point
+ * @param p point of cell
+ * @return the cell on the point. If out of range, return a water cell.
+ */
+public Cell get(Point p) {
+	  var isOut = p.x()<0 || p.y()<0 || p.x()>=maxX || p.y()>=maxY;
+	    if(isOut){ return new Cell(new Water(), p.x(), p.y()); }
+	    var res = inner.get(p.x()).get(p.y());
+	    assert res!=null;
+	    return res;
   }
   
+  /**
+ * @return the point at which the player should spawn
+ */
+public Point getSpawn() {
+	  return spawn;
+  }
 
-
-//	public void drawAll(Point pos, Graphics g, Dimension s, Point player) {
-////		inner.stream().flatMap(a -> a.stream()).forEach(b -> b.draw(g, pos, s, player));
-//		ArrayList<Cell> wallTiles = new ArrayList<>();
-//		int range = 10;
-//		for(int x=(int)player.x()-range;x<=player.x()+range;x++){
-//	      for(int y=(int) (player.y()-range);y<=player.y()+range;y++){
-//	    	  if(this.get(x, y).type() == Img.wall) {
-//	    		  wallTiles.add(this.get(x, y));
-//	    	  } else {
-//	    		  this.get(x, y).draw(g, pos, s, player);
-//	    	  }
-//	      }
-//	    }
-//		
-//		// draw walls on top
-//		for(Cell c : wallTiles) {
-//			c.draw(g,  pos, s, player);
-//		}
-//	}
-  
-//  public void forAll(Point p,int range,Consumer<Cell>action){
-//    assert range>=0;
-//    for(double x=p.x()-range;x<=p.x()+range;x++){
-//      for(int y=p.y()-range;y<=p.y()+range;y++){
-//        action.accept(get(x,y));
-//      }
-//    }
-//  }
 }
