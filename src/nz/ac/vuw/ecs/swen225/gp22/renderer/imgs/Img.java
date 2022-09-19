@@ -11,6 +11,9 @@ public enum Img{
   spawn,
   player,
   locked_door,
+  door_key,
+  exit_door,
+  chip,
   water;
   public final BufferedImage image;
   Img(){image=loadImage(this.name());}
