@@ -3,40 +3,53 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
 
 /**
- * @author Linda Zhang
+ * @author Linda Zhang 300570498
  *  the player of the game. Represents Chap
  */
 public class Player {
 	private Point pos;
+	private Point oldPos; //for smooth rendering
 	private Direction direction = Direction.None;
 	double scale = 0.5;
 	int timestamp = 5; //update position once every ten ticks
 	int timeSinceLastMove = 5;
+	private List<Entity> entitiesOnBoard;
 	
-	Player(Point p){
+	Player(Point p, List<Entity> entities){
 		pos = p;
+		entitiesOnBoard = entities;
 	}
 	
 	public Point getPos() {
 		return new Point(pos.x(), pos.y());
 	}
+	public Point getOldPos() {
+		return new Point(oldPos.x(),oldPos.y());
+	}
+	public float getMoveTime() {
+		return (float) timeSinceLastMove / (float)timestamp;
+	}
+	
 	public Direction direction(){ return direction; }
 	public void direction(Direction d){ direction=d; }
 	public Runnable set(Function<Direction,Direction> f){
 		return ()->direction=f.apply(direction);
 	}
+	public List<Entity> entitiesOnBoard() {return entitiesOnBoard;}
 	  
 	/**
 	 * the player at each tick
 	 * @param cells the cells on current level
 	 */
 	public void tick(Cells cells){
-		timeSinceLastMove++;
+		if(timeSinceLastMove < timestamp) timeSinceLastMove++;
 		
 		//allow movement every 5 ticks
 		if(timeSinceLastMove >= timestamp) {
@@ -50,14 +63,15 @@ public class Player {
 	 * @param cells the cells on current level
 	 */
 	public void move(Direction d, Cells cells) {
-		if(d == Direction.None) return;
+		if(d == Direction.None) return; //no movement
 		timeSinceLastMove = 0;
-		
+
 		if(cells.get(pos).isSolid()) { 
 			throw new IllegalArgumentException("Chap cannot be on a solid tile"); 
 		}
 		
 		Point newPos = pos.add(d.point());
+		oldPos = getPos();
 		if(!cells.get(newPos).isSolid()) { pos = newPos; };
 	}
 	

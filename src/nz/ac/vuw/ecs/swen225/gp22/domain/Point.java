@@ -1,7 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 /**
- * @author Linda Zhang
+ * @author Linda Zhang 300570498
  *
  * represents a point in space. A helper class
  * @param x x position

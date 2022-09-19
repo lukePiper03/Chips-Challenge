@@ -8,6 +8,7 @@ public enum Direction{
     Direction unUp(){return None;}
   },
   Right(+1,0){
+	Direction unRight(){return None;}
   },
   Down(0,+1){
     Direction unDown(){return None;}

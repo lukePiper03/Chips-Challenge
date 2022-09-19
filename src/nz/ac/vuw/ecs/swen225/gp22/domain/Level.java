@@ -1,13 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
- * @author Linda Zhang
+ * @author Linda Zhang 300570498
  * simulates a level of the game. Contains the playing board and the player.
  */
 public class Level {
 	Cells cells;
 	Player p;
-	//Entities
+	List<Entity> entities = new ArrayList<>();
 	
 	/**
 	 * Makes a simple map for demo
@@ -19,19 +24,32 @@ public class Level {
 				{'#', '.', '#', '.', '.', '.', '#', '.', '.', '#'},
 				{'#', '.', '#', '.', 's', '.', '.', '.', '.', '#'},
 				{'#', '.', '.', '.', '.', '.', '#', '.', '.', '#'},
-				{'#', '.', '.', '.', '.', '#', '#', '#', '.', '#'},
+				{'#', '.', '.', '.', 'L', '#', '#', '#', '.', '#'},
 				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
 				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'}
 		};
+		entities.add(new Key(new Point(4,6),1)); //demo has one key at point 1,1 with code 1
+		entities.add(new InfoField(new Point(1,1), "Message display here!"));
 		cells = new Cells(map);
-		p = new Player(cells.getSpawn());
+		p = new Player(cells.getSpawn(), entities);
 	}
 	
 	/**
-	 * Every tick of the game. States of cells and obejcts may change.
+	 * Every tick of the game. States of cells may change.
 	 */
 	public void tick() {
+		
+		//entities are sometimes removed during the loop
+		for(int i=0; i<entities.size();i++) {
+			if(entities.get(i).onInteraction(p, cells)) {
+				i--;
+			}
+		}
+		
+		//update player and cells
 		p.tick(cells);
+		
+		//if exit gone, win game
 	}
 	
 	/**
