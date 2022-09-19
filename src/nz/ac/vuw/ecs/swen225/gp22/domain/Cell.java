@@ -70,13 +70,13 @@ class LockedDoor implements CellState{
 	public int keyCode() {return matchKeyCode;}
 	public boolean isSolid(Cell self) {return true;}
 	public char symbol(Cell self) {return 'L';}
-	public Img getImage(Cell self) {return Img.water;} //change later
+	public Img getImage(Cell self) {return Img.locked_door;}
 }
 
 class ExitLock implements CellState{
 	public boolean isSolid(Cell self) {return true;}
 	public char symbol(Cell self) {return 'X';}
-	public Img getImage(Cell self) {return Img.water;} //change later
+	public Img getImage(Cell self) {return Img.exit_door;}
 }
 
 class Spawn implements CellState{

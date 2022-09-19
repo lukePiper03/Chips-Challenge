@@ -34,7 +34,9 @@ public class Cells {
 					spawn = new Point(x, y);
 				} else if (map[y][x] == 'L') {
 					tmp.add(new Cell(new LockedDoor(1), x, y));
-				} else {
+				} else if (map[y][x] == 'X') {
+					tmp.add(new Cell(new ExitLock(), x, y));
+				}else {
 					tmp.add(new Cell(new Floor(), x, y));
 				}
 			}
@@ -83,6 +85,20 @@ public class Cells {
 		return inner.stream().flatMap(cells -> cells.stream())
 						.filter(c -> c.state() instanceof LockedDoor)
 						.toList();
+	}
+	
+	/**
+	 * @return the cell that represents the ExitLock
+	 */
+	public Cell getExitLock() {
+		for(List<Cell> cells: inner) {
+			for(Cell cell: cells) {
+				if(cell.state() instanceof ExitLock) {
+					return cell;
+				}
+			}
+		}
+		throw new IllegalStateException("No ExitLock exists on board!");
 	}
 
 	/**

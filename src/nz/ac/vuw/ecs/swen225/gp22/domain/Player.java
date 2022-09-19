@@ -28,22 +28,60 @@ public class Player {
 		oldPos = getPos();
 	}
 	
+	/**
+	 * @return the position of the player in a new point
+	 */
 	public Point getPos() {
 		return new Point(pos.x(), pos.y());
 	}
+	/**
+	 * @return the previous old point of the player (for smooth animation in render)
+	 */
 	public Point getOldPos() {
 		return new Point(oldPos.x(),oldPos.y());
 	}
+	/**
+	 * @return the moving time (for smooth animation in render)
+	 */
 	public float getMoveTime() {
 		return (float) timeSinceLastMove / (float)timestamp;
 	}
 	
+	/**
+	 * @return the player's current direction
+	 */
 	public Direction direction(){ return direction; }
+	
+	/**
+	 * set the player direction
+	 * @param d direction to set the player to
+	 */
 	public void direction(Direction d){ direction=d; }
+	
+	/**
+	 * @param f the function to apply
+	 * @return the runnable applied to the direction
+	 */
 	public Runnable set(Function<Direction,Direction> f){
 		return ()->direction=f.apply(direction);
 	}
+	
+	/**
+	 * @return all the entities on the current board
+	 */
 	public List<Entity> entitiesOnBoard() {return entitiesOnBoard;}
+	
+	/**
+	 * @return true of all treasures have been collected by the player
+	 */
+	public boolean allTreasuresCollected() {
+		for(Entity e: entitiesOnBoard) {
+			if(e instanceof Treasure) {
+				return false;
+			}
+		}
+		return true;
+	}
 	  
 	/**
 	 * the player at each tick
