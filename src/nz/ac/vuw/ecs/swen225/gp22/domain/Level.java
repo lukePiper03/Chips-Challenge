@@ -13,30 +13,41 @@ public class Level {
 	Cells cells;
 	Player p;
 	List<Entity> entities = new ArrayList<>();
+	Runnable next;
 	
 	/**
 	 * Makes a simple map for demo
 	 */
-	public Level(){
+	public Level(Runnable next){
+		this.next = next;
 		char[][] map = {
 				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'},
 				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
 				{'#', '.', '#', '.', '.', '.', '#', '.', '.', '#'},
 				{'#', '.', '#', '.', 's', '.', '.', '.', '.', '#'},
-				{'#', '.', '.', '.', '.', '.', '#', '.', '.', '#'},
-				{'#', '.', '.', '.', 'L', '#', '#', '#', '.', '#'},
-				{'#', '.', '.', '.', '.', '.', '.', '.', 'X', '#'},
+				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
+				{'#', '.', '.', '.', 'L', '.', '#', '#', '.', '#'},
+				{'#', '.', '.', '.', '.', '.', '#', '.', 'X', '#'},
 				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'}
 		};
 		entities.add(new Key(new Point(4,6),1)); //demo has one key at point 1,1 with code 1
 		entities.add(new InfoField(new Point(1,1), "Message display here!"));
 		entities.add(new Treasure(new Point(8,3))); //demo has two treasures at point 8,3 and 8,4
 		entities.add(new Treasure(new Point(8,4)));
+		entities.add(new Exit(new Point(7,6), this)); //demo has an exit at 7,6 which calls gameOver
 		
 		cells = new Cells(map);
 		p = new Player(cells.getSpawn(), entities);
 	}
-	
+
+
+	/**
+	 * Switches back to the home menu.
+	 */
+	public void gameOver() {
+		next.run();
+	}
+
 	/**
 	 * Every tick of the game. States of cells may change.
 	 */
