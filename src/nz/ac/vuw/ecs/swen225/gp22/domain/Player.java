@@ -25,6 +25,7 @@ public class Player {
 	Player(Point p, List<Entity> entities){
 		pos = p;
 		entitiesOnBoard = entities;
+		oldPos = getPos();
 	}
 	
 	public Point getPos() {

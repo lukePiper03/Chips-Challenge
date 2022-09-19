@@ -10,6 +10,7 @@ public enum Img{
   wall,
   spawn,
   player,
+  locked_door,
   water;
   public final BufferedImage image;
   Img(){image=loadImage(this.name());}
@@ -17,7 +18,6 @@ public enum Img{
     URL imagePath = Img.class.getResource(name+".png");
     try{return ImageIO.read(imagePath);}
     catch(IOException e) { 
-
     	throw new Error(e); }
   }
 }
