@@ -16,12 +16,15 @@ import javax.swing.JPanel;
 public class LevelView extends JPanel{
 	// level
 	Level l;
+	SoundPlayer s;
 	
 	// rendering variables
 	private final int renderSize = 64;
 	
 	public LevelView(Level newLevel) {
 		l = newLevel;
+		s = new SoundPlayer();
+		s.playSound();
 	}
 	
 	
