@@ -14,5 +14,6 @@ record Exit(Point pos, Level level) implements Entity{
 		level.gameOver();
 		return true;
 	}
+	public Point getPos() {return pos;}
 	public Img getImage() {return Img.water;} //change later
 }

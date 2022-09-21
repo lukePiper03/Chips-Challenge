@@ -53,7 +53,7 @@ public class Level {
 	 */
 	public void tick() {
 		
-		//entities are sometimes removed during the loop
+		//entities are sometimes removed during the loop (cannot use foreach)
 		for(int i=0; i<entities.size();i++) {
 			if(entities.get(i).onInteraction(p, cells)) {
 				i--;
@@ -63,7 +63,7 @@ public class Level {
 		//update player and cells
 		p.tick(cells);
 		
-		//if exit gone, win game
+		//if exit gone, win game - currently just takes bakc to home screen
 	}
 	
 	/**
@@ -78,5 +78,12 @@ public class Level {
 	 */
 	public Cells getCells() {
 		return cells;
+	}
+	
+	/**
+	 * @return a clone of entities on the level
+	 */
+	public List<Entity> getEntites(){
+		return entities.stream().toList();
 	}
 }

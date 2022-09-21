@@ -18,6 +18,10 @@ public interface Entity {
 	boolean onInteraction(Player p, Cells cells);
 	
 	/**
+	 * @return the Point for the location of the entity
+	 */
+	Point getPos();
+	/**
 	 * @return image representing the entity
 	 */
 	Img getImage();

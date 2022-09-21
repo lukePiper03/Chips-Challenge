@@ -16,6 +16,11 @@ record Key(Point pos, int matchDoorCode) implements Entity{
 		for(Cell c: cells.getAllLockedDoors()) {
 			if(((LockedDoor) c.state()).keyCode() == matchDoorCode) {
 				//found a matching locked door
+				p.inventory().add(this);
+				
+				System.out.println("\n Inventory:");
+				p.inventory().forEach(i -> System.out.println(i));
+				
 				p.entitiesOnBoard().remove(this); //remove key from board
 				c.setState(new Floor()); //change state of LockedDoor to floor
 				found = true;
@@ -25,6 +30,6 @@ record Key(Point pos, int matchDoorCode) implements Entity{
 		assert p.entitiesOnBoard().size() == size - 1: "No LockedDoor matches this key";
 		return true;
 	}
-	
+	public Point getPos() {return pos;}
 	public Img getImage() {return Img.door_key;}
 }

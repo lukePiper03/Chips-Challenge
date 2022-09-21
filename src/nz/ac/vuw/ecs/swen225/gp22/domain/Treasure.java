@@ -13,14 +13,20 @@ record Treasure(Point pos) implements Entity{
 		if(!p.getPos().equals(pos)) return false; //player not on treasure, do nothing
 		
 		int size = p.entitiesOnBoard().size();
-		//remove treasure and change state of exitlock to floor if all treaures are collected
+		int treasureCount = p.treasuresToCollect();
+		//remove treasure (add to inventory) and change state of exitlock to floor if all treaures are collected
+		p.decreaseTreasureCount();
 		p.entitiesOnBoard().remove(this); 
 		if(p.allTreasuresCollected()) {
 			Cell exitlock = cells.getExitLock();
 			exitlock.setState(new Floor());
 		}
 		assert p.entitiesOnBoard().size() == size - 1: "Treasure was not correctly removed";
+		assert treasureCount == p.treasuresToCollect() - 1: "Treasure count was not correctly decreased";
+		
+		System.out.println("Treasure Count: "+p.treasuresToCollect());
 		return true;
 	}
+	public Point getPos() {return pos;}
 	public Img getImage() {return Img.chip;}
 }

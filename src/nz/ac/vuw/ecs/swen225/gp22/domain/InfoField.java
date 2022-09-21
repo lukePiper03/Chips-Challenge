@@ -26,6 +26,7 @@ class InfoField implements Entity{
 		}
 		return false;
 	}
-	
+	public String getMessage() {return message;}
+	public Point getPos() {return pos;}
 	public Img getImage() {return Img.water;} //change later
 }

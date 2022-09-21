@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * @author Linda Zhang  300570498
  * The board of the current level in the game. Cells
- *         consists of many single cell objects.
+ *         consist of many single cell objects.
  */
 public class Cells {
 	int maxX;
@@ -27,17 +27,23 @@ public class Cells {
 			var tmp = new ArrayList<Cell>();
 			inner.add(tmp);
 			for (int y = 0; y < maxY; y++) {
-				if (map[y][x] == '#') {
+				switch(map[y][x]) {
+				case '#':
 					tmp.add(new Cell(new Wall(), x, y));
-				} else if (map[y][x] == 's') {
+					break;
+				case 's': 
 					tmp.add(new Cell(new Spawn(), x, y));
 					spawn = new Point(x, y);
-				} else if (map[y][x] == 'L') {
+					break;
+				case 'L':
 					tmp.add(new Cell(new LockedDoor(1), x, y));
-				} else if (map[y][x] == 'X') {
+					break;
+				case 'X':
 					tmp.add(new Cell(new ExitLock(), x, y));
-				}else {
+					break;
+				default:
 					tmp.add(new Cell(new Floor(), x, y));
+					break;
 				}
 			}
 		}
@@ -52,11 +58,10 @@ public class Cells {
 	 *         cell.
 	 */
 	public Cell get(int x, int y) {
-		var isOut = x < 0 || y < 0 || x >= maxX || y >= maxY;
-		if (isOut) {
-			return new Cell(new Water(), x, y);
+		if (x < 0 || y < 0 || x >= maxX || y >= maxY) {
+			return new Cell(new Water(), x, y); //return water cell if out of the map
 		}
-		var res = inner.get(x).get(y);
+		Cell res = inner.get(x).get(y);
 		assert res != null;
 		return res;
 	}
@@ -68,11 +73,10 @@ public class Cells {
 	 * @return the cell on the point. If out of range, return a water cell.
 	 */
 	public Cell get(Point p) {
-		var isOut = p.x() < 0 || p.y() < 0 || p.x() >= maxX || p.y() >= maxY;
-		if (isOut) {
-			return new Cell(new Water(), p.x(), p.y());
+		if (p.x() < 0 || p.y() < 0 || p.x() >= maxX || p.y() >= maxY) {
+			return new Cell(new Water(), p.x(), p.y()); //return water cell if out of the map
 		}
-		var res = inner.get(p.x()).get(p.y());
+		Cell res = inner.get(p.x()).get(p.y());
 		assert res != null;
 		return res;
 	}
@@ -91,15 +95,11 @@ public class Cells {
 	 * @return the cell that represents the ExitLock
 	 */
 	public Cell getExitLock() {
-		for(List<Cell> cells: inner) {
-			for(Cell cell: cells) {
-				if(cell.state() instanceof ExitLock) {
-					return cell;
-				}
-			}
-		}
-		throw new IllegalStateException("No ExitLock exists on board!");
-	}
+		
+		return inner.stream().flatMap(cells -> cells.stream())
+				.filter(c -> c.state() instanceof ExitLock)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No ExitLock exists on board!"));	}
 
 	/**
 	 * @return the point at which the player should spawn

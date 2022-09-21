@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
@@ -17,15 +18,17 @@ public class Player {
 	private Point pos;
 	private Point oldPos; //for smooth rendering
 	private Direction direction = Direction.None;
-	double scale = 0.5;
 	int timestamp = 5; //update position once every ten ticks
 	int timeSinceLastMove = 5;
 	private List<Entity> entitiesOnBoard;
+	private List<Entity> inventory = new ArrayList<>();
+	private int treasuresToCollect; 
 	
 	Player(Point p, List<Entity> entities){
 		pos = p;
 		entitiesOnBoard = entities;
 		oldPos = getPos();
+		treasuresToCollect = totalTreasureCount(); // start with the total number of treasures on the board
 	}
 	
 	/**
@@ -72,7 +75,22 @@ public class Player {
 	public List<Entity> entitiesOnBoard() {return entitiesOnBoard;}
 	
 	/**
-	 * @return true of all treasures have been collected by the player
+	 * @return all the entities in the players inventory (picked up)
+	 */
+	public List<Entity> inventory(){return inventory;}
+	
+	/**
+	 * @return the number of treasures on the board currently
+	 */
+	public int treasuresToCollect() {return treasuresToCollect;}
+	
+	/**
+	 * decrease the count for the number of treasures on the board
+	 */
+	public void decreaseTreasureCount() {treasuresToCollect --;}
+	
+	/**
+	 * @return true if all treasures have been collected by the player
 	 */
 	public boolean allTreasuresCollected() {
 		for(Entity e: entitiesOnBoard) {
@@ -82,6 +100,8 @@ public class Player {
 		}
 		return true;
 	}
+
+	
 	  
 	/**
 	 * the player at each tick
@@ -101,7 +121,7 @@ public class Player {
 	 * @param d direction
 	 * @param cells the cells on current level
 	 */
-	public void move(Direction d, Cells cells) {
+	public void move(Direction d, Cells cells){
 		if(d == Direction.None) return; //no movement
 		timeSinceLastMove = 0;
 
@@ -114,21 +134,14 @@ public class Player {
 		if(!cells.get(newPos).isSolid()) { pos = newPos; };
 	}
 	
-	/**
-	 * draw the player on screen. Handled by Renderer.
-	 * @param img
-	 * @param g
-	 * @param center
-	 * @param size
-	 */
-	public void draw(BufferedImage img, Graphics g, Point center, Dimension size){
-		double w1=pos.x()*64-(center.x()*64) + 64*(scale/2);
-		double h1=pos.y()*64-(center.y()*64) + 64*(scale/2);
-		double w2=w1+64*scale;
-		double h2=h1+64*scale;
-
-	    var isOut = h2<=0 || w2<=0 || h1>=size.height || w1>=size.width;
-	    if(isOut){ return; }
-	    g.drawImage(img,(int)w1,(int)h1,(int)w2,(int)h2,0,0,64,64,null);
+	//total treasure count on the board
+	private int totalTreasureCount() {
+		int result = 0;
+		for(Entity e: entitiesOnBoard) {
+			if(e instanceof Treasure) {
+				result++;
+			}
+		}
+		return result;
 	}
 }
