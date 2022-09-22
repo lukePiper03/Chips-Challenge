@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer;
 import nz.ac.vuw.ecs.swen225.gp22.app.*;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.*;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -24,7 +25,9 @@ public class LevelView extends JPanel{
 	public LevelView(Level newLevel) {
 		l = newLevel;
 		s = new SoundPlayer();
-		s.playSound();
+		s.loop(Sound.eightbitsong);
+//		s.stop(Sound.eightbitsong);
+//		l.addSoundPlayer(s);
 	}
 	
 	

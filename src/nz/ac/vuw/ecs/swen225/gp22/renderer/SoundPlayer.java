@@ -9,36 +9,56 @@ import javax.sound.sampled.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.io.*;
 
 public class SoundPlayer
 {
-	Sound s1;
+	Map<Sound, Clip> sounds;
+	
+	// THE USE OF THE SOUND PLAYER IS TO KEEP TRACK OF PLAYING AUDIO CLIPS 
+	// BY KEEPING TRACK, WE CAN START AND STOPPING EXISTING SOUNDS and support looping
 	
     public SoundPlayer()
     {
-    	s1 = loadSound(); 
-        //URL file = new URL("file:./flyby1.wav");
-        //URL file = new URL("file:c:/users/netro/java/flyby1.wav");
-//        URL file;
-//		try {
-//			file = new URL("https://www.wavsource.com/snds_2020-10-01_3728627494378403/sfx/air_raid.wav");
-//		} catch (MalformedURLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//        AudioInputStream ais = AudioSystem.getAudioInputStream(file);
-//        Clip clip = AudioSystem.getClip();
-//        clip.open(ais);
+    	// load in all sounds
+    	sounds = new HashMap<>();
+    	sounds.putAll( Stream.of(Sound.values()).collect(Collectors.toMap(a->a, a->a.clip))    );
+    	System.out.println(sounds);
     }
     
-    public Sound loadSound() {
-    	return Sound.eightbitsong;
+    public Clip getSound(Sound s) {
+    	if(sounds.containsKey(s)) {
+    		return sounds.get(s);
+    	} else {
+    		throw new IllegalArgumentException("Sound " + s + " does not exist.");
+    	}
     }
     
-    public void playSound(){
-    	System.out.println("Playing song " + s1);
-    	s1.clip.start();
+    public void play(Sound s){
+    	// take argument to play specfic sound
+    	Clip curClip = getSound(s);
+    	curClip.setFramePosition(0);
+    	curClip.start();
+ 
+//    	curClip.stop();
+    	System.out.println("Playing sound " + s);
+    }
+    
+    public void loop(Sound s){
+    	getSound(s).loop(Clip.LOOP_CONTINUOUSLY);
+    	System.out.println("Looping sound " + s);
+    }
+  
+    public void stop(Sound s){
+    	getSound(s).stop();
+    	System.out.println("Stopping sound " + s);
+    	
+        
     }
 }

@@ -5,7 +5,8 @@ import java.net.URL;
 import javax.sound.sampled.*;
 
 public enum Sound{
-	eightbitsong;
+	eightbitsong,
+	beep;
 	public final Clip clip;
 	  Sound(){clip=loadSound(this.name());}
 	  static private Clip loadSound(String name){
