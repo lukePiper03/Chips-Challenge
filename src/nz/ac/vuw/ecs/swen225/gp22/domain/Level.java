@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
+
 /**
  * @author Linda Zhang 300570498
  * simulates a level of the game. Contains the playing board and the player.
