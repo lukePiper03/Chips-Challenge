@@ -76,10 +76,10 @@ public class Chips extends JFrame{
 	void setPhase(){
 		System.out.println("Setting level");
 		// Set up new Level
-		Level level = new Level(() -> initialPhase());
+		Level level = new Level(() -> initialPhase(), sound);
 			
 	    // Set up the viewport
-	    LevelView view = new LevelView(level, sound);
+	    LevelView view = new LevelView(level);
 	    
 	    view.addKeyListener(controller);
 	    controller.newInstance(level.getPlayer());
