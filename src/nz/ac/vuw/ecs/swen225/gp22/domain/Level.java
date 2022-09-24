@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
 /**
  * @author Linda Zhang 300570498
@@ -24,6 +25,7 @@ public class Level {
 	public Level(Runnable next){
 		this.next = next;
 		soundplayer = new SoundPlayer();
+		soundplayer.loop(Sound.eightbitsong);
 		char[][] map = {
 				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'},
 				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
@@ -49,6 +51,7 @@ public class Level {
 	 * Switches back to the home menu.
 	 */
 	public void gameOver() {
+		soundplayer.stopAll();
 		next.run();
 	}
 
