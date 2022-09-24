@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
 
 /**
@@ -13,9 +14,10 @@ public interface Entity {
 	 * Do the interaction with the player
 	 * @param p the player
 	 * @param cells the current cells board
+	 * @param soundplayer 
 	 * @return true if interaction successful
 	 */
-	boolean onInteraction(Player p, Cells cells);
+	boolean onInteraction(Player p, Cells cells, SoundPlayer soundplayer);
 	
 	/**
 	 * @return the Point for the location of the entity
