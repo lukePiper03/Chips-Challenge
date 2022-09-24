@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
+
 /**
  * @author Linda Zhang 300570498
  * simulates a level of the game. Contains the playing board and the player.
@@ -14,12 +16,14 @@ public class Level {
 	Player p;
 	List<Entity> entities = new ArrayList<>();
 	Runnable next;
+	SoundPlayer soundplayer;
 	
 	/**
 	 * Makes a simple map for demo
 	 */
 	public Level(Runnable next){
 		this.next = next;
+		soundplayer = new SoundPlayer();
 		char[][] map = {
 				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'},
 				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
@@ -55,7 +59,7 @@ public class Level {
 		
 		//entities are sometimes removed during the loop (cannot use foreach)
 		for(int i=0; i<entities.size();i++) {
-			if(entities.get(i).onInteraction(p, cells)) {
+			if(entities.get(i).onInteraction(p, cells, soundplayer)) {
 				i--;
 			}
 		}

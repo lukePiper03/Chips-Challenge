@@ -2,7 +2,9 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import javax.swing.JOptionPane;
 
+import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
 /**
  * Represents an InfoField entity. Displays message.
@@ -13,7 +15,7 @@ class InfoField implements Entity{
 	private Point pos; private String message;
 	InfoField(Point pos, String message){this.pos = pos; this.message = message;}
 	
-	public boolean onInteraction(Player p, Cells cells) {
+	public boolean onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
 		if(!p.getPos().equals(pos)) { //player not on Info, do nothing
 			switchOn = true;
 			return false;
@@ -21,6 +23,7 @@ class InfoField implements Entity{
 		//display message
 		if(switchOn) {
 			JOptionPane.showMessageDialog(null, message);
+			soundplayer.play(Sound.beep);
 			switchOn = false;
 			return true;
 		}

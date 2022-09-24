@@ -1,6 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
 /**
  * Represents a Treasure entity. Once all treasures are collected the exitLock is unlocked
@@ -9,7 +11,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
  */
 record Treasure(Point pos) implements Entity{
 	
-	public boolean onInteraction(Player p, Cells cells) {
+	public boolean onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
 		if(!p.getPos().equals(pos)) return false; //player not on treasure, do nothing
 		
 		int size = p.entitiesOnBoard().size();
@@ -17,6 +19,7 @@ record Treasure(Point pos) implements Entity{
 		//remove treasure (add to inventory) and change state of exitlock to floor if all treaures are collected
 		p.decreaseTreasureCount();
 		p.entitiesOnBoard().remove(this); 
+		soundplayer.play(Sound.beep);
 		if(p.allTreasuresCollected()) {
 			Cell exitlock = cells.getExitLock();
 			exitlock.setState(new Floor());
