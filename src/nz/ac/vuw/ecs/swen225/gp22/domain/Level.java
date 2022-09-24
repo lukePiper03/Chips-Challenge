@@ -1,6 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,17 +14,18 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 public class Level {
 	Cells cells;
 	Player p;
-	List<Entity> entities = new ArrayList<>();
+	Set<Entity> entities = new HashSet<>();
 	Runnable next;
-	SoundPlayer soundplayer;
+	SoundPlayer soundPlayer;
 	
 	/**
 	 * Makes a simple map for demo
+	 * @param next the next 'phase' the game will be in (e.g. homescreen, next level)
 	 */
-	public Level(Runnable next){
+	public Level(Runnable next, SoundPlayer soundPlayer){
 		this.next = next;
-		soundplayer = new SoundPlayer();
-		soundplayer.loop(Sound.eightbitsong);
+		this.soundPlayer = soundPlayer;
+		soundPlayer.loop(Sound.eightbitsong);
 		char[][] map = {
 				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'},
 				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
@@ -51,7 +51,7 @@ public class Level {
 	 * Switches back to the home menu.
 	 */
 	public void gameOver() {
-		soundplayer.stopAll();
+		soundPlayer.stopAll();
 		next.run();
 	}
 
@@ -59,18 +59,15 @@ public class Level {
 	 * Every tick of the game. States of cells may change.
 	 */
 	public void tick() {
-		
-		//entities are sometimes removed during the loop (cannot use foreach)
-		for(int i=0; i<entities.size();i++) {
-			if(entities.get(i).onInteraction(p, cells, soundplayer)) {
-				i--;
-			}
-		}
+		//call onInteraction on entities touching player
+		entities.stream().filter(e -> p.getPos().equals(e.getPos())).forEach(e -> e.onInteraction(p, cells, soundPlayer));
+
+		//remove entities that need removing
+		p.entitiesToRemove().stream().forEach(e -> entities.remove(e));
+		p.entitiesToRemove().clear();
 		
 		//update player and cells
 		p.tick(cells);
-		
-		//if exit gone, win game - currently just takes bakc to home screen
 	}
 	
 	/**

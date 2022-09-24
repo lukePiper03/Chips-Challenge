@@ -15,9 +15,8 @@ public interface Entity {
 	 * @param p the player
 	 * @param cells the current cells board
 	 * @param soundplayer 
-	 * @return true if interaction successful
 	 */
-	boolean onInteraction(Player p, Cells cells, SoundPlayer soundplayer);
+	void onInteraction(Player p, Cells cells, SoundPlayer soundplayer);
 	
 	/**
 	 * @return the Point for the location of the entity

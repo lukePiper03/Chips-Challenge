@@ -10,28 +10,29 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
  */
 record Key(Point pos, int matchDoorCode) implements Entity{
 	
-	public boolean onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
-		if(!p.getPos().equals(pos)) return false; //player not on key, do nothing
+	public void onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
+		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Key!");
 		
+		//intial values before change is made
 		boolean found = false;
 		int size = p.entitiesOnBoard().size();
+		
 		for(Cell c: cells.getAllLockedDoors()) {
 			if(((LockedDoor) c.state()).keyCode() == matchDoorCode) {
-				//found a matching locked door
+				//found a matching locked door, remove key
 				p.inventory().add(this);
+				p.entitiesToRemove().add(this);
 				soundplayer.play(Sound.beep);
 				
 				System.out.println("\n Inventory:");
 				p.inventory().forEach(i -> System.out.println(i));
 				
-				p.entitiesOnBoard().remove(this); //remove key from board
 				c.setState(new Floor()); //change state of LockedDoor to floor
 				found = true;
 			}
 		}
 		if(!found) throw new IllegalStateException("No LockedDoor exists to match this key");
-		assert p.entitiesOnBoard().size() == size - 1: "No LockedDoor matches this key";
-		return true;
+		assert p.entitiesOnBoard().size() == size - 1: "Key was not correctly removed"; //might be wrong
 	}
 	public Point getPos() {return pos;}
 	public Img getImage() {return Img.door_key;}

@@ -11,24 +11,27 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
  */
 record Treasure(Point pos) implements Entity{
 	
-	public boolean onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
-		if(!p.getPos().equals(pos)) return false; //player not on treasure, do nothing
+	public void onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
+		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Treasure!");
 		
+		//intial values before change is made
 		int size = p.entitiesOnBoard().size();
 		int treasureCount = p.treasuresToCollect();
-		//remove treasure (add to inventory) and change state of exitlock to floor if all treaures are collected
+		
+		//queue to remove treasure, decrease the number of treasures to collect
 		p.decreaseTreasureCount();
-		p.entitiesOnBoard().remove(this); 
+		p.entitiesToRemove().add(this);
 		soundplayer.play(Sound.beep);
-		if(p.allTreasuresCollected()) {
+		
+		if(p.treasuresToCollect() <= 0) {
 			Cell exitlock = cells.getExitLock();
-			exitlock.setState(new Floor());
+			exitlock.setState(new Floor()); //unlocked
 		}
-		assert p.entitiesOnBoard().size() == size - 1: "Treasure was not correctly removed";
+		
+		assert p.entitiesOnBoard().size() == size - 1: "Treasure was not correctly removed"; //might be wrong
 		assert treasureCount == p.treasuresToCollect() - 1: "Treasure count was not correctly decreased";
 		
 		System.out.println("Treasure Count: "+p.treasuresToCollect());
-		return true;
 	}
 	public Point getPos() {return pos;}
 	public Img getImage() {return Img.chip;}

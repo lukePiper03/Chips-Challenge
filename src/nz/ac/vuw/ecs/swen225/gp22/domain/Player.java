@@ -1,10 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -18,13 +14,16 @@ public class Player {
 	private Point pos;
 	private Point oldPos; //for smooth rendering
 	private Direction direction = Direction.None;
-	int timestamp = 5; //update position once every ten ticks
-	int timeSinceLastMove = 5;
-	private List<Entity> entitiesOnBoard;
-	private List<Entity> inventory = new ArrayList<>();
-	private int treasuresToCollect; 
 	
-	Player(Point p, List<Entity> entities){
+	private int timestamp = 5; //update position once every 5 ticks
+	private int timeSinceLastMove = 5; //a counter from the last move
+	
+	private Set<Entity> entitiesOnBoard;
+	private int treasuresToCollect; //a counter for the number of treasures that need collecting
+	private Set<Entity> inventory = new HashSet<>();
+	private Set<Entity> entitiesToRemove = new HashSet<>(); //set to add to if the entity is to be removed
+	
+	Player(Point p, Set<Entity> entities){
 		pos = p;
 		entitiesOnBoard = entities;
 		oldPos = getPos();
@@ -72,12 +71,12 @@ public class Player {
 	/**
 	 * @return all the entities on the current board
 	 */
-	public List<Entity> entitiesOnBoard() {return entitiesOnBoard;}
+	public Set<Entity> entitiesOnBoard() {return entitiesOnBoard;}
 	
 	/**
 	 * @return all the entities in the players inventory (picked up)
 	 */
-	public List<Entity> inventory(){return inventory;}
+	public Set<Entity> inventory(){return inventory;}
 	
 	/**
 	 * @return the number of treasures on the board currently
@@ -90,19 +89,13 @@ public class Player {
 	public void decreaseTreasureCount() {treasuresToCollect --;}
 	
 	/**
-	 * @return true if all treasures have been collected by the player
+	 * @return the set to queue entities to be removed
 	 */
-	public boolean allTreasuresCollected() {
-		for(Entity e: entitiesOnBoard) {
-			if(e instanceof Treasure) {
-				return false;
-			}
-		}
-		return true;
+	public Set<Entity> entitiesToRemove(){
+		return entitiesToRemove;
 	}
 
 	
-	  
 	/**
 	 * the player at each tick
 	 * @param cells the cells on current level
@@ -136,12 +129,6 @@ public class Player {
 	
 	//total treasure count on the board
 	private int totalTreasureCount() {
-		int result = 0;
-		for(Entity e: entitiesOnBoard) {
-			if(e instanceof Treasure) {
-				result++;
-			}
-		}
-		return result;
+		return (int) entitiesOnBoard.stream().filter(e -> e instanceof Treasure).count();
 	}
 }
