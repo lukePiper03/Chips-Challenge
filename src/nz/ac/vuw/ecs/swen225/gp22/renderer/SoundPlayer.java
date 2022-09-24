@@ -41,12 +41,10 @@ public class SoundPlayer
     }
     
     public void play(Sound s){
-    	// take argument to play specfic sound
+    	// take argument to play specific sound
     	Clip curClip = getSound(s);
     	curClip.setFramePosition(0);
     	curClip.start();
- 
-//    	curClip.stop();
     	System.out.println("Playing sound " + s);
     }
     
@@ -58,7 +56,9 @@ public class SoundPlayer
     public void stop(Sound s){
     	getSound(s).stop();
     	System.out.println("Stopping sound " + s);
-    	
-        
+    }
+    
+    public void stopAll(){
+    	sounds.values().stream().forEach(clip -> clip.stop());
     }
 }
