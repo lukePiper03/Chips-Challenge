@@ -36,7 +36,7 @@ public class Cells {
 					spawn = new Point(x, y);
 					break;
 				case 'L':
-					tmp.add(new Cell(new LockedDoor(1), x, y));
+					tmp.add(new Cell(new LockedDoor(1), x, y)); //code should match key in entities - do later
 					break;
 				case 'X':
 					tmp.add(new Cell(new ExitLock(), x, y));

@@ -29,6 +29,7 @@ record Key(Point pos, int matchDoorCode) implements Entity{
 				
 				c.setState(new Floor()); //change state of LockedDoor to floor
 				found = true;
+				break; //only unlock one door for each key
 			}
 		}
 		if(!found) throw new IllegalStateException("No LockedDoor exists to match this key");

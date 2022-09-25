@@ -37,6 +37,7 @@ public class Level {
 				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'}
 		};
 		entities.add(new Key(new Point(4,6),1)); //demo has one key at point 1,1 with code 1
+		
 		entities.add(new InfoField(new Point(1,1), "Message display here!"));
 		entities.add(new Treasure(new Point(8,3))); //demo has two treasures at point 8,3 and 8,4
 		entities.add(new Treasure(new Point(8,4)));
