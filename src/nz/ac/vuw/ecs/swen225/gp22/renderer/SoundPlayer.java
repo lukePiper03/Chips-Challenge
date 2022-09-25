@@ -48,9 +48,42 @@ public class SoundPlayer
     	System.out.println("Playing sound " + s);
     }
     
-    public void loop(Sound s){
-    	getSound(s).loop(Clip.LOOP_CONTINUOUSLY);
+    public void loop(Sound s, int maxVol){
+    	
     	System.out.println("Looping sound " + s);
+    	
+    	FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);        
+        gainControl.setValue(20f * (float) Math.log10(0.01));
+        getSound(s).setFramePosition(0);
+        getSound(s).loop(Clip.LOOP_CONTINUOUSLY);
+        
+        for(double i = 0; i<maxVol; i++) {
+        	try {
+        		Thread.sleep(45);
+        		gainControl.setValue(20f * (float) Math.log10(i/100));
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+    }
+    
+    public void fadeOut(Sound s, int startVol){
+    	FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);        
+        gainControl.setValue(20f * (float) Math.log10(0.01));
+        
+        for(double i = startVol; i>0; i--) {
+        	try {
+        		Thread.sleep(45);
+        		gainControl.setValue(20f * (float) Math.log10(i/100));
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        getSound(s).stop();
     }
   
     public void stop(Sound s){
