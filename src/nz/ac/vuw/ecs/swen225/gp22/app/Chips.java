@@ -6,10 +6,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
@@ -27,6 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.LevelView;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 
@@ -49,26 +52,61 @@ public class Chips extends JFrame{
 	    });
 	}
 	
+	/**
+	 * Start menu of the game
+	 */
 	private void initialPhase() {
-		var welcome=new JLabel(" Welcome to Chips Challenge! ");
-	    var start=new JButton(" Start! ");
+		// Text and Buttons
+		var welcome = new JLabel(" Welcome to Chips Challenge! ");
+	    var startLvl1 = new JButton(" Start! (Lvl 1) ");
+	    var startLvl2 = new JButton(" Start! (Lvl 2) ");
 	    
 	    // closephase set up
 	    closePhase.run();
 	    closePhase=()->{
 	     remove(welcome);
-	     remove(start);
+	     remove(startLvl1);
+	     remove(startLvl2);
 	     };
 	     
-	     // draw buttons
-	     add(BorderLayout.CENTER,welcome);
-	     add(BorderLayout.SOUTH,start);
+	     // Draw buttons
+	     add(BorderLayout.CENTER, welcome);
+	     add(BorderLayout.SOUTH,startLvl1);
+	     add(BorderLayout.NORTH,startLvl2);
+	     
+	     // Add listeners
+	     startLvl1.addActionListener(e->setPhase());
+	     startLvl2.addActionListener(e->setPhase());
+	     
+	     // Set size of window
+	     setPreferredSize(new Dimension(1000,600));
+	     pack();
+	}
+	
+	/**
+	 * Pause menu displaying info for user
+	 */
+	void pauseMenu() {
+		// Text and Buttons
+		var pause = new JLabel(" You are currently in pause ");
+		var resume = new JButton(" Resume ");
+		
+		// closePhase set up
+		closePhase.run();
+	    closePhase=()->{
+	     remove(pause);
+	     remove(resume);
+	     };
 	     
 	     
-	     // add listeners
-	     start.addActionListener(e->setPhase());
+		// Display buttons
+		add(BorderLayout.CENTER, pause);
+		add(BorderLayout.SOUTH, resume);
+		
+		 // Add listeners to button
+	     resume.addActionListener(e->setPhase());
 	     
-	     
+	     // Set size of window
 	     setPreferredSize(new Dimension(1000,600));
 	     pack();
 	}
@@ -76,11 +114,12 @@ public class Chips extends JFrame{
 	void setPhase(){
 		System.out.println("Setting level");
 		// Set up new Level
-		Level level = new Level(() -> initialPhase(), sound);
+		Level level = Levels.loadLevel(()-> initalPhase(), sound, "level1.xml");
 			
 	    // Set up the viewport
 	    LevelView view = new LevelView(level);
 	    
+	    // KeyListener to listen for controls from the user
 	    view.addKeyListener(controller);
 	    controller.newInstance(level.getPlayer());
 	    
