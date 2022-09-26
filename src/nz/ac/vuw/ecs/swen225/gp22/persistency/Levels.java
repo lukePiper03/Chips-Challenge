@@ -3,9 +3,10 @@ package nz.ac.vuw.ecs.swen225.gp22.persistency;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
@@ -27,7 +28,7 @@ public class Levels {
 	public static Level loadLevel(Runnable next,SoundPlayer soundPlayer,String filename) {
 		String prefix = "./src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";	// Filepath prefix
 		filename = prefix + filename;
-		List<Entity> entities = new ArrayList<Entity>();
+		Set<Entity> entities = new HashSet<Entity>();
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(filename));	// The file reader
 			
@@ -78,7 +79,7 @@ public class Levels {
 	 * @param s - The string from the file
 	 * @param entities - The current list of entities
 	 */
-	private static void createKey(String s,List<Entity> entities) {
+	private static void createKey(String s,Set<Entity> entities) {
 		int x,y,code;
 		s = s.replace("\t<key>", "");s = s.replace("</key>", "");
 		Scanner sc = new Scanner(s);
@@ -94,7 +95,7 @@ public class Levels {
 	 * @param s - The string from the file
 	 * @param entities - The current list of entities
 	 */
-	private static void createTreasure(String s,List<Entity> entities) {
+	private static void createTreasure(String s,Set<Entity> entities) {
 		int x,y;
 		s = s.replace("\t<treasure>", "");s = s.replace("</treasure>", "");
 		Scanner sc = new Scanner(s);
@@ -109,7 +110,7 @@ public class Levels {
 	 * @param s - The string from the file
 	 * @param entities - The current list of entities
 	 */
-	private static void createInfo(String s,List<Entity> entities) {
+	private static void createInfo(String s,Set<Entity> entities) {
 		int x,y;
 		String message;
 		s = s.replace("\t<info>", "");s = s.replace("</info>", "");
@@ -126,7 +127,7 @@ public class Levels {
 	 * @param s - The string from the file
 	 * @param entities - The current list of entities
 	 */
-	private static void createExit(String s,List<Entity> entities) {
+	private static void createExit(String s,Set<Entity> entities) {
 		int x,y;
 		s = s.replace("\t<exit>", "");s = s.replace("</exit>", "");
 		Scanner sc = new Scanner(s);
