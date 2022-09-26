@@ -61,11 +61,8 @@ public class SoundPlayer
         	try {
         		Thread.sleep(45);
         		gainControl.setValue(20f * (float) Math.log10(i/100));
-				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        		 getSound(s).loop(Clip.LOOP_CONTINUOUSLY);
+			} catch (InterruptedException e) {e.printStackTrace();}
         }
     }
     
