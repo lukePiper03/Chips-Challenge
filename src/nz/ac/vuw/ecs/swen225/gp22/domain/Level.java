@@ -25,7 +25,8 @@ public class Level {
 	public Level(Runnable next, SoundPlayer soundPlayer){
 		this.next = next;
 		this.soundPlayer = soundPlayer;
-		soundPlayer.loop(Sound.eightbitsong);
+		//soundPlayer.loop(Sound.eightbitsong);
+		new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50)).start();
 		char[][] map = {
 				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'},
 				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
@@ -52,7 +53,8 @@ public class Level {
 	 * Switches back to the home menu.
 	 */
 	public void gameOver() {
-		soundPlayer.stopAll();
+		//soundPlayer.stopAll();
+		new Thread(() -> soundPlayer.fadeOut(Sound.eightbitsong, 50)).start(); // doesn't work fully just yet
 		next.run();
 	}
 

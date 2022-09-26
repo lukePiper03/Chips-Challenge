@@ -11,9 +11,9 @@ import java.util.Set;
  *         consist of many single cell objects.
  */
 public class Cells {
-	int maxX;
-	int maxY;
-	Point spawn;
+	private int maxX;
+	private int maxY;
+	private Point spawn;
 	private final List<List<Cell>> inner = new ArrayList<>();
 
 	/**
@@ -95,17 +95,31 @@ public class Cells {
 	 * @return the cell that represents the ExitLock
 	 */
 	public Cell getExitLock() {
-		
 		return inner.stream().flatMap(cells -> cells.stream())
 				.filter(c -> c.state() instanceof ExitLock)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No ExitLock exists on board!"));	}
+		        .findFirst()
+		        .orElseThrow(() -> new IllegalStateException("No ExitLock exists on board!"));	
+	}
 
 	/**
 	 * @return the point at which the player should spawn
 	 */
 	public Point getSpawn() {
 		return spawn;
+	}
+	
+	/**
+	 * @return the maxX position of the cell board
+	 */
+	public int getMaxX() {
+		return maxX;
+	}
+	
+	/**
+	 * @return the maxY position of the cell board
+	 */
+	public int getMaxY() {
+		return maxY;
 	}
 
 }
