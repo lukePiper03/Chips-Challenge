@@ -12,3 +12,10 @@
 		<row>##########</row>
 	</rows>
 </map>
+<entities>
+	<key>4 6 1</key>
+	<info>1 1 Message display here!</info>
+	<treasure>8 3</treasure>
+	<treasure>8 4</treasure>
+	<exit>7 6</exit>
+</entities>
