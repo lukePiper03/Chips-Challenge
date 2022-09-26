@@ -28,7 +28,7 @@ public class Level {
 		this.soundPlayer = soundPlayer;
 		//soundPlayer.loop(Sound.eightbitsong);
 		new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50)).start();
-		char[][] map = Levels.loadLevel("testInput.xml"); //load map from Persistency
+		char[][] map = Levels.loadLevel("level1.xml"); //load map from Persistency
 
 		entities.add(new Key(new Point(4,6),1)); //demo has one key at point 1,1 with code 1
 		
