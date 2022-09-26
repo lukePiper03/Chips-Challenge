@@ -20,7 +20,7 @@ public class Level {
 	SoundPlayer soundPlayer;
 	
 	/**
-	 * Makes a simple map for demo
+	 * Makes a Level
 	 * @param next the next 'phase' the game will be in (e.g. homescreen, next level)
 	 */
 	public Level(Runnable next, SoundPlayer soundPlayer){
@@ -30,12 +30,12 @@ public class Level {
 		new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50)).start();
 		char[][] map = Levels.loadLevel("level1.xml"); //load map from Persistency
 
-		entities.add(new Key(new Point(4,6),1)); //demo has one key at point 1,1 with code 1
+		entities.add(new Key(new Point(4,6),1)); //one key at point 1,1 with code 1
 		
 		entities.add(new InfoField(new Point(1,1), "Message display here!"));
-		entities.add(new Treasure(new Point(8,3))); //demo has two treasures at point 8,3 and 8,4
+		entities.add(new Treasure(new Point(8,3))); //two treasures at point 8,3 and 8,4
 		entities.add(new Treasure(new Point(8,4)));
-		entities.add(new Exit(new Point(7,6), this)); //demo has an exit at 7,6 which calls gameOver
+		entities.add(new Exit(new Point(7,6))); //an exit at 7,6
 		
 		cells = new Cells(map);
 		p = new Player(cells.getSpawn(), entities);
@@ -58,8 +58,12 @@ public class Level {
 		//call onInteraction on entities touching player
 		entities.stream().filter(e -> p.getPos().equals(e.getPos())).forEach(e -> e.onInteraction(p, cells, soundPlayer));
 
+		//check for gameOver
+		p.entitiesToRemove().stream().filter(e -> e instanceof Exit).findAny().ifPresent(e -> gameOver());
+				
 		//remove entities that need removing
 		p.entitiesToRemove().stream().forEach(e -> entities.remove(e));
+		
 		p.entitiesToRemove().clear();
 		
 		//update player and cells
