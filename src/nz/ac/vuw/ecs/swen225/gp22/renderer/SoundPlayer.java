@@ -71,11 +71,10 @@ public class SoundPlayer
     
     public void fadeOut(Sound s, int startVol){
     	FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);        
-        gainControl.setValue(20f * (float) Math.log10(0.01));
-        
-        for(double i = startVol; i>0; i--) {
+   
+        for(double i = startVol; i>-100; i-=5) {
         	try {
-        		Thread.sleep(45);
+        		Thread.sleep(50);
         		gainControl.setValue(20f * (float) Math.log10(i/100));
 				
 			} catch (InterruptedException e) {
