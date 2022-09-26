@@ -9,7 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
  * @author lindazhang
  *
  */
-record Exit(Point pos) implements Entity{
+public record Exit(Point pos) implements Entity{
 	public void onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
 		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Exit!");
 		p.entitiesToRemove().add(this);

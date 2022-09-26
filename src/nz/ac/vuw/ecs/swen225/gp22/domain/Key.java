@@ -8,7 +8,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
  * Represents a Key entity. It is used to unlock LockedDoor cells
  * @author Linda Zhang 300570498
  */
-record Key(Point pos, int matchDoorCode) implements Entity{
+public record Key(Point pos, int matchDoorCode) implements Entity{
 	
 	public void onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
 		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Key!");
