@@ -32,7 +32,8 @@ record Key(Point pos, int matchDoorCode) implements Entity{
 				break; //only unlock one door for each key
 			}
 		}
-		if(!found) throw new IllegalStateException("No LockedDoor exists to match this key");
+		assert found : "No LockedDoor exists to match this key";
+		//if(!found) throw new IllegalStateException("No LockedDoor exists to match this key");
 		assert p.entitiesOnBoard().size() == size - 1: "Key was not correctly removed"; //might be wrong
 	}
 	public Point getPos() {return pos;}

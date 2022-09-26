@@ -17,6 +17,7 @@ record Treasure(Point pos) implements Entity{
 		//intial values before change is made
 		int size = p.entitiesOnBoard().size();
 		int treasureCount = p.treasuresToCollect();
+		if(treasureCount <= 0) throw new IllegalStateException("Cannot have negative treasure to collect!");
 		
 		//queue to remove treasure, decrease the number of treasures to collect
 		p.decreaseTreasureCount();
