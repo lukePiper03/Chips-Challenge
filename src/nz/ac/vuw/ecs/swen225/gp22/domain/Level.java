@@ -13,25 +13,27 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
  * simulates a level of the game. Contains the playing board and the player.
  */
 public class Level {
-	Cells cells;
-	Player p;
-	Set<Entity> entities = new HashSet<>();
-	Runnable next;
-	SoundPlayer soundPlayer;
-	
+	private Cells cells;
+	private Player p;
+	private Set<Entity> entities = new HashSet<>();
+	private Runnable next;
+	private SoundPlayer soundPlayer;
+	private int timeElapsed;
 	/**
 	 * Makes a Level
 	 * @param next the next 'phase' the game will be in (e.g. homescreen, next level)
+	 * @param soundPlayer the sound to play when level is started
 	 */
 	public Level(Runnable next, SoundPlayer soundPlayer){
 		this.next = next;
 		this.soundPlayer = soundPlayer;
-		//soundPlayer.loop(Sound.eightbitsong);
-		new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50)).start();
-		char[][] map = Levels.loadLevel("level1.xml"); //load map from Persistency
-
-		entities.add(new Key(new Point(4,6),1)); //one key at point 1,1 with code 1
+		timeElapsed = 0; //change later to a coundown (and a real second timer)
 		
+		//soundPlayer.loop(Sound.eightbitsong);
+		//new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50));
+		char[][] map = Levels.loadLevel("level1.xml"); //load map from Persistency
+		
+		entities.add(new Key(new Point(4,6),1)); //one key at point 1,1 with code 1
 		entities.add(new InfoField(new Point(1,1), "Message display here!"));
 		entities.add(new Treasure(new Point(8,3))); //two treasures at point 8,3 and 8,4
 		entities.add(new Treasure(new Point(8,4)));
@@ -43,18 +45,22 @@ public class Level {
 
 
 	/**
-	 * Switches back to the home menu. CHANGE LATER TO SWITCH TO DIFF LEVELS
+	 * (Temporarily) Switches back to the home menu.
+	 * (can switch to next levels once created)
 	 */
 	public void gameOver() {
 		//soundPlayer.stopAll();
-		new Thread(() -> soundPlayer.fadeOut(Sound.eightbitsong, 50)).start(); // doesn't work fully just yet
+		new Thread(() -> soundPlayer.fadeOut(Sound.eightbitsong, 50)).start();
 		next.run();
 	}
 
 	/**
-	 * Every tick of the game. States of cells may change.
+	 * Every tick of the game. States of cells and entities may change.
 	 */
 	public void tick() {
+		if(timeElapsed == 0) new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50)).start();
+		timeElapsed++;
+		
 		//call onInteraction on entities touching player
 		entities.stream().filter(e -> p.getPos().equals(e.getPos())).forEach(e -> e.onInteraction(p, cells, soundPlayer));
 
