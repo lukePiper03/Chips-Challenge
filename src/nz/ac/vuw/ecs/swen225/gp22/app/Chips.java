@@ -28,15 +28,18 @@ import javax.swing.Timer;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.LevelView;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 
 public class Chips extends JFrame{
 //	State curState;
+	SoundPlayer sound;
 	Controller controller;
 	Runnable closePhase = ()->{};
 	
 	Chips(){
+		sound = new SoundPlayer();
 	    assert SwingUtilities.isEventDispatchThread();
-	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    controller = new Controller();
 	    initialPhase();
 	    System.out.println("Initialising pane");
@@ -57,7 +60,6 @@ public class Chips extends JFrame{
 	     remove(start);
 	     };
 	     
-	     
 	     // draw buttons
 	     add(BorderLayout.CENTER,welcome);
 	     add(BorderLayout.SOUTH,start);
@@ -74,7 +76,7 @@ public class Chips extends JFrame{
 	void setPhase(){
 		System.out.println("Setting level");
 		// Set up new Level
-		Level level = new Level(() -> initialPhase());
+		Level level = new Level(() -> initialPhase(), sound);
 			
 	    // Set up the viewport
 	    LevelView view = new LevelView(level);
@@ -90,11 +92,12 @@ public class Chips extends JFrame{
 	      view.repaint();
 	    });
 	    closePhase.run();//close phase before adding any element of the new phase
-	    closePhase=()->{ timer.stop(); remove(view); };
+	    closePhase=()->{ timer.stop(); remove(view);};
 	    add(BorderLayout.CENTER,view);//add the new phase viewport
 	    setPreferredSize(getSize());//to keep the current size
 	    pack();                     //after pack
 	    view.requestFocus();//need to be after pack
 	    timer.start();
+	   
 	  }
 }
