@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
@@ -27,16 +28,8 @@ public class Level {
 		this.soundPlayer = soundPlayer;
 		//soundPlayer.loop(Sound.eightbitsong);
 		new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50)).start();
-		char[][] map = {
-				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'},
-				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
-				{'#', '.', '#', '.', '.', '.', '#', '.', '.', '#'},
-				{'#', '.', '#', '.', 's', '.', '.', '.', '.', '#'},
-				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
-				{'#', '.', '.', '.', 'L', '.', '#', '#', '.', '#'},
-				{'#', '.', '.', '.', '.', '.', '#', '.', 'X', '#'},
-				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'}
-		};
+		char[][] map = Levels.loadLevel("testInput.xml"); //load map from Persistency
+
 		entities.add(new Key(new Point(4,6),1)); //demo has one key at point 1,1 with code 1
 		
 		entities.add(new InfoField(new Point(1,1), "Message display here!"));
@@ -50,7 +43,7 @@ public class Level {
 
 
 	/**
-	 * Switches back to the home menu.
+	 * Switches back to the home menu. CHANGE LATER TO SWITCH TO DIFF LEVELS
 	 */
 	public void gameOver() {
 		//soundPlayer.stopAll();
