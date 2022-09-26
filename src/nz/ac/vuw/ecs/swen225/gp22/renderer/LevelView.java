@@ -5,7 +5,9 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +20,14 @@ import javax.swing.JPanel;
 public class LevelView extends JPanel{
 	// level
 	Level l;
-//	SoundPlayer s;
+	int fadeIn = 0;
+	double steps = 2;
 	
 	// rendering variables
 	private final int renderSize = 64;
 	
 	public LevelView(Level newLevel) {
 		l = newLevel;
-//		s = new SoundPlayer();
-//		s.loop(Sound.eightbitsong);
-//		s.stop(Sound.eightbitsong);
-//		l.addSoundPlayer(s);
 	}
 	
 	
@@ -36,10 +35,12 @@ public class LevelView extends JPanel{
 	   /// get size of graphcs
 	   super.paintComponent(g);
 	   Dimension s = getSize();
+	   if(fadeIn < 25) fadeIn++;
+	   
 	   
 	   // find centre of map relative to player
 	   var centerP = new Point(
-	      -s.width/(int)(2*renderSize),
+	      -(int)(s.width * 0.65)/(int)(2*renderSize),
 	      -s.height/(int)(2*renderSize));
 	   var c = l.getPlayer().getPos().add(centerP);
 	   
@@ -53,7 +54,7 @@ public class LevelView extends JPanel{
 	   // draw map and player
 	   drawMap(g, c, s, l.getPlayer().getPos(), xShift, yShift);
 	   drawPlayer(g, c, s, l.getPlayer().getPos());
-
+	   drawGUI(g, s, l.getPlayer());
 	 
 	}
 	
@@ -65,11 +66,11 @@ public class LevelView extends JPanel{
 		// get cells to draw
 		Cells c = l.getCells();
 		List<Cell> wallTiles = new ArrayList<>();
-		int range = 10;
+		int range = (int)((float)fadeIn/steps);
 		
 		// use for loop for all squares on screen to draw cells 
-		IntStream.range(player.x()-range, player.x()+range)
-			.forEach(row -> IntStream.range(player.y()-range, player.y()+range)
+		IntStream.range(player.x()-range+1, player.x()+range)
+			.forEach(row -> IntStream.range(player.y()-range+1, player.y()+range)
 			.forEach(col -> {
 				if(c.get(row, col).isSolid()){
 					wallTiles.add(c.get(row, col));
@@ -81,10 +82,32 @@ public class LevelView extends JPanel{
 		
 		// get entities to draw
 		List<Entity> entities = l.getEntites(); 
-		entities.stream().forEach(ent -> drawEntity(g, centre, size, ent, xShift, yShift));
+		entities.stream().forEach(ent -> drawEntity(g, centre, size, player, ent, xShift, yShift));
 		
 		// walls must be drawn last for 3D effect
 		wallTiles.forEach(a -> drawCell(g, centre, size, player, a, xShift, yShift));
+		
+		IntStream.range(player.x()-range+1, player.x()+range)
+		.forEach(row -> IntStream.range(player.y()-range+1, player.y()+range)
+		.forEach(col -> {
+			
+				 drawShadow(g, centre, size, player, c.get(row, col), xShift, yShift);
+			
+		})
+	);
+	
+	}
+	
+	void drawShadow(Graphics g, Point center, Dimension size, Point player, Cell c, float xShift, float yShift) {
+		int w1=c.x()*renderSize-(int)((center.x()+xShift)*renderSize);
+		 int h1=c.y()*renderSize-(int)((center.y()+yShift)*renderSize);
+		 double dist = Math.hypot(c.x()- player.x()-xShift, c.y() - player.y()-yShift) - 2;
+		 dist *= 50;
+		 if(dist < 0) {dist = 0;}
+		 if(dist > 255) {dist = 255;}
+		 
+		 g.setColor(new Color(0, 0, 0, (int)dist));
+		 g.fillRect(w1, h1, renderSize, renderSize);
 	}
 	
 	
@@ -99,18 +122,27 @@ public class LevelView extends JPanel{
 	    
 	    var isOut=h2<=0 || w2<=0 || h1>=size.height || w1>=size.width;
 	    if(isOut){ return; }
-	    g.drawImage(c.getImage().image, w1, h1, w2, h2, 0, 0, renderSize, renderSize, null);
+	    dist *= 10;
+	    if(dist > 255) {dist = 254;}
+	    g.setColor(new Color(0, 0, 0, 100));
+	    
 	    if(c.isSolid()) {
 	    	g.drawImage(c.getImage().image,w1,h1,w2+8,h2+8,0,0,renderSize+8,renderSize+8,null);
+//	    	g.fillRect(w1, h1, renderSize+8, renderSize+8);
+	    } else {
+	    	g.drawImage(c.getImage().image, w1, h1, w2, h2, 0, 0, renderSize, renderSize, null);
+//	    	g.fillRect(w1, h1, renderSize, renderSize);
 	    }
 	}
 	
-	void drawEntity(Graphics g, Point center, Dimension size, Entity ent, float xShift, float yShift){
+	void drawEntity(Graphics g, Point center, Dimension size, Point player, Entity ent, float xShift, float yShift){
 		Point pos = ent.getPos();
 		int w1=pos.x()*renderSize-(int)((center.x()+xShift)*renderSize);
 	    int h1=pos.y()*renderSize-(int)((center.y()+yShift)*renderSize);
 	    int w2=w1+renderSize;
 	    int h2=h1+renderSize;
+	    Point e = ent.getPos();
+	    if(Math.hypot(e.x()- player.x()+0.5, e.y() - player.y()+0.5) > (int)((float)fadeIn/steps)) {return;}
 	    g.drawImage(ent.getImage().image, w1, h1, w2, h2, 0, 0, renderSize, renderSize, null);
 	}
 	
@@ -121,6 +153,25 @@ public class LevelView extends JPanel{
 		double w2=w1+renderSize*scale;
 		double h2=h1+renderSize*scale;
 	    g.drawImage(Img.player.image,(int)w1,(int)h1,(int)w2,(int)h2,0,0,renderSize,renderSize,null);
+	}
+	
+	void drawGUI(Graphics g, Dimension s, Player p) {
+		g.setColor(new Color(120, 131, 84, fadeIn * 9));
+//		g.drawRoundRect(fadeIn, fadeIn, fadeIn, fadeIn, renderSize, fadeIn);
+//		g.fillRect(s.width - (int)(s.width * 2/6f), (int)(s.height * 1/12f) , (int)(s.width * 3/12f), (int)(s.height * 5/6f));
+		g.fillRoundRect(s.width - (int)(s.width * 3/12f) - (int)(s.height * 1/12f), (int)(s.height * 1/12f) , (int)(s.width * 3/12f), (int)(s.height * 5/6f), 30, 30);
+		
+		g.setColor(Color.white);
+		g.setFont( new Font("Arial", Font.PLAIN, 48));
+		g.drawString("Level",  s.width - (int)(s.width * 3/12f) , 130);
+		g.drawString("Time",  s.width - (int)(s.width * 3/12f) , 270);
+		g.drawString("Chips",  s.width - (int)(s.width * 3/12f) , 410);
+		g.setFont( new Font("Arial", Font.PLAIN, 36));
+		g.setColor(new Color(190, 196, 161));
+		g.drawString("001",  s.width - (int)(s.width * 3/12f) , 180);
+		g.drawString("120",  s.width - (int)(s.width * 3/12f) , 320);
+		g.drawString("002",  s.width - (int)(s.width * 3/12f) , 460);
+		
 	}
 
 }
