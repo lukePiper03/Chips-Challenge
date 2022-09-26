@@ -17,7 +17,7 @@ public class Levels {
 	 * @return char[][] - A map of the level in characters to be loaded in cells
 	 */
 	public static char[][] loadLevel(String filename) {
-		String prefix = "./src/nz/ac/vuw/ecs/swen225/gp22/persistency/";	// Filepath prefix
+		String prefix = "./src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";	// Filepath prefix
 		filename = prefix + filename;
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(filename));	// The file reader
