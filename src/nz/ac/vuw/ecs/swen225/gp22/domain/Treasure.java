@@ -9,7 +9,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
  * @author Linda Zhang 300570498
  *
  */
-record Treasure(Point pos) implements Entity{
+public record Treasure(Point pos) implements Entity{
 	
 	public void onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
 		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Treasure!");

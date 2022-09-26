@@ -8,7 +8,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
  * Represents an InfoField entity. Displays message.
  * @author Linda Zhang 300570498
  */
-record InfoField(Point pos, String message) implements Entity{
+public record InfoField(Point pos, String message) implements Entity{
 	
 	public void onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
 		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on InfoField!");
