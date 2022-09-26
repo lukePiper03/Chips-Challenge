@@ -1,0 +1,14 @@
+<map>
+	<numRows>5</numRows>
+	<numCols>10</numCols>
+	<rows>
+		<row>##########</row>
+		<row>#........#</row>
+		<row>#.#...#..#</row>
+		<row>#.#.s....#</row>
+		<row>#........#</row>
+		<row>#...L.##.#</row>
+		<row>#.....#.X#</row>
+		<row>##########</row>
+	</rows>
+</map>
