@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer;
 import nz.ac.vuw.ecs.swen225.gp22.app.*;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.*;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.player_sprites.PlayerImg;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
 import java.awt.Color;
@@ -18,24 +19,41 @@ import javax.swing.JPanel;
 
 
 public class LevelView extends JPanel{
-	// level
+	// level variables
 	Level l;
+	int tickCount;
+	
+	// animation variables
 	int fadeIn = 0;
 	double steps = 2;
 	
 	// rendering variables
 	private final int renderSize = 64;
 	
+	
+	Direction oldDir = Direction.Down;
+	
+	/**
+	 * Constructor
+	 * @param newLevel
+	 */
 	public LevelView(Level newLevel) {
 		l = newLevel;
 	}
 	
 	
 	public void paintComponent(Graphics g) {
-	   /// get size of graphcs
+	   /// get size of graphics
 	   super.paintComponent(g);
 	   Dimension s = getSize();
+	   
+	   // fade in or out animation
 	   if(fadeIn < 25) fadeIn++;
+	   
+	   // tick counter for animated textures
+	   tickCount++;
+
+	   tickCount = tickCount % 16;
 	   
 	   
 	   // find centre of map relative to player
@@ -87,15 +105,10 @@ public class LevelView extends JPanel{
 		// walls must be drawn last for 3D effect
 		wallTiles.forEach(a -> drawCell(g, centre, size, player, a, xShift, yShift));
 		
+		// draw shadows over map
 		IntStream.range(player.x()-range+1, player.x()+range)
 		.forEach(row -> IntStream.range(player.y()-range+1, player.y()+range)
-		.forEach(col -> {
-			
-				 drawShadow(g, centre, size, player, c.get(row, col), xShift, yShift);
-			
-		})
-	);
-	
+		.forEach(col -> drawShadow(g, centre, size, player, c.get(row, col), xShift, yShift)));
 	}
 	
 	void drawShadow(Graphics g, Point center, Dimension size, Point player, Cell c, float xShift, float yShift) {
@@ -128,10 +141,8 @@ public class LevelView extends JPanel{
 	    
 	    if(c.isSolid()) {
 	    	g.drawImage(c.getImage().image,w1,h1,w2+8,h2+8,0,0,renderSize+8,renderSize+8,null);
-//	    	g.fillRect(w1, h1, renderSize+8, renderSize+8);
 	    } else {
 	    	g.drawImage(c.getImage().image, w1, h1, w2, h2, 0, 0, renderSize, renderSize, null);
-//	    	g.fillRect(w1, h1, renderSize, renderSize);
 	    }
 	}
 	
@@ -152,13 +163,25 @@ public class LevelView extends JPanel{
 		double h1=pos.y()*renderSize-(center.y()*renderSize) + renderSize*(scale/2);
 		double w2=w1+renderSize*scale;
 		double h2=h1+renderSize*scale;
-	    g.drawImage(Img.player.image,(int)w1,(int)h1,(int)w2,(int)h2,0,0,renderSize,renderSize,null);
+		
+		// work out player positions
+		//
+		//static private BufferedImage loadImage(String type, Direction d, int val){
+//		    URL imagePath = PlayerImg.class.getResource(type+"_"+ d + "_" + val + ".png");
+	
+		String type;
+		if(l.getPlayer().direction() != Direction.None) {
+			oldDir = l.getPlayer().direction();
+			type = "walk";
+		} else{
+			type = "idle";
+		}
+		int val = tickCount > 8 ? 1 : 2;
+	    g.drawImage(PlayerImg.valueOf(type+"_"+ oldDir + "_" + val).image,(int)w1,(int)h1,(int)w2,(int)h2,0,0,renderSize,renderSize,null);
 	}
 	
 	void drawGUI(Graphics g, Dimension s, Player p) {
 		g.setColor(new Color(120, 131, 84, fadeIn * 9));
-//		g.drawRoundRect(fadeIn, fadeIn, fadeIn, fadeIn, renderSize, fadeIn);
-//		g.fillRect(s.width - (int)(s.width * 2/6f), (int)(s.height * 1/12f) , (int)(s.width * 3/12f), (int)(s.height * 5/6f));
 		g.fillRoundRect(s.width - (int)(s.width * 3/12f) - (int)(s.height * 1/12f), (int)(s.height * 1/12f) , (int)(s.width * 3/12f), (int)(s.height * 5/6f), 30, 30);
 		
 		g.setColor(Color.white);
