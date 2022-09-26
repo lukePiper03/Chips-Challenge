@@ -70,7 +70,7 @@ public class SoundPlayer
     	FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);        
    
         for(double i = startVol; i>-100; i-=5) {
-        	try {
+        	try { 
         		Thread.sleep(50);
         		gainControl.setValue(20f * (float) Math.log10(i/100));
 				
