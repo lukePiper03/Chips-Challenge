@@ -39,7 +39,7 @@ public class Chips extends JFrame{
 	Controller controller;
 	Runnable closePhase = ()->{};
 	
-	Chips(){
+	public Chips(){
 		sound = new SoundPlayer();
 	    assert SwingUtilities.isEventDispatchThread();
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
