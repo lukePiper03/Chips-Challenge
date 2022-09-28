@@ -11,11 +11,20 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 public record InfoField(Point pos, String message) implements Entity{
 	
 	public void onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
-		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on InfoField!");
+		if(!p.getPos().equals(pos)) {
+			p.setActiveInfoField(null);
+			throw new IllegalStateException("Player is not on InfoField!");
+		}
 		
-		System.out.println("InfoField: "+message); //change later to display message differently
-		soundplayer.play(Sound.beep);
+		if(p.getActiveInfoField() == null) { //only display the first time player is on the info field
+			p.setActiveInfoField(this);
+			System.out.println("InfoField: "+message); //change later to display message differently
+			soundplayer.play(Sound.beep);
+		}
 	}
+	/**
+	 * @return the message that the InfoField displays
+	 */
 	public String getMessage() {return message;}
 	public Point getPos() {return pos;}
 	public Img getImage() {return Img.water;} //change later

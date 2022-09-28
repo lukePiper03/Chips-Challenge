@@ -23,6 +23,8 @@ public class Player {
 	private Set<Entity> inventory = new HashSet<>();
 	private Set<Entity> entitiesToRemove = new HashSet<>(); //set to add to if the entity is to be removed
 	
+	private InfoField activeInfoField = null;
+	
 	Player(Point p, Set<Entity> entities){
 		pos = p;
 		entitiesOnBoard = entities;
@@ -93,6 +95,14 @@ public class Player {
 	 */
 	public Set<Entity> entitiesToRemove(){
 		return entitiesToRemove;
+	}
+	
+	public InfoField getActiveInfoField() {
+		return activeInfoField;
+	}
+	
+	public void setActiveInfoField(InfoField i) {
+		activeInfoField = i;
 	}
 
 	
