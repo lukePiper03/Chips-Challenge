@@ -97,10 +97,16 @@ public class Player {
 		return entitiesToRemove;
 	}
 	
+	/**
+	 * @return the InfoField the player is standing on. null if not
+	 */
 	public InfoField getActiveInfoField() {
 		return activeInfoField;
 	}
 	
+	/**
+	 * @param i set i to the active info field. Could be null.
+	 */
 	public void setActiveInfoField(InfoField i) {
 		activeInfoField = i;
 	}
@@ -115,7 +121,7 @@ public class Player {
 		
 		//allow movement every 5 ticks
 		if(timeSinceLastMove >= timestamp) {
-			move(direction, cells);
+			if(!cells.get(pos.add(direction.point())).isSolid()) move(direction, cells); //only call move if move is legal
 		}
 	}
 	
@@ -127,14 +133,14 @@ public class Player {
 	public void move(Direction d, Cells cells){
 		if(d == Direction.None) return; //no movement
 		timeSinceLastMove = 0;
-
-		if(cells.get(pos).isSolid()) { 
-			throw new IllegalArgumentException("Chap cannot be on a solid tile"); 
-		}
 		
 		Point newPos = pos.add(d.point());
+		
+		if(cells.get(newPos).isSolid()) { 
+			throw new IllegalArgumentException("Chap cannot be on a solid tile"); 
+		}
 		oldPos = getPos();
-		if(!cells.get(newPos).isSolid()) { pos = newPos; };
+		pos = newPos; 
 	}
 	
 	//total treasure count on the board

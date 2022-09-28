@@ -14,8 +14,7 @@ public record Key(Point pos, int matchDoorCode) implements Entity{
 		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Key!");
 		
 		//intial values before change is made
-		boolean found = false;
-		int size = p.entitiesOnBoard().size();
+		int inventorySize = p.inventory().size();
 		
 		for(Cell c: cells.getAllLockedDoors()) {
 			if(((LockedDoor) c.state()).keyCode() == matchDoorCode) {
@@ -28,13 +27,10 @@ public record Key(Point pos, int matchDoorCode) implements Entity{
 				p.inventory().forEach(i -> System.out.println(i));
 				
 				c.setState(new Floor()); //change state of LockedDoor to floor
-				found = true;
 				break; //only unlock one door for each key
 			}
 		}
-		assert found : "No LockedDoor exists to match this key";
-		//if(!found) throw new IllegalStateException("No LockedDoor exists to match this key");
-		assert p.entitiesOnBoard().size() == size - 1: "Key was not correctly removed"; //might be wrong
+		assert p.inventory().size() == inventorySize + 1: "No LockedDoor exists to match this key or key was not correctly removed";
 	}
 	public Point getPos() {return pos;}
 	public Img getImage() {return Img.door_key;}

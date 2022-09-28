@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
@@ -15,7 +14,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 public class Level {
 	private Cells cells;
 	private Player p;
-	private Set<Entity> entities = new HashSet<>();
+	private Set<Entity> entities;
 	private Runnable next;
 	private SoundPlayer soundPlayer;
 	private int timeElapsed;
@@ -87,7 +86,7 @@ public class Level {
 	}
 	
 	/**
-	 * @return a clone of entities on the level
+	 * @return a clone of entities on the level in a list
 	 */
 	public List<Entity> getEntites(){
 		return entities.stream().toList();
