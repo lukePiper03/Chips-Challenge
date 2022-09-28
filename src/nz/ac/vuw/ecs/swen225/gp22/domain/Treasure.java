@@ -15,7 +15,6 @@ public record Treasure(Point pos) implements Entity{
 		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Treasure!");
 		
 		//intial values before change is made
-		int size = p.entitiesOnBoard().size();
 		int treasureCount = p.treasuresToCollect();
 		if(treasureCount <= 0) throw new IllegalStateException("Cannot have negative treasure to collect!");
 		
@@ -28,9 +27,7 @@ public record Treasure(Point pos) implements Entity{
 			Cell exitlock = cells.getExitLock();
 			exitlock.setState(new Floor()); //unlocked
 		}
-		
-		assert p.entitiesOnBoard().size() == size - 1: "Treasure was not correctly removed"; //might be wrong
-		assert treasureCount == p.treasuresToCollect() - 1: "Treasure count was not correctly decreased";
+		assert treasureCount == p.treasuresToCollect() + 1: "Treasure count was not correctly decreased";
 		
 		System.out.println("Treasure Count: "+p.treasuresToCollect());
 	}
