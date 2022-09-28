@@ -19,28 +19,19 @@ public class Level {
 	private Runnable next;
 	private SoundPlayer soundPlayer;
 	private int timeElapsed;
-	private char[][] map;
+
 	/**
 	 * Makes a Level
 	 * @param next the next 'phase' the game will be in (e.g. homescreen, next level)
 	 * @param soundPlayer the sound to play when level is started
+	 * @param map the map of Cells that make up the Level
+	 * @param entities the Set of Entities (Key, Treasure, etc) for the Level
 	 */
 	public Level(Runnable next, SoundPlayer soundPlayer, char[][] map, Set<Entity> entities){
 		this.next = next;
 		this.soundPlayer = soundPlayer;
 		timeElapsed = 0; //change later to a coundown (and a real second timer)
-		this.map = map;
 		this.entities = entities;
-		
-		//soundPlayer.loop(Sound.eightbitsong);
-		//new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50));
-		//char[][] map = Levels.loadLevel("level1.xml"); //load map from Persistency
-		
-//		entities.add(new Key(new Point(4,6),1)); //one key at point 1,1 with code 1
-//		entities.add(new InfoField(new Point(1,1), "Message display here!"));
-//		entities.add(new Treasure(new Point(8,3))); //two treasures at point 8,3 and 8,4
-//		entities.add(new Treasure(new Point(8,4)));
-//		entities.add(new Exit(new Point(7,6))); //an exit at 7,6
 		
 		cells = new Cells(map);
 		p = new Player(cells.getSpawn(), entities);
@@ -52,7 +43,6 @@ public class Level {
 	 * (can switch to next levels once created)
 	 */
 	public void gameOver() {
-		//soundPlayer.stopAll();
 		new Thread(() -> soundPlayer.fadeOut(Sound.eightbitsong, 50)).start();
 		next.run();
 	}
@@ -63,6 +53,9 @@ public class Level {
 	public void tick() {
 		if(timeElapsed == 0) new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50)).start();
 		timeElapsed++;
+		
+		//if player has active InfoField but is not on it anymore, make it null
+		if(p.getActiveInfoField() != null && !p.getPos().equals(p.getActiveInfoField().getPos())) p.setActiveInfoField(null);
 		
 		//call onInteraction on entities touching player
 		entities.stream().filter(e -> p.getPos().equals(e.getPos())).forEach(e -> e.onInteraction(p, cells, soundPlayer));
