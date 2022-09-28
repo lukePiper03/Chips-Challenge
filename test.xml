@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<replay>
+  <map />
+  <events>
+    <event time="0">
+      <actor>Player</actor>
+      <action length="10">Left</action>
+    </event>
+    <event time="5">
+      <actor>Player</actor>
+      <action length="13">Right</action>
+    </event>
+  </events>
+</replay>
