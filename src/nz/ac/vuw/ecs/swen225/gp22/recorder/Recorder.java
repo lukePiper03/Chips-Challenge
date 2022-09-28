@@ -21,6 +21,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 public class Recorder {
 	Document document;
 	Element eventsElement;
+	@SuppressWarnings("javadoc")
+	public static Recorder recorder = new Recorder((Level) null); 
 	
 	/**
 	 * Makes a new recorder which is ready to receive inputs
@@ -54,9 +56,8 @@ public class Recorder {
 	 * Adds a new player moved event to the recorder
 	 * @param time The time at which the action was performed
 	 * @param action The direction that the player moved in
-	 * @param length The length of time that the action was performed over
 	 */
-	public void savePlayerMoveEvent(int time, Direction action, int length) {
+	public void savePlayerMoveEvent(int time, Direction action) {
 		Element eventElement = new Element("event");
 		eventElement.setAttribute("time", time+"");
 		
@@ -66,7 +67,7 @@ public class Recorder {
 		eventElement.addContent(actorElement);
 		
 		Element actionElement = new Element("action");
-		actionElement.setAttribute("length", length+"");
+		//actionElement.setAttribute("length", length+"");
 		actionElement.setText(action.toString());
 		eventElement.addContent(actionElement);
 		
@@ -103,7 +104,6 @@ public class Recorder {
 	    try {
 			recorder1.saveToFile("test");
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	    
@@ -111,7 +111,6 @@ public class Recorder {
 	    try {
 	    	recorder2 = new Recorder("test.xml");
 		} catch (JDOMException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    
@@ -120,8 +119,8 @@ public class Recorder {
 	
 	private static Recorder makeTestRecorder() {
 		Recorder recorder = new Recorder((Level)null);
-	    recorder.savePlayerMoveEvent(0, Direction.Left, 10);
-	    recorder.savePlayerMoveEvent(5, Direction.Right, 13);
+	    recorder.savePlayerMoveEvent(0, Direction.Left);
+	    recorder.savePlayerMoveEvent(5, Direction.Right);
 	    return recorder;
 	}
 	

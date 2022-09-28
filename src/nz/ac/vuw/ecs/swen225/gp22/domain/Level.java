@@ -1,9 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
@@ -42,6 +44,11 @@ public class Level {
 	 * (can switch to next levels once created)
 	 */
 	public void gameOver() {
+		try {
+			Recorder.recorder.saveToFile("Example");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		new Thread(() -> soundPlayer.fadeOut(Sound.eightbitsong, 50)).start();
 		next.run();
 	}

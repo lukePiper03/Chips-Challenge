@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 /**
  * @author Linda Zhang 300570498
@@ -67,7 +68,9 @@ public class Player {
 	 * @return the runnable applied to the direction
 	 */
 	public Runnable set(Function<Direction,Direction> f){
-		return ()->direction=f.apply(direction);
+		return ()->{
+			Recorder.recorder.savePlayerMoveEvent((int)System.currentTimeMillis(), direction);
+			direction=f.apply(direction);};
 	}
 	
 	/**
