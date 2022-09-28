@@ -42,16 +42,14 @@ public class SoundPlayer
     
     public void play(Sound s){
     	// take argument to play specific sound
+    	System.out.println("Playing sound " + s);
     	Clip curClip = getSound(s);
     	curClip.setFramePosition(0);
     	curClip.start();
-    	System.out.println("Playing sound " + s);
     }
     
     public void loop(Sound s, int maxVol){
-    	
     	System.out.println("Looping sound " + s);
-    	
     	FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);        
         gainControl.setValue(20f * (float) Math.log10(0.01));
         getSound(s).setFramePosition(0);
@@ -68,26 +66,24 @@ public class SoundPlayer
     
     public void fadeOut(Sound s, int startVol){
     	FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);        
-   
+    	System.out.println("Fade out sound " + s);
         for(double i = startVol; i>-100; i-=5) {
         	try { 
         		Thread.sleep(50);
         		gainControl.setValue(20f * (float) Math.log10(i/100));
 				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (InterruptedException e) {e.printStackTrace();}
         }
         getSound(s).stop();
     }
   
     public void stop(Sound s){
-    	getSound(s).stop();
     	System.out.println("Stopping sound " + s);
+    	getSound(s).stop();
     }
     
     public void stopAll(){
+    	System.out.println("Stopping all");
     	sounds.values().stream().forEach(clip -> clip.stop());
     }
 }
