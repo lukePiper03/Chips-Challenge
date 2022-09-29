@@ -30,6 +30,7 @@ import javax.swing.Timer;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.LevelView;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 
@@ -114,8 +115,12 @@ public class Chips extends JFrame{
 	void setPhase(){
 		System.out.println("Setting level");
 		// Set up new Level
+		
 		Level level = Levels.loadLevel(()-> initialPhase(), sound, "level1.xml");
-			
+		
+		//Create the recorder
+		Recorder.recorder = new Recorder(level);
+		
 	    // Set up the viewport
 	    LevelView view = new LevelView(level);
 	    

@@ -54,7 +54,7 @@ interface CellState{
 
 class Floor implements CellState{
 	public boolean isSolid(Cell self) {return false;}
-	public char symbol(Cell self) {return '_';}
+	public char symbol(Cell self) {return '.';}
 	public Img getImage(Cell self) {return Img.floor;}
 }
 
@@ -87,6 +87,6 @@ class Spawn implements CellState{
 
 class Water implements CellState{
 	public boolean isSolid(Cell self) {return false;}
-	public char symbol(Cell self) {return '.';}
+	public char symbol(Cell self) {return 'w';}
 	public Img getImage(Cell self) {return Img.water;}
 }
