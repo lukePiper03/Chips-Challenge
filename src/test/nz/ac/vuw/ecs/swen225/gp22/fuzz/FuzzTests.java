@@ -29,7 +29,7 @@ public class FuzzTests {
             }
         } catch (AWTException|IllegalArgumentException e) {
             e.printStackTrace();
-            System.out.println("Bad");
+            System.out.println("Bad key");
             fail();
         }
 
@@ -40,13 +40,36 @@ public class FuzzTests {
 
     @Test
     public void FuzzTest2() {
+        for (int i = 0; i < 50; i++) {
+            SwingUtilities.invokeLater(Chips::new);
+            // create new bot
+            Robot bot;
+            try {
+                bot = new Robot();
+                //HashMap<String, Integer> controls = cont.getKeyset();
+                int l;
+                for (int j = 0; j < 50; j++) {
+                    l = randomKey();
+                    System.out.println(l);
+                    bot.keyPress(l);
+                }
+            } catch (AWTException | IllegalArgumentException e) {
+                e.printStackTrace();
+                System.out.println("Bad key");
+                fail();
+            }
+        }
+
         assertFalse(false);
     }
 
     int randomKey() {
         // generate a random key
-        String s = "abcdefghijklmnopqrstuvwxyz`0123456789-=!@#$^&*()_+TN[]\\;:" +
-                "'\",./ ";
+        // Only movement keys
+        String s = "wasd";
+        //  Full set of inputs
+        //String s = "abcdefghijklmnopqrstuvwxyz`0123456789-=!@#$^&*()_+TN[]\\;:" +
+        //        "'\",./ ";
         int l = (int)(Math.random()* s.length());
         char ch = s.charAt(l);
 
