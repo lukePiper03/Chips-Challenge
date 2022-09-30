@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -24,7 +25,7 @@ public class Player {
 	private Set<Entity> inventory = new HashSet<>();
 	private Set<Entity> entitiesToRemove = new HashSet<>(); //set to add to if the entity is to be removed
 	
-	private InfoField activeInfoField = null;
+	private Optional<InfoField> activeInfoField = Optional.empty(); //for whne the player is on an InfoField
 	
 	Player(Point p, Set<Entity> entities){
 		pos = p;
@@ -101,17 +102,24 @@ public class Player {
 	}
 	
 	/**
-	 * @return the InfoField the player is standing on. null if not
+	 * @return the InfoField the player is standing on. empty optional if not
 	 */
-	public InfoField getActiveInfoField() {
+	public Optional<InfoField> getActiveInfoField() {
 		return activeInfoField;
 	}
 	
 	/**
-	 * @param i set i to the active info field. Could be null.
+	 * @param i set i to the active info field. Could be empty optional.
 	 */
 	public void setActiveInfoField(InfoField i) {
-		activeInfoField = i;
+		activeInfoField = Optional.of(i);
+	}
+	
+	/**
+	 * sets the infoField Optional back to empty 
+	 */
+	public void removeActiveInfoField() {
+		activeInfoField = Optional.empty();
 	}
 
 	

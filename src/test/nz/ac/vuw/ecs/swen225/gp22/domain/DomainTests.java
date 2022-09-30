@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,13 @@ class DomainTests {
 		assert mapsMatch(map, l.getCells().toMap()); //check map
 		assert entities.equals(l.getPlayer().entitiesOnBoard()); //check entities
 		assert entities.stream().toList().equals(l.getEntites()); //check entities toList
+		
+		
 		l.getCells().get(-1,0).state(); //point not on map is allowed
+		l.getCells().get(0,-1).state();
+		l.getCells().get(l.getCells().getMaxX()+1,0).state();
+		l.getCells().get(0,l.getCells().getMaxY()+1).state();
+		
 		assert l.getPlayer().direction() == Direction.None; //player does not move
 		l.tick(); //tick level without moving
 		l.gameOver(); //stop music looping
@@ -196,7 +203,7 @@ class DomainTests {
 		
 		l.tick();
 		
-		assert l.getPlayer().getActiveInfoField() == i; //should make activeInfoField i
+		assert l.getPlayer().getActiveInfoField().get() == i; //should make activeInfoField i
 		
 		l.getPlayer().direction(Direction.Left);
 		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to back from InfoField
@@ -205,7 +212,7 @@ class DomainTests {
 		assert l.getPlayer().getOldPos().equals(new Point(2,1));
 		
 		l.tick(); //should make activeInfoPos null
-		assert l.getPlayer().getActiveInfoField() == null;
+		assert l.getPlayer().getActiveInfoField().isEmpty();
 		
 		l.gameOver();
 	}
@@ -230,11 +237,10 @@ class DomainTests {
 		assert l.getPlayer().getOldPos().equals(new Point(1,1));
 		
 		l.tick();
-		
-		assert l.getPlayer().getActiveInfoField() == i; //should make activeInfoField i
+		assert l.getPlayer().getActiveInfoField().get() == i; //should make activeInfoField i
 		
 		l.tick(); //tick again to check that infoField is only displayed once
-		assert l.getPlayer().getActiveInfoField() == i;
+		assert l.getPlayer().getActiveInfoField().get() == i;
 		
 		l.gameOver();
 	}
@@ -256,7 +262,7 @@ class DomainTests {
 			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells(), s)); //player not on InfoField
 		}catch(IllegalStateException e) {}
 		
-		assert l.getPlayer().getActiveInfoField() == null;
+		assert l.getPlayer().getActiveInfoField().isEmpty();
 		
 		l.tick();
 		l.gameOver();

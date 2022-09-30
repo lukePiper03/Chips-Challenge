@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
@@ -20,6 +21,7 @@ public class Level {
 	private Runnable next;
 	private SoundPlayer soundPlayer;
 	private int timeElapsed;
+	private Integer levelNum;
 
 	/**
 	 * Makes a Level
@@ -28,11 +30,12 @@ public class Level {
 	 * @param map the map of Cells that make up the Level
 	 * @param entities the Set of Entities (Key, Treasure, etc) for the Level
 	 */
-	public Level(Runnable next, SoundPlayer soundPlayer, char[][] map, Set<Entity> entities){
+	public Level(Runnable next, SoundPlayer soundPlayer, char[][] map, Set<Entity> entities, Integer levelNum){
 		this.next = next;
 		this.soundPlayer = soundPlayer;
-		timeElapsed = 0; //change later to a coundown (and a real second timer)
+		timeElapsed = 0;
 		this.entities = entities;
+		this.levelNum = levelNum; //to track what level it's on
 		
 		cells = new Cells(map);
 		p = new Player(cells.getSpawn(), entities);
@@ -45,7 +48,7 @@ public class Level {
 	 */
 	public void gameOver() {
 		try {
-			Recorder.recorder.saveToFile("Example");
+			Recorder.recorder.saveToFile("Example"); //change later
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,7 +64,9 @@ public class Level {
 		timeElapsed++;
 		
 		//if player has active InfoField but is not on it anymore, make it null
-		if(p.getActiveInfoField() != null && !p.getPos().equals(p.getActiveInfoField().getPos())) p.setActiveInfoField(null);
+		p.getActiveInfoField().ifPresent(i -> {
+			if(!p.getPos().equals(p.getActiveInfoField().get().getPos())) p.removeActiveInfoField();
+		});
 		
 		//call onInteraction on entities touching player
 		entities.stream().filter(e -> p.getPos().equals(e.getPos())).forEach(e -> e.onInteraction(p, cells, soundPlayer));
@@ -71,7 +76,6 @@ public class Level {
 				
 		//remove entities that need removing
 		p.entitiesToRemove().stream().forEach(e -> entities.remove(e));
-		
 		p.entitiesToRemove().clear();
 		
 		//update player and cells
@@ -97,5 +101,12 @@ public class Level {
 	 */
 	public List<Entity> getEntites(){
 		return entities.stream().toList();
+	}
+	
+	/**
+	 * @return levelNum
+	 */
+	public Integer getLevelNum() {
+		return levelNum;
 	}
 }
