@@ -12,11 +12,11 @@ public record InfoField(Point pos, String message) implements Entity{
 	
 	public void onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
 		if(!p.getPos().equals(pos)) {
-			p.setActiveInfoField(null);
+			p.removeActiveInfoField();
 			throw new IllegalStateException("Player is not on InfoField!");
 		}
 		
-		if(p.getActiveInfoField() == null) { //only display the first time player is on the info field
+		if(p.getActiveInfoField().isEmpty()) { //only display the first time player is on the info field
 			p.setActiveInfoField(this);
 			System.out.println("InfoField: "+message); //change later to display message differently
 			soundplayer.play(Sound.beep);
