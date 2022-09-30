@@ -31,7 +31,8 @@ public class Levels {
 		Set<Entity> entities = new HashSet<Entity>();
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(filename));	// The file reader
-			
+			Integer levelNum = getLevelNum(reader.readLine());
+			System.out.println(levelNum);
 			// Creates the map for the level
 			reader.mark(100000);
 			reader.readLine();
@@ -54,12 +55,23 @@ public class Levels {
 			reader.lines().filter(s -> s.startsWith("\t<exit>")).forEach(k -> createExit((String)k,entities));reader.reset();
 			reader.close();
 			//entities.stream().forEach(System.out::println);
-			return new Level(next,soundPlayer,map,entities);
+			return new Level(next,soundPlayer,map,entities,levelNum);
 		} catch (IOException e) {
 			System.err.println("File not found");
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * Method to get the level number based off the filename
+	 * @param filename - the filename to perform the operation on
+	 * @return The level number or 0 if there is not valid number in the name
+	 */
+	private static Integer getLevelNum(String str) {
+		str = str.replace("<levelNum>", "");
+		str = str.replace("</levelNum>", "");
+		return Integer.parseInt(str);
 	}
 	
 	/**
