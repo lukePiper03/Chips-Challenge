@@ -84,7 +84,7 @@ public class LevelView extends JPanel{
 	   // draw map, player, and GUI
 	   drawMap(sf, pf);
 	   drawPlayer(sf, pos);
-	   drawGUI(g, s, l);
+	   drawGUI(g, s, l, curPlayer);
 	 
 	}
 	
@@ -94,6 +94,10 @@ public class LevelView extends JPanel{
 	 * @param pf  record containing player fields
 	 */
 	void drawMap(ScreenFields sf, PlayerFields pf){
+		// paint background black
+		sf.g().setColor(new Color(0, 0, 0, fadeIn *10));
+		sf.g().fillRect(0, 0, sf.size().width, sf.size().height);
+		
 		// get cells to draw
 		Cells c = l.getCells();
 		List<Cell> wallTiles = new ArrayList<>();
@@ -230,28 +234,44 @@ public class LevelView extends JPanel{
 	 * @param s    size of screen
 	 * @param p    level object
 	 */
-	void drawGUI(Graphics g, Dimension s, Level l) {
+	void drawGUI(Graphics g, Dimension s, Level l, Player p) {
 		// draw background card
+		int inventoryHeight = s.height - 2*RENDERSIZE;
+		int inventoryWidth = (int)(s.width * 3/12f);
 		g.setColor(new Color(120, 131, 84, fadeIn * 9));
-		g.fillRoundRect(s.width - (int)(s.width * 3/12f) - (int)(s.height * 1/12f), (int)(s.height * 1/12f) , (int)(s.width * 3/12f), (int)(s.height * 5/6f), 30, 30);
+		g.fillRoundRect(s.width - RENDERSIZE - inventoryWidth, RENDERSIZE, inventoryWidth, inventoryHeight, 30, 30);
+//		g.fillRoundRect(s.width - (int)(s.width * 3/12f) - (int)(s.height * 1/12f), (int)(s.height * 1/12f) , (int)(s.width * 3/12f), (int)(s.height * 5/6f), 30, 30);
+		
 		
 		// draw text
 		g.setColor(Color.white);
-		g.setFont( LoadedFont.PixeloidSans.getSize(48f));
+		g.setFont( LoadedFont.PixeloidSans.getSize(42f));
 		
 		// titles
-		g.drawString("Level",  s.width - (int)(s.width * 3/12f) , 130);
-		g.drawString("Time",  s.width - (int)(s.width * 3/12f) , 270);
-		g.drawString("Chips",  s.width - (int)(s.width * 3/12f) , 410);
+		g.drawString("Level",  s.width - inventoryWidth , 130);
+		g.drawString("Time",  s.width - inventoryWidth , 270);
+		g.drawString("Chips",  s.width - inventoryWidth , 410);
 		
-		g.setFont( LoadedFont.PixeloidSans.getSize(36f));
+		g.setFont( LoadedFont.PixeloidSans.getSize(30f));
 		g.setColor(new Color(190, 196, 161));
 		
 		// values
-		g.drawString(String.format("%03d", l.getLevelNum()),  s.width - (int)(s.width * 3/12f) , 180);
-		//g.drawString(String.format("%03d", (int)(l.getTime()*(0.034))),  s.width - (int)(s.width * 3/12f) , 320);
-		g.drawString(String.format("%03d", l.getPlayer().treasuresToCollect()),  s.width - (int)(s.width * 3/12f) , 460);
+		g.drawString(String.format("%03d", l.getLevelNum()),  s.width - inventoryWidth , 180);
+		//g.drawString(String.format("%03d", (int)(l.getTime()*(0.034))),  s.width - inventoryWidth , 320);
+		g.drawString(String.format("%03d", l.getPlayer().treasuresToCollect()),  s.width - inventoryWidth , 460);
 		
+		int infoFieldHeight = 2 * RENDERSIZE;
+		int infoFieldWidth = s.width - inventoryWidth - 3*RENDERSIZE;
+		// draw sign if present.
+		p.getActiveInfoField().ifPresent(a -> {
+			g.setColor(new Color(122, 101, 91, 225));
+			g.fillRoundRect(RENDERSIZE, s.height - infoFieldHeight - RENDERSIZE, infoFieldWidth, infoFieldHeight, 30 ,30);
+			g.setColor(Color.white);
+			g.setFont( LoadedFont.PixeloidSans.getSize(24f));
+			g.drawString(a.getMessage(), (int)(RENDERSIZE*1.5), s.height - infoFieldHeight);
+			
+			
+		});
 	}
 	
 	
