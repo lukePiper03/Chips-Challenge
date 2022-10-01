@@ -37,21 +37,17 @@ public class Player {
 	/**
 	 * @return the position of the player in a new point
 	 */
-	public Point getPos() {
-		return new Point(pos.x(), pos.y());
-	}
+	public Point getPos() {return new Point(pos.x(), pos.y());}
+	
 	/**
 	 * @return the previous old point of the player (for smooth animation in render)
 	 */
-	public Point getOldPos() {
-		return new Point(oldPos.x(),oldPos.y());
-	}
+	public Point getOldPos() {return new Point(oldPos.x(),oldPos.y());}
+	
 	/**
 	 * @return the moving time (for smooth animation in render)
 	 */
-	public float getMoveTime() {
-		return (float) timeSinceLastMove / (float)timestamp;
-	}
+	public float getMoveTime() {return (float) timeSinceLastMove / (float)timestamp;}
 	
 	/**
 	 * @return the player's current direction
@@ -97,30 +93,22 @@ public class Player {
 	/**
 	 * @return the set to queue entities to be removed
 	 */
-	public Set<Entity> entitiesToRemove(){
-		return entitiesToRemove;
-	}
+	public Set<Entity> entitiesToRemove(){return entitiesToRemove;}
 	
 	/**
 	 * @return the InfoField the player is standing on. empty optional if not
 	 */
-	public Optional<InfoField> getActiveInfoField() {
-		return activeInfoField;
-	}
+	public Optional<InfoField> getActiveInfoField() {return activeInfoField;}
 	
 	/**
 	 * @param i set i to the active info field. Could be empty optional.
 	 */
-	public void setActiveInfoField(InfoField i) {
-		activeInfoField = Optional.of(i);
-	}
+	public void setActiveInfoField(InfoField i) {activeInfoField = Optional.of(i);}
 	
 	/**
 	 * sets the infoField Optional back to empty 
 	 */
-	public void removeActiveInfoField() {
-		activeInfoField = Optional.empty();
-	}
+	public void removeActiveInfoField() {activeInfoField = Optional.empty();}
 
 	
 	/**

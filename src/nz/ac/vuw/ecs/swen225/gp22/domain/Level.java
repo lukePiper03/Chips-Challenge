@@ -22,13 +22,15 @@ public class Level {
 	private SoundPlayer soundPlayer;
 	private int timeElapsed;
 	private Integer levelNum;
+	private Optional<Monster> monster;
 
 	/**
-	 * Makes a Level
+	 * Makes a Level WITHOUT a Monster
 	 * @param next the next 'phase' the game will be in (e.g. homescreen, next level)
 	 * @param soundPlayer the sound to play when level is started
 	 * @param map the map of Cells that make up the Level
 	 * @param entities the Set of Entities (Key, Treasure, etc) for the Level
+	 * @param levelNum the level number
 	 */
 	public Level(Runnable next, SoundPlayer soundPlayer, char[][] map, Set<Entity> entities, Integer levelNum){
 		this.next = next;
@@ -39,6 +41,28 @@ public class Level {
 		
 		cells = new Cells(map);
 		p = new Player(cells.getSpawn(), entities);
+		monster = Optional.empty();
+	}
+	
+	/**
+	 * Makes a Level WITH a Monster
+	 * @param next the next 'phase' the game will be in (e.g. homescreen, next level)
+	 * @param soundPlayer the sound to play when level is started
+	 * @param map the map of Cells that make up the Level
+	 * @param entities the Set of Entities (Key, Treasure, etc) for the Level
+	 * @param levelNum the level number
+	 * @param m the monster of the game, if any
+	 */
+	public Level(Runnable next, SoundPlayer soundPlayer, char[][] map, Set<Entity> entities, Integer levelNum, Monster m){
+		this.next = next;
+		this.soundPlayer = soundPlayer;
+		timeElapsed = 0;
+		this.entities = entities;
+		this.levelNum = levelNum; //to track what level it's on
+		
+		cells = new Cells(map);
+		p = new Player(cells.getSpawn(), entities);
+		monster = Optional.of(m);
 	}
 
 
@@ -63,6 +87,11 @@ public class Level {
 		if(timeElapsed == 0) new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50)).start();
 		timeElapsed++;
 		
+		//if monster is touching player, end the game
+		monster.ifPresent(m -> {
+			if(m.getPos().equals(p.getPos())) gameOver();
+		});
+		
 		//if player has active InfoField but is not on it anymore, make it null
 		p.getActiveInfoField().ifPresent(i -> {
 			if(!p.getPos().equals(p.getActiveInfoField().get().getPos())) p.removeActiveInfoField();
@@ -78,35 +107,33 @@ public class Level {
 		p.entitiesToRemove().stream().forEach(e -> entities.remove(e));
 		p.entitiesToRemove().clear();
 		
-		//update player and cells
+		//update player, monster and cells
 		p.tick(cells);
+		monster.ifPresent(m -> m.tick(cells));
 	}
 	
 	/**
 	 * @return player
 	 */
-	public Player getPlayer() {
-		return p;
-	}
+	public Player getPlayer() {return p;}
 	
 	/**
 	 * @return cell board
 	 */
-	public Cells getCells() {
-		return cells;
-	}
+	public Cells getCells() {return cells;}
 	
 	/**
 	 * @return a clone of entities on the level in a list
 	 */
-	public List<Entity> getEntites(){
-		return entities.stream().toList();
-	}
+	public List<Entity> getEntites(){return entities.stream().toList();}
 	
 	/**
 	 * @return levelNum
 	 */
-	public Integer getLevelNum() {
-		return levelNum;
-	}
+	public Integer getLevelNum() {return levelNum;}
+	
+	/**
+	 * @return the Monster optional. Could be empty.
+	 */
+	public Optional<Monster> getMonster(){return monster;}
 }
