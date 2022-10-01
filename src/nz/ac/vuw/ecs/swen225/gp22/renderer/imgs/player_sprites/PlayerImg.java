@@ -5,28 +5,25 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
+/**
+ * @author Declan Cross
+ * enum storing all player sprites for animation
+ */
 public enum PlayerImg{
   idle_Down_1,
   idle_Down_2,
-  
   idle_Left_1,
   idle_Left_2,
-  
   idle_Right_1,
   idle_Right_2,
-  
   idle_Up_1,
   idle_Up_2,
-  
   walk_Down_1,
   walk_Down_2,
-  
   walk_Left_1,
   walk_Left_2,
-  
   walk_Right_1,
   walk_Right_2,
-  
   walk_Up_1,
   walk_Up_2;
   
