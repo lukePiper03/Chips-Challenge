@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
 
 /**
  * @author Linda Zhang 300570498
@@ -23,7 +22,7 @@ public interface Entity {
 	 */
 	Point getPos();
 	/**
-	 * @return image representing the entity
+	 * @return name representing the entity
 	 */
-	Img getImage();
+	default String getName() {return this.getClass().getSimpleName();}
 }

@@ -1,7 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.*;
-
 /**
  * @author Linda Zhang 300570498
  * represents a single square cell on the game board.
@@ -37,9 +35,9 @@ public class Cell{
 	 */
 	public char symbol() {return state.symbol(this);}
 	/**
-	 * @return the image displaying the state of the cell
+	 * @return the name displaying the state of the cell
 	 */
-	public Img getImage(){return state.getImage(this);}
+	public String getName(){return state.getClass().getSimpleName();}
 }
 
 /*
@@ -49,19 +47,16 @@ public class Cell{
 interface CellState{
 	boolean isSolid(Cell self);
 	char symbol(Cell self);
-	Img getImage(Cell self);
 }
 
 class Floor implements CellState{
 	public boolean isSolid(Cell self) {return false;}
 	public char symbol(Cell self) {return '.';}
-	public Img getImage(Cell self) {return Img.floor;}
 }
 
 class Wall implements CellState{
 	public boolean isSolid(Cell self) {return true;}
 	public char symbol(Cell self) {return '#';}
-	public Img getImage(Cell self) {return Img.wall;}
 }
 
 class LockedDoor implements CellState{
@@ -70,23 +65,19 @@ class LockedDoor implements CellState{
 	public int keyCode() {return matchKeyCode;}
 	public boolean isSolid(Cell self) {return true;}
 	public char symbol(Cell self) {return 'L';}
-	public Img getImage(Cell self) {return Img.locked_door;}
 }
 
 class ExitLock implements CellState{
 	public boolean isSolid(Cell self) {return true;}
 	public char symbol(Cell self) {return 'X';}
-	public Img getImage(Cell self) {return Img.exit_door;}
 }
 
 class Spawn implements CellState{
 	public boolean isSolid(Cell self) {return false;}
 	public char symbol(Cell self) {return 's';}
-	public Img getImage(Cell self) {return Img.spawn;}
 }
 
 class Water implements CellState{
 	public boolean isSolid(Cell self) {return false;}
 	public char symbol(Cell self) {return 'w';}
-	public Img getImage(Cell self) {return Img.water;}
 }

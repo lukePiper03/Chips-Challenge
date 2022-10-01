@@ -27,5 +27,4 @@ public record InfoField(Point pos, String message) implements Entity{
 	 */
 	public String getMessage() {return message;}
 	public Point getPos() {return pos;}
-	public Img getImage() {return Img.water;} //change later
 }

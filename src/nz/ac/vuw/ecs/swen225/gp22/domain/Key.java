@@ -33,5 +33,4 @@ public record Key(Point pos, int matchDoorCode) implements Entity{
 		assert p.inventory().size() == inventorySize + 1: "No LockedDoor exists to match this key or key was not correctly removed";
 	}
 	public Point getPos() {return pos;}
-	public Img getImage() {return Img.door_key;}
 }
