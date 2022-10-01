@@ -32,5 +32,4 @@ public record Treasure(Point pos) implements Entity{
 		System.out.println("Treasure Count: "+p.treasuresToCollect());
 	}
 	public Point getPos() {return pos;}
-	public Img getImage() {return Img.chip;}
 }
