@@ -15,10 +15,15 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
 import nz.ac.vuw.ecs.swen225.gp22.domain.InfoField;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Monster;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Point;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 
+/**
+ * All tests that directly test the Domain module (currently 89% coverage)
+ * @author Linda Zhang 300570498
+ */
 class DomainTests {
 
 	@Test void initialiseLevel() {
@@ -504,6 +509,60 @@ class DomainTests {
 			}
 		}
 		return true;
+	}
+	
+	@Test void initialiseWithMonster() {
+		Runnable next = () -> {};
+		SoundPlayer s = new SoundPlayer();
+		char[][] map = {
+				{'#', '#', '#', '#'},
+				{'#', 's', '.', '#'},
+				{'#', '#', '#', '#'}
+		};
+		Set<Entity> entities = Set.of();
+		Level l = new Level(next,s,map,entities, 1, new Monster(new Point(2,1)));
+		
+		assert l.getLevelNum() == 1;
+		
+		assert l.getPlayer().getPos().equals(new Point(1,1));
+		assert l.getMonster().get().getPos().equals(new Point(2,1));
+		
+		try {
+			l.getMonster().get().move(Direction.Down, l.getCells()); //moving monster to solid block should throw error
+		}catch(IllegalArgumentException e) {}
+		
+		l.getMonster().get().move(Direction.Left, l.getCells()); //moves Monster onto player
+		
+		assert l.getPlayer().getPos().equals(new Point(1,1));
+		assert l.getMonster().get().getPos().equals(new Point(1,1));
+		assert l.getMonster().get().getOldPos().equals(new Point(2,1));
+		
+		l.tick(); //calls gameOver
+		l.gameOver();
+	}
+	
+	@Test void moveMonsterRandomly() {
+		Runnable next = () -> {};
+		SoundPlayer s = new SoundPlayer();
+		char[][] map = {
+				{'#', '#', '#', '#'},
+				{'#', 's', '.', '#'},
+				{'#', '#', '#', '#'}
+		};
+		Set<Entity> entities = Set.of();
+		Level l = new Level(next,s,map,entities, 1, new Monster(new Point(2,1)));
+		
+		assert l.getPlayer().getPos().equals(new Point(1,1));
+		assert l.getMonster().get().getPos().equals(new Point(2,1));
+		
+		l.tick(); //moves monster left since it's the only legal move
+		
+		assert l.getPlayer().getPos().equals(new Point(1,1));
+		assert l.getMonster().get().getPos().equals(new Point(1,1));
+		assert l.getMonster().get().getOldPos().equals(new Point(2,1));
+		
+		l.tick(); //calls gameOver
+		l.gameOver();
 	}
 
 }
