@@ -20,6 +20,10 @@ import javax.swing.JPanel;
 
 
 
+/**
+ * @author Declan Cross
+ * Renders all content of map and GUI on screen when playing levels
+ */
 public class LevelView extends JPanel{
 	// level variables
 	Level l;
@@ -35,6 +39,7 @@ public class LevelView extends JPanel{
 	// player variables
 	Direction oldDir = Direction.Down;
 	
+	
 	/**
 	 * Constructor
 	 * @param newLevel
@@ -45,6 +50,10 @@ public class LevelView extends JPanel{
 	}
 	
 	
+	/**
+	 * Override method to paint screen every game tick
+	 * @param g  graphics panel to draw on
+	 */
 	public void paintComponent(Graphics g) {
 	   /// get size of graphics
 	   super.paintComponent(g);
@@ -57,12 +66,12 @@ public class LevelView extends JPanel{
 	   tickCount++;
 	   tickCount = tickCount % 16;
 	   
-	   
 	   // find centre of map relative to player
 	   var centerP = new Point(
 	      -(int)(s.width * 0.65)/(int)(2*renderSize),
 	      -s.height/(int)(2*renderSize));
 	   var c = l.getPlayer().getPos().add(centerP);
+	   ScreenFields sf = new ScreenFields(g, c, s);
 	   
 	   // work out difference between positions to make movement animation
 	   Point pos = l.getPlayer().getPos();
@@ -70,8 +79,10 @@ public class LevelView extends JPanel{
 	   Point diff = oldPos.distance(pos);
 	   float xShift =  diff.x() * (1-l.getPlayer().getMoveTime()); 
 	   float yShift = diff.y() * (1-l.getPlayer().getMoveTime());
+	   PlayerFields pf = new PlayerFields(pos, xShift, yShift);
 	   
-	   // draw map and player
+	   
+	   // draw map, player, and GUI
 	   drawMap(g, c, s, l.getPlayer().getPos(), xShift, yShift);
 	   drawPlayer(g, c, s, l.getPlayer().getPos());
 	   drawGUI(g, s, l);
@@ -79,14 +90,17 @@ public class LevelView extends JPanel{
 	}
 	
 	
+	record ScreenFields(Graphics g, Point centre, Dimension size){}
+	record PlayerFields(Point player, float xShift, float yShift){}
+	
 	/**
 	 * Method to draw the map and its child components
-	 * @param g
-	 * @param centre
-	 * @param size
-	 * @param player
-	 * @param xShift
-	 * @param yShift
+	 * @param g  graphics pane to draw on
+	 * @param centre  centre of focus
+	 * @param size  size of screen 
+	 * @param player  player object
+	 * @param xShift  shift between player's old x and new x for transition
+	 * @param yShift  shift between player's old y and new y for transition
 	 */
 	void drawMap(Graphics g, Point centre, Dimension size, Point player, float xShift, float yShift){
 		// get cells to draw
@@ -130,8 +144,11 @@ public class LevelView extends JPanel{
 	 * @param yShift
 	 */
 	void drawShadow(Graphics g, Point center, Dimension size, Point player, Cell c, float xShift, float yShift) {
+		 // calculate shadow dimensions
 		 int w1=c.x()*renderSize-(int)((center.x()+xShift)*renderSize);
 		 int h1=c.y()*renderSize-(int)((center.y()+yShift)*renderSize);
+		 
+		 // calculate distance of shadow from player
 		 double dist = Math.hypot(c.x()- player.x()-xShift, c.y() - player.y()-yShift) - 2;
 		 dist *= 50;
 //		 dist += Math.random() *4 -2;
@@ -142,9 +159,11 @@ public class LevelView extends JPanel{
 		 if(dist < 0) {dist = 0;}
 		 if(dist > 255) {dist = 255;}
 		 
+		 // draw shadow
 		 g.setColor(new Color(0, 0, 0, (int)dist));
 		 g.fillRect(w1, h1, renderSize, renderSize);
 	}
+	
 	
 	/**
 	 * Method to draw a single cell
@@ -157,26 +176,20 @@ public class LevelView extends JPanel{
 	 * @param yShift
 	 */
 	void drawCell(Graphics g, Point center, Dimension size, Point player, Cell c, float xShift, float yShift) {
+		// calculate image dimensions
 		int w1=c.x()*renderSize-(int)((center.x()+xShift)*renderSize);
 	    int h1=c.y()*renderSize-(int)((center.y()+yShift)*renderSize);
 	    int w2=w1+renderSize;
 	    int h2=h1+renderSize;
-	    
-	    // use player distance for lighting
-	    double dist = Math.hypot(c.x()- player.x(), c.y() - player.y()) - 2;
-	    
-	    var isOut=h2<=0 || w2<=0 || h1>=size.height || w1>=size.width;
-	    if(isOut){ return; }
-	    dist *= 10;
-	    if(dist > 255) {dist = 254;}
-	    g.setColor(new Color(0, 0, 0, 100));
-	    
+	   
+	    // draw enlarged images for solid objects as they are 3D and regular if not
 	    if(c.isSolid()) {
 	    	g.drawImage(c.getImage().image,w1,h1,w2+8,h2+8,0,0,renderSize+8,renderSize+8,null);
 	    } else {
 	    	g.drawImage(c.getImage().image, w1, h1, w2, h2, 0, 0, renderSize, renderSize, null);
 	    }
 	}
+	
 	
 	/**
 	 * Method to draw a single entity
@@ -189,31 +202,36 @@ public class LevelView extends JPanel{
 	 * @param yShift
 	 */
 	void drawEntity(Graphics g, Point center, Dimension size, Point player, Entity ent, float xShift, float yShift){
+		// return if out of render distance
 		Point pos = ent.getPos();
+		
+		// calculate entity image dimensions
+	    if(Math.hypot(pos.x()- player.x()+0.5, pos.y() - player.y()+0.5) > (int)((float)fadeIn/steps)) {return;}
 		int w1=pos.x()*renderSize-(int)((center.x()+xShift)*renderSize);
 	    int h1=pos.y()*renderSize-(int)((center.y()+yShift)*renderSize);
 	    int w2=w1+renderSize;
 	    int h2=h1+renderSize;
-	    Point e = ent.getPos();
-	    if(Math.hypot(e.x()- player.x()+0.5, e.y() - player.y()+0.5) > (int)((float)fadeIn/steps)) {return;}
+	    
+	    // draw image
 	    g.drawImage(ent.getImage().image, w1, h1, w2, h2, 0, 0, renderSize, renderSize, null);
 	}
 	
 	/**
-	 * Method to draw a play
-	 * @param g
-	 * @param center
-	 * @param size
-	 * @param pos
+	 * Method to draw a player
+	 * @param g   graphics panel to draw on
+	 * @param center   position to centre elements around
+	 * @param size    size of screen
+	 * @param pos     position of player
 	 */
 	void drawPlayer(Graphics g, Point center, Dimension size, Point pos) {
+		// get dimensions of image
 		double scale = 0.5;
 		double w1=pos.x()*renderSize-(center.x()*renderSize) + renderSize*(scale/2);
 		double h1=pos.y()*renderSize-(center.y()*renderSize) + renderSize*(scale/2);
 		double w2=w1+renderSize*scale;
 		double h2=h1+renderSize*scale;
 		
-		// work out player positions
+		// work out player image to use
 		String type;
 		if(l.getPlayer().direction() != Direction.None) {
 			oldDir = l.getPlayer().direction();
@@ -222,6 +240,7 @@ public class LevelView extends JPanel{
 			type = "idle";
 		}
 		int val = tickCount > 8 ? 1 : 2;
+		
 		// draw player image
 	    g.drawImage(PlayerImg.valueOf(type+"_"+ oldDir + "_" + val).image,(int)w1,(int)h1,(int)w2,(int)h2,0,0,renderSize,renderSize,null);
 	}

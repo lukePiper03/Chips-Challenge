@@ -1,38 +1,37 @@
 package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
-import java.awt.event.*;
-import javax.swing.*;
-
 import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
-
 import javax.sound.sampled.*;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.io.*;
 
+/**
+ * @author Declan Cross
+ * SoundPlayer class to keep track of ongoing and loaded sounds for playing and stopping
+ */
 public class SoundPlayer
 {
+	// loaded map of sound clips
 	Map<Sound, Clip> sounds;
 	
-	// THE USE OF THE SOUND PLAYER IS TO KEEP TRACK OF PLAYING AUDIO CLIPS 
-	// BY KEEPING TRACK, WE CAN START AND STOPPING EXISTING SOUNDS and support looping
-	
+    /**
+     * SoundPlayer constructor that loads all files
+     */
     public SoundPlayer()
     {
-    	// load in all sounds
+    	// load in all sounds and add to map for retrieval
     	sounds = new HashMap<>();
-    	sounds.putAll( Stream.of(Sound.values()).collect(Collectors.toMap(a->a, a->a.clip))    );
-    	System.out.println(sounds);
+    	sounds.putAll(Stream.of(Sound.values()).collect(Collectors.toMap(a->a, a->a.clip)));
     }
     
-    public Clip getSound(Sound s) {
+    /**
+     * Returns a sound clip for usage by other functions
+     * @param s  sound name to retrieve
+     * @return   sound clip
+     */
+    private Clip getSound(Sound s) {
     	if(sounds.containsKey(s)) {
     		return sounds.get(s);
     	} else {
@@ -40,6 +39,11 @@ public class SoundPlayer
     	}
     }
     
+    
+    /**
+     * Plays a requested sound
+     * @param s  name of sound
+     */
     public void play(Sound s){
     	// take argument to play specific sound
     	System.out.println("Playing sound " + s);
@@ -48,25 +52,41 @@ public class SoundPlayer
     	curClip.start();
     }
     
+    
+    /**
+     * Loops a requested sound with a fade in effect
+     * @param s   name of sound 
+     * @param maxVol   maximum fade in volume
+     */
     public void loop(Sound s, int maxVol){
     	System.out.println("Looping sound " + s);
+    	// get sound control and set to min volume
     	FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);        
         gainControl.setValue(20f * (float) Math.log10(0.01));
+        // set song to beginning and set to loop mode
         getSound(s).setFramePosition(0);
         getSound(s).loop(Clip.LOOP_CONTINUOUSLY);
-        
+        // loop to gradually fade in sound
         for(double i = 0; i<maxVol; i++) {
         	try {
         		Thread.sleep(45);
         		gainControl.setValue(20f * (float) Math.log10(i/100));
-        		 getSound(s).loop(Clip.LOOP_CONTINUOUSLY);
+        		getSound(s).loop(Clip.LOOP_CONTINUOUSLY);
 			} catch (InterruptedException e) {e.printStackTrace();}
         }
     }
     
-    public void fadeOut(Sound s, int startVol){
-    	FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);        
+    
+    /**
+     * Fades a sound out then stops playing it
+     * @param s    name of sound
+     * @param startVol    initial volume
+     */
+    public void fadeOut(Sound s, int startVol){        
     	System.out.println("Fade out sound " + s);
+    	// get sound control
+    	FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);
+    	// loop to gradually fade out sound
         for(double i = startVol; i>-100; i-=5) {
         	try { 
         		Thread.sleep(50);
@@ -74,16 +94,26 @@ public class SoundPlayer
 				
 			} catch (InterruptedException e) {e.printStackTrace();}
         }
+        // stop sound
         getSound(s).stop();
     }
   
+    /**
+     * Stops a sound 
+     * @param s  name of sound
+     */
     public void stop(Sound s){
     	System.out.println("Stopping sound " + s);
     	getSound(s).stop();
     }
     
+    
+    /**
+     * Stops all sounds
+     */
     public void stopAll(){
     	System.out.println("Stopping all");
+    	// loop through each sound and end
     	sounds.values().stream().forEach(clip -> clip.stop());
     }
 }
