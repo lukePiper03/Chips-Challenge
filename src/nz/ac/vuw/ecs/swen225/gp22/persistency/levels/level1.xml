@@ -1,8 +1,5 @@
-<levelNum>1</levelNum>
-<map>
-	<numRows>8</numRows>
-	<numCols>10</numCols>
-	<rows>
+<level num="1">
+	<map rows="8" cols="10">
 		<row>##########</row>
 		<row>#........#</row>
 		<row>#.#...#..#</row>
@@ -11,12 +8,14 @@
 		<row>#...L.##.#</row>
 		<row>#.....#.X#</row>
 		<row>##########</row>
-	</rows>
-</map>
-<entities>
-	<key>4 6 1</key>
-	<info>1 1 Message display here!</info>
-	<treasure>8 3</treasure>
-	<treasure>8 4</treasure>
-	<exit>7 6</exit>
-</entities>
+	</map>
+	<entities>
+		<key x="4" y="6" code="1"/>
+		<info x="1" y="1">
+			<message>Message display here!</message>
+		</info>
+		<treasure x="8" y="3"/>
+		<treasure x="8" y="4"/>
+		<exit x="7" y="6"/>
+	</entities>
+</level>
