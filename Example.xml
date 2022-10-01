@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<replay>
+  <map />
+  <events>
+    <event time="-1838520308">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1838520222">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1838518751">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1838518683">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1838518585">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1838518514">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1838518421">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1838518343">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1838518227">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1838518149">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1838517939">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1838517859">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1838517765">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1838517701">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1838517607">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1838517539">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1838517462">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1838517370">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1838517297">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+  </events>
+</replay>

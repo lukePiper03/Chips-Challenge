@@ -2,12 +2,16 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.*;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.fonts.LoadedFont;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.player_sprites.PlayerImg;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -28,7 +32,7 @@ public class LevelView extends JPanel{
 	// rendering variables
 	private final int renderSize = 64;
 	
-	
+	// player variables
 	Direction oldDir = Direction.Down;
 	
 	/**
@@ -37,6 +41,7 @@ public class LevelView extends JPanel{
 	 */
 	public LevelView(Level newLevel) {
 		l = newLevel;
+		
 	}
 	
 	
@@ -69,7 +74,7 @@ public class LevelView extends JPanel{
 	   // draw map and player
 	   drawMap(g, c, s, l.getPlayer().getPos(), xShift, yShift);
 	   drawPlayer(g, c, s, l.getPlayer().getPos());
-	   drawGUI(g, s, l.getPlayer());
+	   drawGUI(g, s, l);
 	 
 	}
 	
@@ -221,26 +226,34 @@ public class LevelView extends JPanel{
 	    g.drawImage(PlayerImg.valueOf(type+"_"+ oldDir + "_" + val).image,(int)w1,(int)h1,(int)w2,(int)h2,0,0,renderSize,renderSize,null);
 	}
 	
+	
 	/**
 	 * Method to draw on screen informative elements
-	 * @param g
-	 * @param s
-	 * @param p
+	 * @param g    graphics to render in
+	 * @param s    size of screen
+	 * @param p    level object
 	 */
-	void drawGUI(Graphics g, Dimension s, Player p) {
+	void drawGUI(Graphics g, Dimension s, Level l) {
+		// draw background card
 		g.setColor(new Color(120, 131, 84, fadeIn * 9));
 		g.fillRoundRect(s.width - (int)(s.width * 3/12f) - (int)(s.height * 1/12f), (int)(s.height * 1/12f) , (int)(s.width * 3/12f), (int)(s.height * 5/6f), 30, 30);
 		
+		// draw text
 		g.setColor(Color.white);
-		g.setFont( new Font("Arial", Font.PLAIN, 48));
+		g.setFont( LoadedFont.PixeloidSans.getSize(48f));
+		
+		// titles
 		g.drawString("Level",  s.width - (int)(s.width * 3/12f) , 130);
 		g.drawString("Time",  s.width - (int)(s.width * 3/12f) , 270);
 		g.drawString("Chips",  s.width - (int)(s.width * 3/12f) , 410);
-		g.setFont( new Font("Arial", Font.PLAIN, 36));
+		
+		g.setFont( LoadedFont.PixeloidSans.getSize(36f));
 		g.setColor(new Color(190, 196, 161));
-		g.drawString("001",  s.width - (int)(s.width * 3/12f) , 180);
-		g.drawString("120",  s.width - (int)(s.width * 3/12f) , 320);
-		g.drawString("002",  s.width - (int)(s.width * 3/12f) , 460);
+		
+		// values
+		g.drawString(String.format("%03d", l.getLevelNum()),  s.width - (int)(s.width * 3/12f) , 180);
+//		g.drawString(String.format("%03d", (int)(l.getTime()*(0.034))),  s.width - (int)(s.width * 3/12f) , 320);
+		g.drawString(String.format("%03d", l.getPlayer().treasuresToCollect()),  s.width - (int)(s.width * 3/12f) , 460);
 		
 	}
 

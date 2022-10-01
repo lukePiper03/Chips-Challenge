@@ -11,6 +11,8 @@ public enum Img{
   spawn,
   player,
   locked_door,
+  info_field,
+  exit,
   door_key,
   exit_door,
   chip,
