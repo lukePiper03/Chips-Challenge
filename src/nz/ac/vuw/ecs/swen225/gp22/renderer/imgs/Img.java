@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
+/**
+ * @author dj
+ * enum storing all usable images for cells and entities
+ */
 public enum Img{
   floor,
   wall,

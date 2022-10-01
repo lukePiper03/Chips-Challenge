@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
+
 import javax.sound.sampled.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class SoundPlayer
     	sounds = new HashMap<>();
     	sounds.putAll(Stream.of(Sound.values()).collect(Collectors.toMap(a->a, a->a.clip)));
     }
+    
     
     /**
      * Returns a sound clip for usage by other functions

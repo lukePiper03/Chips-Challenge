@@ -3,11 +3,9 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer.fonts;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 
-
-
 /**
- * @author dj
- * Loaded font class
+ * @author Declan Cross
+ * Loaded font class storing all fonts
  */
 public enum LoadedFont{
 	  // font declarations
@@ -15,7 +13,9 @@ public enum LoadedFont{
 	  PixeloidSans,
 	  PixeloidMono;
 	
-	  // fonts
+	  /**
+	   *  Current loaded font style
+	   */
 	  public final Font style;
 	  
 	  /**
