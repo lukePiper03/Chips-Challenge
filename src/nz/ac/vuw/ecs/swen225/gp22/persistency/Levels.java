@@ -1,13 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.IntStream;
+
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
@@ -18,6 +23,10 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
  *
  */
 public class Levels {
+	
+//	public static void main(String args[]) {
+//		loadLevel(()->System.out.println(""),new SoundPlayer(),"level1.xml");
+//	}
 	
 	/**
 	 * Loads a level based off what name is passed in
@@ -30,122 +39,81 @@ public class Levels {
 		filename = prefix + filename;
 		Set<Entity> entities = new HashSet<Entity>();
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(filename));	// The file reader
-			Integer levelNum = getLevelNum(reader.readLine());
-			System.out.println(levelNum);
-			// Creates the map for the level
-			reader.mark(100000);
-			reader.readLine();
-			String line = reader.readLine().replace("\t<numRows>", "").replace("</numRows>", "");	// Current line of the reader
-			int rows = Integer.parseInt(line);		// Amount of rows in the saved level
-			line = reader.readLine().replace("\t<numCols>", "").replace("</numCols>", "");
-			int cols = Integer.parseInt(line);		// Amount of columns in the saved level
+			File file = new File(filename);
+			SAXBuilder builder = new SAXBuilder();
+			Document document = builder.build(file);
+			
+			Integer levelNum = Integer.parseInt(document.getRootElement().getAttributeValue("num"));
+			
+			// Creates the level map
+			int rows = Integer.parseInt(document.getRootElement().getChild("map").getAttributeValue("rows"));
+			int cols = Integer.parseInt(document.getRootElement().getChild("map").getAttributeValue("cols"));
+			
 			char[][] map = new char[rows][cols];	// A map of all the tiles in the level
-			List<String> lines = reader.lines().filter(s -> s.startsWith("\t\t<row>"))
-			.map(str -> str = formatLine(str)).toList();
+			
+			List<Element> lines = document.getRootElement().getChild("map").getChildren();
 			IntStream.range(0, rows)
 			.forEach(row -> {IntStream.range(0, cols)
-					.forEach(col -> map[row][col] = lines.get(row).charAt(col));});
+					.forEach(col -> map[row][col] = lines.get(row).getText().charAt(col));});
 			
-			// Creates the entities for the level
-			reader.reset();
-			reader.lines().filter(s -> s.startsWith("\t<key>")).forEach(k -> createKey((String)k,entities));reader.reset();
-			reader.lines().filter(s -> s.startsWith("\t<treasure>")).forEach(k -> createTreasure((String)k,entities));reader.reset();
-			reader.lines().filter(s -> s.startsWith("\t<info>")).forEach(k -> createInfo((String)k,entities));reader.reset();
-			reader.lines().filter(s -> s.startsWith("\t<exit>")).forEach(k -> createExit((String)k,entities));reader.reset();
-			reader.close();
-			//entities.stream().forEach(System.out::println);
+			// Creates the elements from the file
+			List<Element> entityList = document.getRootElement().getChild("entities").getChildren();
+			entityList.stream().filter(e -> e.getName().equals("key")).forEach(k -> createKey(k,entities));
+			entityList.stream().filter(e -> e.getName().equals("treasure")).forEach(k -> createTreasure(k,entities));
+			entityList.stream().filter(e -> e.getName().equals("info")).forEach(k -> createInfo(k,entities));
+			entityList.stream().filter(e -> e.getName().equals("exit")).forEach(k -> createExit(k,entities));
 			return new Level(next,soundPlayer,map,entities,levelNum);
-		} catch (IOException e) {
-			System.err.println("File not found");
+		}catch(JDOMException e) {
 			e.printStackTrace();
+		}catch(IOException ioe) {
+			ioe.printStackTrace();
 		}
 		return null;
 	}
 	
 	/**
-	 * Method to get the level number based off the filename
-	 * @param filename - the filename to perform the operation on
-	 * @return The level number or 0 if there is not valid number in the name
-	 */
-	private static Integer getLevelNum(String str) {
-		str = str.replace("<levelNum>", "");
-		str = str.replace("</levelNum>", "");
-		return Integer.parseInt(str);
-	}
-	
-	/**
-	 * Formats a string by removing xml tags
-	 * @param str - The string to be formatted
-	 * @return String - The formatted string
-	 */
-	private static String formatLine(String str) {
-		// Removes the xml tags from the string
-		str = str.replace("\t\t<row>", "");
-		str = str.replace("</row>", "");
-		return str;
-	}
-	
-	/**
 	 * Creates a key from a string from the file
-	 * @param s - The string from the file
+	 * @param e - The element from the file
 	 * @param entities - The current list of entities
 	 */
-	private static void createKey(String s,Set<Entity> entities) {
-		int x,y,code;
-		s = s.replace("\t<key>", "");s = s.replace("</key>", "");
-		Scanner sc = new Scanner(s);
-		x = sc.nextInt();
-		y = sc.nextInt();
-		code = sc.nextInt();
-		sc.close();
+	private static void createKey(Element e,Set<Entity> entities) {
+		int x = Integer.parseInt(e.getAttributeValue("x"));
+		int y = Integer.parseInt(e.getAttributeValue("y"));
+		int code = Integer.parseInt(e.getAttributeValue("code"));
 		entities.add(new Key(new Point(x,y),code));
 	}
 	
 	/**
 	 * Creates treasure from a string from the file
-	 * @param s - The string from the file
+	 * @param e - The element from the file
 	 * @param entities - The current list of entities
 	 */
-	private static void createTreasure(String s,Set<Entity> entities) {
-		int x,y;
-		s = s.replace("\t<treasure>", "");s = s.replace("</treasure>", "");
-		Scanner sc = new Scanner(s);
-		x = sc.nextInt();
-		y = sc.nextInt();
-		sc.close();
+	private static void createTreasure(Element e,Set<Entity> entities) {
+		int x = Integer.parseInt(e.getAttributeValue("x"));
+		int y = Integer.parseInt(e.getAttributeValue("y"));
 		entities.add(new Treasure(new Point(x,y)));
 	}
 	
 	/**
 	 * Creates info from a string from the file
-	 * @param s - The string from the file
+	 * @param e - The element from the file
 	 * @param entities - The current list of entities
 	 */
-	private static void createInfo(String s,Set<Entity> entities) {
-		int x,y;
-		String message;
-		s = s.replace("\t<info>", "");s = s.replace("</info>", "");
-		Scanner sc = new Scanner(s);
-		x = sc.nextInt();
-		y = sc.nextInt();
-		message = sc.nextLine();
-		sc.close();
+	private static void createInfo(Element e,Set<Entity> entities) {
+		int x = Integer.parseInt(e.getAttributeValue("x"));
+		int y = Integer.parseInt(e.getAttributeValue("y"));
+		String message = e.getChildText("message");
 		entities.add(new InfoField(new Point(x,y),message));
 	}
 	
 	/**
 	 * Creates an exit from a string from the file
-	 * @param s - The string from the file
+	 * @param e - The element from the file
 	 * @param entities - The current list of entities
 	 */
-	private static void createExit(String s,Set<Entity> entities) {
-		int x,y;
-		s = s.replace("\t<exit>", "");s = s.replace("</exit>", "");
-		Scanner sc = new Scanner(s);
-		x = sc.nextInt();
-		y = sc.nextInt();
-		sc.close();
+	private static void createExit(Element e,Set<Entity> entities) {
+		int x = Integer.parseInt(e.getAttributeValue("x"));
+		int y = Integer.parseInt(e.getAttributeValue("y"));
 		entities.add(new Exit(new Point(x,y)));
 	}
 	
