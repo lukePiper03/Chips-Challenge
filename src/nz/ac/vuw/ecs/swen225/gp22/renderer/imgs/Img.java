@@ -10,23 +10,25 @@ import javax.imageio.ImageIO;
  * enum storing all usable images for cells and entities
  */
 public enum Img{
-  floor,
-  wall,
-  spawn,
-  player,
-  locked_door,
-  info_field,
-  exit,
-  door_key,
-  exit_door,
-  chip,
-  water;
+  Floor,
+  Wall,
+  Spawn,
+  Player,
+  LockedDoor,
+  InfoField,
+  Exit,
+  Key,
+  ExitLock,
+  Treasure,
+  Water;
   public final BufferedImage image;
   Img(){image=loadImage(this.name());}
   static private BufferedImage loadImage(String name){
     URL imagePath = Img.class.getResource(name+".png");
     try{return ImageIO.read(imagePath);}
-    catch(IOException e) { 
-    	throw new Error(e); }
+    catch(IOException e) {
+    	System.out.println(name + ".png does not exist1");
+    	return Img.Water.image;
+    }
   }
 }

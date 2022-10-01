@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer;
 import nz.ac.vuw.ecs.swen225.gp22.app.*;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.fonts.LoadedFont;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.player_sprites.PlayerImg;
 
 import java.awt.Color;
@@ -171,9 +172,9 @@ public class LevelView extends JPanel{
 	   
 	    // draw enlarged images for solid objects as they are 3D and regular if not
 	    if(c.isSolid()) {
-	    	sf.g().drawImage(c.getImage().image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null);
-	    } else {
-	    	sf.g().drawImage(c.getImage().image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+	    	sf.g().drawImage(Img.valueOf(c.getName()).image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null); //
+	    } else { //c.getImage().image
+	    	sf.g().drawImage(Img.valueOf(c.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
 	    }
 	}
 	
@@ -196,7 +197,7 @@ public class LevelView extends JPanel{
 	    int h2=h1+RENDERSIZE;
 	    
 	    // draw image
-	    sf.g().drawImage(ent.getImage().image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+	    sf.g().drawImage(Img.valueOf(ent.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
 	}
 	
 	
