@@ -5,6 +5,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.fonts.LoadedFont;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.player_sprites.PlayerImg;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -41,6 +42,7 @@ public class LevelView extends JPanel{
 	
 	// TESTING
 	EventHandler e;
+	SoundPlayer s;
 	
 	/**
 	 * Constructor
@@ -48,10 +50,17 @@ public class LevelView extends JPanel{
 	 */
 	public LevelView(Level newLevel) {
 		l = newLevel;
+		l.setLevelEnd(()->endLevel());
 		oldDir = Direction.Down;
-		e = new EventHandler(l, new SoundPlayer());
+		s = new SoundPlayer();
+		new Thread(() -> s.loop(Sound.eightbitsong, 50)).start();
+		e = new EventHandler(l, s);
 	}
 	
+	
+	public void endLevel(){
+		new Thread(() -> s.fadeOut(Sound.eightbitsong, 50)).start();
+	}
 	
 	/**
 	 * Override method to paint screen every game tick
@@ -172,12 +181,23 @@ public class LevelView extends JPanel{
 	    int h1=c.y()*RENDERSIZE-(int)((sf.centre().y()+pf.yShift())*RENDERSIZE);
 	    int w2=w1+RENDERSIZE;
 	    int h2=h1+RENDERSIZE;
-	   
+	    
+	    
+	    
+	    
 	    // draw enlarged images for solid objects as they are 3D and regular if not
 	    if(c.isSolid()) {
 	    	sf.g().drawImage(Img.valueOf(c.getName()).image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null); //
 	    } else { //c.getImage().image
 	    	sf.g().drawImage(Img.valueOf(c.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+	    }
+	    
+	    // draw colour codes for doors
+	    if(c.getName().equals("LockedDoor")){
+	    	sf.g().setColor(Color.white);
+	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/6, h2 - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
+	    	sf.g().setColor(Color.getHSBColor(0.5f, 0.5f, 0.65f));
+	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/8, h2 - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
 	    }
 	}
 	
@@ -201,6 +221,13 @@ public class LevelView extends JPanel{
 	    
 	    // draw image
 	    sf.g().drawImage(Img.valueOf(ent.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+	    
+	    if(ent instanceof Key){
+	    	sf.g().setColor(Color.white);
+	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/6, h2 - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
+	    	sf.g().setColor(Color.getHSBColor(0.5f, 0.5f, 0.65f));
+	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/8, h2 - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
+	    }
 	}
 	
 	
