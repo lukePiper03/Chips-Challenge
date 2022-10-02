@@ -40,6 +40,9 @@ public class Cells {
 				case 'X':
 					tmp.add(new Cell(new ExitLock(), x, y));
 					break;
+				case 'w':
+					tmp.add(new Cell(new Water(), x, y));
+					break;
 				default:
 					tmp.add(new Cell(new Floor(), x, y));
 					break;
