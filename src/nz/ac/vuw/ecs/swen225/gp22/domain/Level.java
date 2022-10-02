@@ -1,14 +1,12 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
 /**
  * @author Linda Zhang 300570498
@@ -74,18 +72,13 @@ public class Level {
 	 */
 	public void gameOver() {
 		endSequenceStarted = true; //triggers the next Runnable in tick
-		
-		if(hasEnded == 1) { //for now, save data once
-			end.ifPresent(r -> r.run());
-			try {
-				Recorder.recorder.saveToFile("Example"); //change later
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		end.ifPresent(r -> r.run());
+		try {
+			Recorder.recorder.saveToFile("Example"); //change later
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
 		//new Thread(() -> soundPlayer.fadeOut(Sound.eightbitsong, 50)).start();
-
 	}
 	
 	/**
@@ -125,7 +118,7 @@ public class Level {
 		monster.ifPresent(m -> m.tick(cells));
 		
 		if(endSequenceStarted)hasEnded++;
-		if(hasEnded > 50) { //after 50 ticks, leave the Level
+		if(hasEnded > 25) { //after 25 ticks, leave the Level
 			next.run();
 		}
 		

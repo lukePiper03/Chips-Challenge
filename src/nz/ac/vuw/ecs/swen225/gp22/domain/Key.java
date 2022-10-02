@@ -36,4 +36,8 @@ public class Key extends Entity{
 		assert p.inventory().size() == inventorySize + 1: "No LockedDoor exists to match this key or key was not correctly removed";
 	}
 	public Point getPos() {return pos;}
+	/**
+	 * @return the code that matches a LockedDoor
+	 */
+	public int getKeyCode() {return matchDoorCode;}
 }
