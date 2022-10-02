@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level num="2">
+    <map rows="14" cols="15">
+        <row>ww#####w#####ww</row>
+        <row>ww#...###...#ww</row>
+        <row>ww#...#.#...#ww</row>
+        <row>#####.#.#.#####</row>
+        <row>#...L.....L...#</row>
+        <row>#...#.....#...#</row>
+        <row>#####..s..#####</row>
+        <row>#...#.....#...#</row>
+        <row>#...L.....L...#</row>
+        <row>######.#.######</row>
+        <row>wwww#..#..#wwww</row>
+        <row>wwww#..#..#wwww</row>
+        <row>wwww#..#..#wwww</row>
+        <row>wwww#######wwww</row>
+    </map>
+    <entities>
+        <key x="4" y="6" code="1"/>
+        <info x="1" y="1">
+            <message>Message display here!</message>
+        </info>
+        <treasure x="8" y="3"/>
+        <treasure x="8" y="4"/>
+        <exit x="7" y="2"/>
+    </entities>
+</level>

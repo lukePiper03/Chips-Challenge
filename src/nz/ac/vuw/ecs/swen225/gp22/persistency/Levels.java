@@ -1,12 +1,14 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
 
+import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -25,7 +27,8 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 public class Levels {
 	
 //	public static void main(String args[]) {
-//		loadLevel(()->System.out.println(""),new SoundPlayer(),"level1.xml");
+//		Level testLevel = loadLevel(()->System.out.println(""),new SoundPlayer(),"level1.xml");
+//		saveLevel(testLevel,"testLevel.xml");
 //	}
 	
 	/**
@@ -34,7 +37,7 @@ public class Levels {
 	 * @param filename - The name of the file to be loaded
 	 * @return Level - A level loaded from a file
 	 */
-	public static Level loadLevel(Runnable next,SoundPlayer soundPlayer,String filename) {
+	public static Level loadLevel(Runnable next,String filename) {
 		String prefix = "./src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";	// Filepath prefix
 		filename = prefix + filename;
 		Set<Entity> entities = new HashSet<Entity>();
@@ -62,7 +65,7 @@ public class Levels {
 			entityList.stream().filter(e -> e.getName().equals("treasure")).forEach(k -> createTreasure(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("info")).forEach(k -> createInfo(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("exit")).forEach(k -> createExit(k,entities));
-			return new Level(next,soundPlayer,map,entities,levelNum);
+			return new Level(next,map,entities,levelNum);
 		}catch(JDOMException e) {
 			e.printStackTrace();
 		}catch(IOException ioe) {
@@ -121,8 +124,74 @@ public class Levels {
 	 * Saves the passed in level to a file
 	 * @param level - The level to be saved
 	 */
-	public static void saveLevel(Level level){
+	public static void saveLevel(Level level,String filename){
+		Document doc = new Document();
 		Cells cells = level.getCells();		// A cells object containing all the cells in the level
+		Element lev = new Element("level");
+		lev.setAttribute(new Attribute("num",level.getLevelNum()+""));
+		doc.setRootElement(lev);
+		Element map = new Element("map");
+		map.setAttribute("rows",cells.getMaxY()+"");
+		map.setAttribute("cols",cells.getMaxX()+"");
+		// Add rows for the map
+//		IntStream.range(0, cells.getMaxX())
+//		.forEach(row -> {IntStream.range(0, cells.getMaxY())
+//				.forEach(col ->  = cells.get(row,col));});
+		for(int row = 0; row < cells.getMaxY();row++) {
+			String currRow = "";
+			for(int col = 0; col < cells.getMaxX();col++) {
+				currRow += cells.get(col,row).symbol();
+			}
+			Element rowElement = new Element("row");
+			rowElement.addContent(currRow);
+			map.addContent(rowElement);
+		}
+		lev.addContent(map);
+		Element entities = new Element("entities");
+		level.getEntites().stream().filter(e -> e instanceof Key).forEach(k -> {entities.addContent(saveKey((Key)k));});
+		level.getEntites().stream().filter(e -> e instanceof Treasure).forEach(k -> {entities.addContent(saveTreasure((Treasure)k));});
+		level.getEntites().stream().filter(e -> e instanceof InfoField).forEach(k -> {entities.addContent(saveInfo((InfoField)k));});
+		level.getEntites().stream().filter(e -> e instanceof Exit).forEach(k -> {entities.addContent(saveExit((Exit)k));});
+		lev.addContent(entities);
+		
+		try {
+			new XMLOutputter(Format.getPrettyFormat()).output(doc, new FileWriter(filename));
+		} catch (IOException e1) {
+			System.out.println("failed to save level");
+			e1.printStackTrace();
+		}
+	}
+	
+	private static Element saveKey(Key k) {
+		Element key = new Element("key");
+		key.setAttribute(new Attribute("x",k.getPos().x()+""));
+		key.setAttribute(new Attribute("y",k.getPos().y()+""));
+		key.setAttribute(new Attribute("code",k.matchDoorCode()+""));
+		return key;
+	}
+	
+	private static Element saveTreasure(Treasure k) {
+		Element treasure = new Element("treasure");
+		treasure.setAttribute(new Attribute("x",k.getPos().x()+""));
+		treasure.setAttribute(new Attribute("y",k.getPos().y()+""));
+		return treasure;
+	}
+	
+	private static Element saveInfo(InfoField k) {
+		Element info = new Element("info");
+		info.setAttribute(new Attribute("x",k.getPos().x()+""));
+		info.setAttribute(new Attribute("y",k.getPos().y()+""));
+		Element message = new Element("message");
+		message.addContent(k.getMessage());
+		info.addContent(message);
+		return info;
+	}
+	
+	private static Element saveExit(Exit k) {
+		Element exit = new Element("exit");
+		exit.setAttribute(new Attribute("x",k.getPos().x()+""));
+		exit.setAttribute(new Attribute("y",k.getPos().y()+""));
+		return exit;
 	}
 
 }
