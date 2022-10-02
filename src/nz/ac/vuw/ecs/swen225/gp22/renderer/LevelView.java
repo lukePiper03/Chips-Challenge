@@ -36,13 +36,15 @@ public class LevelView extends JPanel{
 	
 	// rendering variables
 	private final int RENDERSIZE = 64;	// default rendering size of cells
+	private boolean animationForwards = true;  // toggle between enter and exit animation
 	
 	// player variables
 	Direction oldDir;					// old position to remember for player animation
 	
-	// TESTING
+	// active classes
 	EventHandler e;
 	SoundPlayer s;
+	
 	
 	/**
 	 * Constructor
@@ -58,9 +60,15 @@ public class LevelView extends JPanel{
 	}
 	
 	
+	/**
+	 * End level animation that gets called before exiting from level
+	 */
 	public void endLevel(){
+		// fade out music and set animation to reverse
 		new Thread(() -> s.fadeOut(Sound.eightbitsong, 50)).start();
+		animationForwards = false;
 	}
+	
 	
 	/**
 	 * Override method to paint screen every game tick
@@ -72,7 +80,8 @@ public class LevelView extends JPanel{
 	   Dimension s = getSize();
 	   
 	   // fade in or out animation
-	   if(fadeIn < FADELENGTH) fadeIn++;
+	   if(fadeIn < FADELENGTH && animationForwards) fadeIn++;
+	   if(fadeIn > 0 && !animationForwards) fadeIn--;
 	   
 	   // tick counter for animated textures
 	   tickCount++;
@@ -92,7 +101,6 @@ public class LevelView extends JPanel{
 	   var centerP = new Point(-(int)(s.width * 0.65)/(int)(2*RENDERSIZE), -s.height/(int)(2*RENDERSIZE));
 	   var c = pos.add(centerP);
 	   ScreenFields sf = new ScreenFields(g, c, s);
-	   
 	   
 	   // draw map, player, and GUI
 	   drawMap(sf, pf);
@@ -182,9 +190,6 @@ public class LevelView extends JPanel{
 	    int w2=w1+RENDERSIZE;
 	    int h2=h1+RENDERSIZE;
 	    
-	    
-	    
-	    
 	    // draw enlarged images for solid objects as they are 3D and regular if not
 	    if(c.isSolid()) {
 	    	sf.g().drawImage(Img.valueOf(c.getName()).image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null); //
@@ -196,7 +201,8 @@ public class LevelView extends JPanel{
 	    if(c.getName().equals("LockedDoor")){
 	    	sf.g().setColor(Color.white);
 	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/6, h2 - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
-	    	sf.g().setColor(Color.getHSBColor(0.5f, 0.5f, 0.65f));
+	    	sf.g().setColor(Color.getHSBColor(((LockedDoor)(c.state())).keyCode()/4, 0.5f, 0.65f));
+	    	
 	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/8, h2 - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
 	    }
 	}
@@ -225,7 +231,7 @@ public class LevelView extends JPanel{
 	    if(ent instanceof Key){
 	    	sf.g().setColor(Color.white);
 	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/6, h2 - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
-	    	sf.g().setColor(Color.getHSBColor(0.5f, 0.5f, 0.65f));
+	    	sf.g().setColor(Color.getHSBColor(((Key)ent).getKeyCode()/4, 0.5f, 0.65f));
 	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/8, h2 - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
 	    }
 	}
