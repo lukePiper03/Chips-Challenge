@@ -36,6 +36,7 @@ public class LevelView extends JPanel{
 	
 	// rendering variables
 	private final int RENDERSIZE = 64;	// default rendering size of cells
+	private boolean animationForwards = true;
 	
 	// player variables
 	Direction oldDir;					// old position to remember for player animation
@@ -60,6 +61,7 @@ public class LevelView extends JPanel{
 	
 	public void endLevel(){
 		new Thread(() -> s.fadeOut(Sound.eightbitsong, 50)).start();
+		animationForwards = false;
 	}
 	
 	/**
@@ -72,7 +74,8 @@ public class LevelView extends JPanel{
 	   Dimension s = getSize();
 	   
 	   // fade in or out animation
-	   if(fadeIn < FADELENGTH) fadeIn++;
+	   if(fadeIn < FADELENGTH && animationForwards) fadeIn++;
+	   if(fadeIn > 0 && !animationForwards) fadeIn--;
 	   
 	   // tick counter for animated textures
 	   tickCount++;
