@@ -1,17 +1,17 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
-
 /**
  * Represents a Treasure entity. Once all treasures are collected the exitLock is unlocked
  * @author Linda Zhang 300570498
- *
  */
-public record Treasure(Point pos) implements Entity{
+public class Treasure extends Entity{
+	private final Point pos;
+	/**
+	 * @param pos the location of the Treasure
+	 */
+	public Treasure(Point pos){this.pos = pos;}
 	
-	public void onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
+	public void onInteraction(Player p, Cells cells) {
 		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Treasure!");
 		
 		//intial values before change is made
@@ -21,7 +21,7 @@ public record Treasure(Point pos) implements Entity{
 		//queue to remove treasure, decrease the number of treasures to collect
 		p.decreaseTreasureCount();
 		p.entitiesToRemove().add(this);
-		soundplayer.play(Sound.beep);
+		onChange(); // all subscribers will hear this
 		
 		if(p.treasuresToCollect() <= 0) {
 			Cell exitlock = cells.getExitLock();
@@ -30,6 +30,7 @@ public record Treasure(Point pos) implements Entity{
 		assert treasureCount == p.treasuresToCollect() + 1: "Treasure count was not correctly decreased";
 		
 		System.out.println("Treasure Count: "+p.treasuresToCollect());
+		
 	}
 	public Point getPos() {return pos;}
 }
