@@ -39,6 +39,8 @@ public class LevelView extends JPanel{
 	// player variables
 	Direction oldDir;					// old position to remember for player animation
 	
+	// TESTING
+	EventHandler e;
 	
 	/**
 	 * Constructor
@@ -47,6 +49,7 @@ public class LevelView extends JPanel{
 	public LevelView(Level newLevel) {
 		l = newLevel;
 		oldDir = Direction.Down;
+		e = new EventHandler(l, new SoundPlayer());
 	}
 	
 	
