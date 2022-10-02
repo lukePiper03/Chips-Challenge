@@ -12,7 +12,7 @@ import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
  * @author Linda Zhang 300570498
  *  the player of the game. Represents Chap
  */
-public class Player {
+public class Player extends Subject{
 	private Point pos;
 	private Point oldPos; //for smooth rendering
 	private Direction direction = Direction.None;
@@ -140,6 +140,7 @@ public class Player {
 		}
 		oldPos = getPos();
 		pos = newPos; 
+		onChange(); //Observer pattern for Renderer
 	}
 	
 	//total treasure count on the board

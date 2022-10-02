@@ -20,10 +20,21 @@ public class Cell{
 		this.y = y;
 	}
 	
-	//getters/setters
+	/**
+	 * @return the state of the cell
+	 */
 	public CellState state() {return state;}
+	/**
+	 * @param s set the state of the cell
+	 */
 	public void setState(CellState s) {state = s;}
+	/**
+	 * @return x location
+	 */
 	public int x() {return x;}
+	/**
+	 * @return y location
+	 */
 	public int y() {return y;}
 	
 	/**
@@ -38,46 +49,4 @@ public class Cell{
 	 * @return the name displaying the state of the cell
 	 */
 	public String getName(){return state.getClass().getSimpleName();}
-}
-
-/*
- * CellState for different types of cells (State pattern)
- * the state of a cell can be changed this way
- */
-interface CellState{
-	boolean isSolid(Cell self);
-	char symbol(Cell self);
-}
-
-class Floor implements CellState{
-	public boolean isSolid(Cell self) {return false;}
-	public char symbol(Cell self) {return '.';}
-}
-
-class Wall implements CellState{
-	public boolean isSolid(Cell self) {return true;}
-	public char symbol(Cell self) {return '#';}
-}
-
-class LockedDoor implements CellState{
-	int matchKeyCode;
-	public LockedDoor(int mkc) {matchKeyCode = mkc;} //must match the code of a key
-	public int keyCode() {return matchKeyCode;}
-	public boolean isSolid(Cell self) {return true;}
-	public char symbol(Cell self) {return 'L';}
-}
-
-class ExitLock implements CellState{
-	public boolean isSolid(Cell self) {return true;}
-	public char symbol(Cell self) {return 'X';}
-}
-
-class Spawn implements CellState{
-	public boolean isSolid(Cell self) {return false;}
-	public char symbol(Cell self) {return 's';}
-}
-
-class Water implements CellState{
-	public boolean isSolid(Cell self) {return false;}
-	public char symbol(Cell self) {return 'w';}
 }
