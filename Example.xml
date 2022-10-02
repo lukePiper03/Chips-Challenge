@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<replay>
+  <map />
+  <events>
+    <event time="-1823890359">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823890265">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="-1823889620">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823889506">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="-1823889026">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823888898">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1823888534">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823888379">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1823887979">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823887851">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1823887581">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823887471">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1823887270">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823887143">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="-1823886960">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823886858">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="-1823886647">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823886512">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1823886310">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823886179">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1823886020">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823885894">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="-1823885729">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823885618">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="-1823885441">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823885356">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1823884990">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823884910">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1823884803">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823884745">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1823884628">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823884559">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1823884163">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823884086">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1823884027">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823883945">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1823883870">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823883793">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1823883711">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1823883611">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1823883398">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+  </events>
+</replay>
