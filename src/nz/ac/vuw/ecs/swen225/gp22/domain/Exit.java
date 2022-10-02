@@ -1,20 +1,20 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
-
 /**
- * Rrepresents an exit entity.
- * @author lindazhang
+ * Represents an exit entity.
+ * @author lindazhang 300570498
  *
  */
-public record Exit(Point pos) implements Entity{
-	public void onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
+public class Exit extends Entity{
+	private final Point pos;
+	/**
+	 * @param pos the location of the Exit
+	 */
+	public Exit(Point pos){this.pos = pos;}
+	public void onInteraction(Player p, Cells cells) {
 		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Exit!");
 		p.entitiesToRemove().add(this);
-		soundplayer.play(Sound.beep);
-		//level.gameOver(); //end the game
+		onChange();
 	}
 	public Point getPos() {return pos;}
 }

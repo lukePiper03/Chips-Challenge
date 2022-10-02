@@ -1,16 +1,19 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
-
 /**
  * Represents a Key entity. It is used to unlock LockedDoor cells
  * @author Linda Zhang 300570498
  */
-public record Key(Point pos, int matchDoorCode) implements Entity{
+public class Key extends Entity{
+	private final Point pos;
+	private final int matchDoorCode;
+	/**
+	 * @param pos the location ofthe Key
+	 * @param matchDoorCode the code of the Key that matches a LockedDoor
+	 */
+	public Key(Point pos, int matchDoorCode){this.pos = pos; this.matchDoorCode = matchDoorCode;}
 	
-	public void onInteraction(Player p, Cells cells, SoundPlayer soundplayer) {
+	public void onInteraction(Player p, Cells cells) {
 		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Key!");
 		
 		//intial values before change is made
@@ -21,7 +24,7 @@ public record Key(Point pos, int matchDoorCode) implements Entity{
 				//found a matching locked door, remove key
 				p.inventory().add(this);
 				p.entitiesToRemove().add(this);
-				soundplayer.play(Sound.beep);
+				onChange();
 				
 				System.out.println("\n Inventory:");
 				p.inventory().forEach(i -> System.out.println(i));

@@ -162,7 +162,7 @@ class DomainTests {
 		assert l.getPlayer().getPos().equals(new Point(2,1));
 		assert l.getPlayer().getOldPos().equals(new Point(1,1));
 		
-		entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells(), s)); //should not throw exception
+		entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //should not throw exception
 		l.tick(); //should call gameOver
 
 	}
@@ -180,7 +180,7 @@ class DomainTests {
 		Level l = new Level(next,s,map,entities, 1);
 		
 		try {
-			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells(), s)); //player not on exit
+			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on exit
 		}catch(IllegalStateException e) {}
 		
 		l.tick(); //should not call gameOver
@@ -264,7 +264,7 @@ class DomainTests {
 		Level l = new Level(next,s,map,entities, 1);
 		
 		try {
-			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells(), s)); //player not on InfoField
+			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on InfoField
 		}catch(IllegalStateException e) {}
 		
 		assert l.getPlayer().getActiveInfoField().isEmpty();
@@ -369,7 +369,7 @@ class DomainTests {
 		Level l = new Level(next,s,map,entities, 1);
 		
 		try {
-			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells(), s)); //player not on Key
+			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on Key
 		}catch(IllegalStateException e) {}
 		
 		assert l.getPlayer().inventory().isEmpty();
@@ -467,7 +467,7 @@ class DomainTests {
 		Level l = new Level(next,s,map,entities, 1);
 		
 		try {
-			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells(), s)); //player not on Key
+			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on Key
 		}catch(IllegalStateException e) {}
 		
 		assert l.getPlayer().treasuresToCollect() == 1;
