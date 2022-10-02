@@ -29,7 +29,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import main.Phase;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.LevelView;
