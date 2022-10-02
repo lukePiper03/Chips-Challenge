@@ -201,7 +201,7 @@ public class LevelView extends JPanel{
 	    if(c.getName().equals("LockedDoor")){
 	    	sf.g().setColor(Color.white);
 	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/6, h2 - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
-	    	sf.g().setColor(Color.getHSBColor(((LockedDoor)(c.state())).keyCode()/4, 0.5f, 0.65f));
+	    	sf.g().setColor(Color.getHSBColor((((LockedDoor)(c.state())).keyCode()-1)/4f, 0.75f, 0.65f));
 	    	
 	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/8, h2 - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
 	    }
@@ -231,7 +231,7 @@ public class LevelView extends JPanel{
 	    if(ent instanceof Key){
 	    	sf.g().setColor(Color.white);
 	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/6, h2 - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
-	    	sf.g().setColor(Color.getHSBColor(((Key)ent).getKeyCode()/4, 0.5f, 0.65f));
+	    	sf.g().setColor(Color.getHSBColor((((Key)ent).getKeyCode()-1)/4f, 0.5f, 0.65f));
 	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/8, h2 - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
 	    }
 	}
