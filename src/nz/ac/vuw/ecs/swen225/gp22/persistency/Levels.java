@@ -134,9 +134,6 @@ public class Levels {
 		map.setAttribute("rows",cells.getMaxY()+"");
 		map.setAttribute("cols",cells.getMaxX()+"");
 		// Add rows for the map
-//		IntStream.range(0, cells.getMaxX())
-//		.forEach(row -> {IntStream.range(0, cells.getMaxY())
-//				.forEach(col ->  = cells.get(row,col));});
 		for(int row = 0; row < cells.getMaxY();row++) {
 			String currRow = "";
 			for(int col = 0; col < cells.getMaxX();col++) {
@@ -147,6 +144,8 @@ public class Levels {
 			map.addContent(rowElement);
 		}
 		lev.addContent(map);
+		
+		// Adds entities to the saved level
 		Element entities = new Element("entities");
 		level.getEntites().stream().filter(e -> e instanceof Key).forEach(k -> {entities.addContent(saveKey((Key)k));});
 		level.getEntites().stream().filter(e -> e instanceof Treasure).forEach(k -> {entities.addContent(saveTreasure((Treasure)k));});
@@ -162,14 +161,25 @@ public class Levels {
 		}
 	}
 	
+	
+	/**
+	 * Saves a key entitiy
+	 * @param k - the key to be saved
+	 * @return the key as an xml element
+	 */
 	private static Element saveKey(Key k) {
 		Element key = new Element("key");
 		key.setAttribute(new Attribute("x",k.getPos().x()+""));
 		key.setAttribute(new Attribute("y",k.getPos().y()+""));
-		key.setAttribute(new Attribute("code",k.matchDoorCode()+""));
+		key.setAttribute(new Attribute("code",k.getKeyCode()+""));
 		return key;
 	}
 	
+	/**
+	 * Saves a treasure entitiy
+	 * @param k - the treasure to be saved
+	 * @return the treasure as an xml element
+	 */
 	private static Element saveTreasure(Treasure k) {
 		Element treasure = new Element("treasure");
 		treasure.setAttribute(new Attribute("x",k.getPos().x()+""));
@@ -177,6 +187,11 @@ public class Levels {
 		return treasure;
 	}
 	
+	/**
+	 * Saves a info entitiy
+	 * @param k - the info to be saved
+	 * @return the info as an xml element
+	 */
 	private static Element saveInfo(InfoField k) {
 		Element info = new Element("info");
 		info.setAttribute(new Attribute("x",k.getPos().x()+""));
@@ -187,6 +202,11 @@ public class Levels {
 		return info;
 	}
 	
+	/**
+	 * Saves an exit entitiy
+	 * @param k - the exit to be saved
+	 * @return the exit as an xml element
+	 */
 	private static Element saveExit(Exit k) {
 		Element exit = new Element("exit");
 		exit.setAttribute(new Attribute("x",k.getPos().x()+""));
