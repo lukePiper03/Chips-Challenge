@@ -106,7 +106,7 @@ public class Chips extends JFrame{
 	void setPhase(String fileName){
 		System.out.println("Setting level");
 		// Set up new Level
-		Level level = Levels.loadLevel(fileName);
+		Level level = Levels.loadLevel(()->initialPhase(), fileName);
 			
 	    // Set up the viewport
 	    LevelView view = new LevelView(level);
