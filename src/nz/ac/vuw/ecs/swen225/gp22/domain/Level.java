@@ -23,6 +23,9 @@ public class Level {
 	private int timeElapsed;
 	private Integer levelNum;
 	private Optional<Monster> monster;
+	private int hasEnded = 0;
+	private boolean endSequenceStarted = false;
+	private Optional<Runnable> end = Optional.empty();
 
 	/**
 	 * Makes a Level WITHOUT a Monster
@@ -34,7 +37,7 @@ public class Level {
 	 */
 	public Level(Runnable next, SoundPlayer soundPlayer, char[][] map, Set<Entity> entities, Integer levelNum){
 		this.next = next;
-		this.soundPlayer = soundPlayer;
+		this.soundPlayer = soundPlayer; //remove later
 		timeElapsed = 0;
 		this.entities = entities;
 		this.levelNum = levelNum; //to track what level it's on
@@ -65,26 +68,36 @@ public class Level {
 		monster = Optional.of(m);
 	}
 
-
 	/**
 	 * (Temporarily) Switches back to the home menu.
 	 * (can switch to next levels once created)
 	 */
 	public void gameOver() {
-		try {
-			Recorder.recorder.saveToFile("Example"); //change later
-		} catch (IOException e) {
-			e.printStackTrace();
+		endSequenceStarted = true; //triggers the next Runnable in tick
+		
+		if(hasEnded == 1) { //for now, save data once
+			end.ifPresent(r -> r.run());
+			try {
+				Recorder.recorder.saveToFile("Example"); //change later
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		new Thread(() -> soundPlayer.fadeOut(Sound.eightbitsong, 50)).start();
-		next.run();
+		
+		//new Thread(() -> soundPlayer.fadeOut(Sound.eightbitsong, 50)).start();
+
 	}
+	
+	/**
+	 * @param r The runnable to call for ending sequence
+	 */
+	public void setLevelEnd(Runnable r) { end = Optional.of(r);}
 
 	/**
 	 * Every tick of the game. States of cells and entities may change.
 	 */
 	public void tick() {
-		if(timeElapsed == 0) new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50)).start();
+		//if(timeElapsed == 0) new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50)).start();
 		timeElapsed++;
 		
 		//if monster is touching player, end the game
@@ -110,6 +123,12 @@ public class Level {
 		//update player, monster and cells
 		p.tick(cells);
 		monster.ifPresent(m -> m.tick(cells));
+		
+		if(endSequenceStarted)hasEnded++;
+		if(hasEnded > 50) { //after 50 ticks, leave the Level
+			next.run();
+		}
+		
 	}
 	
 	/**
