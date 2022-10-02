@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -28,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import main.Phase;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.LevelView;
@@ -35,18 +37,14 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 
 public class Chips extends JFrame{
 //	State curState;
-	SoundPlayer sound;
 	Controller controller;
 	Runnable closePhase = ()->{};
 	
 	Chips(){
-		sound = new SoundPlayer();
 	    assert SwingUtilities.isEventDispatchThread();
-	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    controller = new Controller();
 	    initialPhase();
 	    System.out.println("Initialising pane");
-	    setVisible(true);
 	    addWindowListener(new WindowAdapter(){
 	      public void windowClosed(WindowEvent e){closePhase.run();}
 	    });
@@ -56,11 +54,32 @@ public class Chips extends JFrame{
 	 * Start menu of the game
 	 */
 	private void initialPhase() {
-		// Text and Buttons
-		var welcome = new JLabel(" Welcome to Chips Challenge! ");
-	    var startLvl1 = new JButton(" Start! (Lvl 1) ");
-	    var startLvl2 = new JButton(" Start! (Lvl 2) ");
-	    
+		// Make JFrame
+		JFrame frame = new JFrame("Chips Challenge");
+	    frame.setSize(1000, 600);
+	      
+	    frame.setResizable(false);
+	    frame.setLayout(null);
+	      
+	    // Create Display
+	    var welcome = new JLabel(" Welcome to Chips Challenge! ");
+		var startLvl1 = new JButton(" Start! (Lvl 1) ");
+		var startLvl2 = new JButton(" Start! (Lvl 2) ");
+		welcome.setFont(new Font("Calibri", Font.PLAIN, 40));
+	 
+	    // Setting position and size
+		welcome.setBounds(200, 50, 600, 200);
+	    startLvl1.setBounds(200, 350, 200, 50);
+	    startLvl2.setBounds(600, 350, 200, 50);
+	      
+	    // Add display
+	    frame.add(welcome);
+	    frame.add(startLvl1);
+	    frame.add(startLvl2);
+	      
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setVisible(true);
+		   
 	    // closephase set up
 	    closePhase.run();
 	    closePhase=()->{
@@ -69,52 +88,25 @@ public class Chips extends JFrame{
 	     remove(startLvl2);
 	     };
 	     
-	     // Draw buttons
-	     add(BorderLayout.CENTER, welcome);
-	     add(BorderLayout.SOUTH,startLvl1);
-	     add(BorderLayout.NORTH,startLvl2);
-	     
 	     // Add listeners
-	     startLvl1.addActionListener(e->setPhase());
-	     startLvl2.addActionListener(e->setPhase());
-	     
-	     // Set size of window
-	     setPreferredSize(new Dimension(1000,600));
+	     startLvl1.addActionListener(e->phaseOne());
+	     startLvl2.addActionListener(e->phaseTwo());
+ 
 	     pack();
 	}
 	
-	/**
-	 * Pause menu displaying info for user
-	 */
-	void pauseMenu() {
-		// Text and Buttons
-		var pause = new JLabel(" You are currently in pause ");
-		var resume = new JButton(" Resume ");
-		
-		// closePhase set up
-		closePhase.run();
-	    closePhase=()->{
-	     remove(pause);
-	     remove(resume);
-	     };
-	     
-	     
-		// Display buttons
-		add(BorderLayout.CENTER, pause);
-		add(BorderLayout.SOUTH, resume);
-		
-		 // Add listeners to button
-	     resume.addActionListener(e->setPhase());
-	     
-	     // Set size of window
-	     setPreferredSize(new Dimension(1000,600));
-	     pack();
+	private void phaseOne(){
+	    setPhase("level1.xml");
+	}
+		  
+    private void phaseTwo() {
+	  System.out.println("Coming soon");
 	}
 	
-	void setPhase(){
+	void setPhase(String fileName){
 		System.out.println("Setting level");
 		// Set up new Level
-		Level level = Levels.loadLevel(()-> initalPhase(), sound, "level1.xml");
+		Level level = Levels.loadLevel(fileName);
 			
 	    // Set up the viewport
 	    LevelView view = new LevelView(level);
@@ -137,6 +129,46 @@ public class Chips extends JFrame{
 	    pack();                     //after pack
 	    view.requestFocus();//need to be after pack
 	    timer.start();
-	   
 	  }
+	
+	
+	/**
+	 * Pause menu displaying info for user
+	 */
+	void pauseMenu() {
+		// Make JFrame
+		JFrame frame = new JFrame("Chips Challenge");
+		frame.setSize(1000, 600);
+			      
+		frame.setResizable(false);
+	    frame.setLayout(null);
+	    
+		// Text and Buttons
+		var pause = new JLabel(" You are currently in pause ");
+		var resume = new JButton(" Resume ");
+		resume.setFont(new Font("Calibri", Font.PLAIN, 40));
+		
+		// Setting position and size
+		pause.setBounds(200, 50, 600, 200);
+	    resume.setBounds(400, 350, 200, 50);
+	      
+	    // Add display
+	    frame.add(pause);
+	    frame.add(resume);
+	      
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setVisible(true);
+		
+		// closePhase set up
+		closePhase.run();
+	    closePhase=()->{
+	     remove(pause);
+	     remove(resume);
+	     };
+	     
+		 // Add listeners to button
+	     //resume.addActionListener(e->setPhase());
+	     
+	     pack();
+	}
 }

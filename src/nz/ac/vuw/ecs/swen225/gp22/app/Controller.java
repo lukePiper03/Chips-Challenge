@@ -20,11 +20,11 @@ public class Controller extends Keys {
 		keyConfig.put("Down", KeyEvent.VK_S);
 		keyConfig.put("Left", KeyEvent.VK_A);
 		keyConfig.put("Right", KeyEvent.VK_D);
-		keyConfig.put("Exit Game", KeyEvent.CTRL_DOWN_MASK + KeyEvent.VK_X);
-		keyConfig.put("Save Game", KeyEvent.CTRL_DOWN_MASK + KeyEvent.VK_S);
-		keyConfig.put("Resume Game", KeyEvent.CTRL_DOWN_MASK + KeyEvent.VK_R);
-		keyConfig.put("Start New Game (at Lvl 1)", KeyEvent.CTRL_DOWN_MASK + KeyEvent.VK_1);
-		keyConfig.put("Start New Game (at Lvl 2)", KeyEvent.CTRL_DOWN_MASK + KeyEvent.VK_2);
+//		keyConfig.put("Exit Game", KeyEvent.CTRL_DOWN_MASK  KeyEvent.VK_X);
+//		keyConfig.put("Save Game", KeyEvent.CTRL_DOWN_MASK + KeyEvent.VK_S);
+//		keyConfig.put("Resume Game", KeyEvent.CTRL_DOWN_MASK + KeyEvent.VK_R);
+//		keyConfig.put("Start New Game (at Lvl 1)", KeyEvent.CTRL_DOWN_MASK + KeyEvent.VK_1);
+//		keyConfig.put("Start New Game (at Lvl 2)", KeyEvent.CTRL_DOWN_MASK + KeyEvent.VK_2);
 		keyConfig.put("Pause", KeyEvent.VK_PAUSE);
 		keyConfig.put("Resume Paused Game", KeyEvent.VK_ESCAPE);
 	}
@@ -35,10 +35,13 @@ public class Controller extends Keys {
 	 */
 	public Controller newInstance(Player p){
 		// if keyConfig is empty, set initial values
+		// Basic movement keyBinds
 		setAction(keyConfig.getOrDefault("Up", KeyEvent.VK_W),p.set(Direction::up),p.set(Direction::unUp));
 	    setAction(keyConfig.getOrDefault("Down", KeyEvent.VK_S),p.set(Direction::down),p.set(Direction::unDown));
 	    setAction(keyConfig.getOrDefault("Left", KeyEvent.VK_A),p.set(Direction::left),p.set(Direction::unLeft));
 	    setAction(keyConfig.getOrDefault("Right", KeyEvent.VK_D),p.set(Direction::right),p.set(Direction::unRight));
+	    // Advanced keyBinds
+	    
 	    return this;
 	}
 	
