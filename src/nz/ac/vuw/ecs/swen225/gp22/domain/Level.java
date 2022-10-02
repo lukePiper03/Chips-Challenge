@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
 
 /**
  * @author Linda Zhang 300570498
@@ -17,7 +16,6 @@ public class Level {
 	private Player p;
 	private Set<Entity> entities;
 	private Runnable next;
-	private SoundPlayer soundPlayer;
 	private int timeElapsed;
 	private Integer levelNum;
 	private Optional<Monster> monster;
@@ -33,9 +31,8 @@ public class Level {
 	 * @param entities the Set of Entities (Key, Treasure, etc) for the Level
 	 * @param levelNum the level number
 	 */
-	public Level(Runnable next, SoundPlayer soundPlayer, char[][] map, Set<Entity> entities, Integer levelNum){
+	public Level(Runnable next, char[][] map, Set<Entity> entities, Integer levelNum){
 		this.next = next;
-		this.soundPlayer = soundPlayer; //remove later
 		timeElapsed = 0;
 		this.entities = entities;
 		this.levelNum = levelNum; //to track what level it's on
@@ -54,9 +51,8 @@ public class Level {
 	 * @param levelNum the level number
 	 * @param m the monster of the game, if any
 	 */
-	public Level(Runnable next, SoundPlayer soundPlayer, char[][] map, Set<Entity> entities, Integer levelNum, Monster m){
+	public Level(Runnable next, char[][] map, Set<Entity> entities, Integer levelNum, Monster m){
 		this.next = next;
-		this.soundPlayer = soundPlayer;
 		timeElapsed = 0;
 		this.entities = entities;
 		this.levelNum = levelNum; //to track what level it's on
