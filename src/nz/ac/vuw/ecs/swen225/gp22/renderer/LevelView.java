@@ -201,10 +201,7 @@ public class LevelView extends JPanel{
 	    
 	    // draw colour codes for doors
 	    if(c.getName().equals("LockedDoor")){
-	    	sf.g().setColor(Color.white);
-	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/6, h2 - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
-	    	sf.g().setColor(Color.getHSBColor((((LockedDoor)(c.state())).keyCode()-1)/4f, 0.75f, 0.65f));
-	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/8, h2 - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
+	    	drawIndicator(sf.g(), w2, h2, (((LockedDoor)(c.state())).keyCode()-1));
 	    }
 	}
 	
@@ -230,11 +227,15 @@ public class LevelView extends JPanel{
 	    sf.g().drawImage(Img.valueOf(ent.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
 	    
 	    if(ent instanceof Key){
-	    	sf.g().setColor(Color.white);
-	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/6, h2 - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
-	    	sf.g().setColor(Color.getHSBColor((((Key)ent).getKeyCode()-1)/4f, 0.5f, 0.65f));
-	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/8, h2 - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
+	    	drawIndicator(sf.g(), w2, h2, (((Key)ent).getKeyCode()-1));
 	    }
+	}
+	
+	void drawIndicator(Graphics g, int x, int y, int value){
+		g.setColor(Color.white);
+    	g.fillRect(x - RENDERSIZE/16 - RENDERSIZE/6, y - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
+    	g.setColor(Color.getHSBColor((value-1)/4f, 0.5f, 0.65f));
+    	g.fillRect(x - RENDERSIZE/16 - RENDERSIZE/8, y - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
 	}
 	
 	
@@ -293,7 +294,7 @@ public class LevelView extends JPanel{
 		
 		// values
 		g.drawString(String.format("%03d", l.getLevelNum()),  s.width - inventoryWidth , 170);
-		//g.drawString(String.format("%03d", (int)(l.getTime()*(0.034))),  s.width - inventoryWidth , 290);
+		g.drawString(String.format("%03d", (int)(l.getCountdown())),  s.width - inventoryWidth , 290);
 		g.drawString(String.format("%03d", l.getPlayer().treasuresToCollect()),  s.width - inventoryWidth , 410);
 		
 		
@@ -307,6 +308,7 @@ public class LevelView extends JPanel{
 			if(count.get() <= 4) {
 			g.drawImage(Img.valueOf(ent.getName()).image, invStartX + ((int)(RENDERSIZE/1.25)*count.get()), (int)(RENDERSIZE*1.75) + inventoryHeight, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2,
 					(int)(RENDERSIZE*1.75) + inventoryHeight+ RENDERSIZE/2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+			drawIndicator(g, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2, (int)(RENDERSIZE*1.75) + inventoryHeight+8+ RENDERSIZE/2, (((Key)ent).getKeyCode()-1));
 			count.getAndIncrement();}
 		});
 		
