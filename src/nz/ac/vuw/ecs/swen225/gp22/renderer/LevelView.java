@@ -2,176 +2,348 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.*;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.*;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.fonts.LoadedFont;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.player_sprites.PlayerImg;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
-
 import javax.swing.JPanel;
 
-
-
+/**
+ * @author Declan Cross
+ * Renders all content of map and GUI on screen when playing levels
+ */
 public class LevelView extends JPanel{
-	// level
-	Level l;
-	int fadeIn = 0;
-	double steps = 2;
+	// serial number
+	private static final long serialVersionUID = 1L;
+
+	// level variables
+	private final Level l;				// stored level for rendering
+	
+	
+	// animation variables
+	private int fadeIn;  				// current fade amount
+	private final int FADELENGTH = 25;  // max time in ticks for fade in
+	private final double STEPS = 2; 	// animation steps for fading in objects
+	private int tickCount;				// current tick count for animations
+	private final int MAXTICKS = 16;    // animation cycle max time
 	
 	// rendering variables
-	private final int renderSize = 64;
+	private final int RENDERSIZE = 64;	// default rendering size of cells
+	private boolean animationForwards = true;  // toggle between enter and exit animation
 	
+	// player variables
+	Direction oldDir;					// old position to remember for player animation
+	
+	// active classes
+	EventHandler e;
+	SoundPlayer s;
+	
+	
+	/**
+	 * Constructor
+	 * @param newLevel  level object to be observed 
+	 */
 	public LevelView(Level newLevel) {
 		l = newLevel;
+		l.setLevelEnd(()->endLevel());
+		oldDir = Direction.Down;
+		s = new SoundPlayer();
+		new Thread(() -> s.loop(Sound.eightbitsong, 50)).start();
+		e = new EventHandler(l, s);
 	}
 	
 	
+	/**
+	 * End level animation that gets called before exiting from level
+	 */
+	public void endLevel(){
+		// fade out music and set animation to reverse
+		new Thread(() -> s.fadeOut(Sound.eightbitsong, 50)).start();
+		animationForwards = false;
+	}
+	
+	
+	/**
+	 * Override method to paint screen every game tick
+	 * @param g  graphics panel to draw on
+	 */
 	public void paintComponent(Graphics g) {
-	   /// get size of graphcs
+	   /// get size of graphics
 	   super.paintComponent(g);
 	   Dimension s = getSize();
-	   if(fadeIn < 25) fadeIn++;
 	   
+	   // fade in or out animation
+	   if(fadeIn < FADELENGTH && animationForwards) fadeIn++;
+	   if(fadeIn > 0 && !animationForwards) fadeIn--;
 	   
-	   // find centre of map relative to player
-	   var centerP = new Point(
-	      -(int)(s.width * 0.65)/(int)(2*renderSize),
-	      -s.height/(int)(2*renderSize));
-	   var c = l.getPlayer().getPos().add(centerP);
+	   // tick counter for animated textures
+	   tickCount++;
+	   tickCount = tickCount % MAXTICKS;
+	   
+	   // get player info
+	   Player curPlayer = l.getPlayer();
+	   Point pos = curPlayer.getPos();
 	   
 	   // work out difference between positions to make movement animation
-	   Point pos = l.getPlayer().getPos();
-	   Point oldPos = l.getPlayer().getOldPos();
-	   Point diff = oldPos.distance(pos);
-	   float xShift =  diff.x() * (1-l.getPlayer().getMoveTime()); 
-	   float yShift = diff.y() * (1-l.getPlayer().getMoveTime());
+	   Point diff = curPlayer.getOldPos().distance(pos);
+	   float xShift =  diff.x() * (1-curPlayer.getMoveTime()); 
+	   float yShift = diff.y() * (1-curPlayer.getMoveTime());
+	   PlayerFields pf = new PlayerFields(pos, xShift, yShift);
 	   
-	   // draw map and player
-	   drawMap(g, c, s, l.getPlayer().getPos(), xShift, yShift);
-	   drawPlayer(g, c, s, l.getPlayer().getPos());
-	   drawGUI(g, s, l.getPlayer());
+	   // find centre of map relative to player
+	   var centerP = new Point(-(int)(s.width * 0.65)/(int)(2*RENDERSIZE), -s.height/(int)(2*RENDERSIZE));
+	   var c = pos.add(centerP);
+	   ScreenFields sf = new ScreenFields(g, c, s);
+	   
+	   // draw map, player, and GUI
+	   drawMap(sf, pf);
+	   drawPlayer(sf, pos);
+	   drawGUI(g, s, l, curPlayer);
 	 
 	}
 	
-	/// MAKE A DRAWPLAYER METHOD. FIND THE GETMOVETIME TO CHANGE THE SPRITESHEET AS WELL AS DIRECTION
-	// EACH DIR MOVEMENT HAS 4 FRAMES WHICH WE CAN USE FOR EACH 0.2 OF TIME.
-	
-	
-	void drawMap(Graphics g, Point centre, Dimension size, Point player, float xShift, float yShift){
+	/**
+	 * Method to draw the map and its child components
+	 * @param sf  record containing screen fields
+	 * @param pf  record containing player fields
+	 */
+	void drawMap(ScreenFields sf, PlayerFields pf){
+		// paint background black
+		sf.g().setColor(new Color(0, 0, 0, fadeIn *10));
+		sf.g().fillRect(0, 0, sf.size().width, sf.size().height);
+		
 		// get cells to draw
 		Cells c = l.getCells();
 		List<Cell> wallTiles = new ArrayList<>();
-		int range = (int)((float)fadeIn/steps);
+		int range = (int)((float)fadeIn/STEPS);
 		
-		// use for loop for all squares on screen to draw cells 
-		IntStream.range(player.x()-range+1, player.x()+range)
-			.forEach(row -> IntStream.range(player.y()-range+1, player.y()+range)
+		// use nestled intstreams to go through for all squares on screen to draw cells 
+		IntStream.range(pf.player().x()-range+1, pf.player().x()+range)
+			.forEach(row -> IntStream.range(pf.player().y()-range+1, pf.player().y()+range)
 			.forEach(col -> {
 				if(c.get(row, col).isSolid()){
+					drawCell(sf, pf, new Cell(new Floor(), row, col));
 					wallTiles.add(c.get(row, col));
 				} else {
-					 drawCell(g, centre, size, player, c.get(row, col), xShift, yShift);
+					drawCell(sf, pf, c.get(row, col));
 				}
 			})
 		);
 		
 		// get entities to draw
 		List<Entity> entities = l.getEntites(); 
-		entities.stream().forEach(ent -> drawEntity(g, centre, size, player, ent, xShift, yShift));
+		entities.stream().forEach(ent -> drawEntity(sf, pf, ent));
 		
 		// walls must be drawn last for 3D effect
-		wallTiles.forEach(a -> drawCell(g, centre, size, player, a, xShift, yShift));
+		wallTiles.forEach(a -> drawCell(sf, pf, a));
 		
-		IntStream.range(player.x()-range+1, player.x()+range)
-		.forEach(row -> IntStream.range(player.y()-range+1, player.y()+range)
-		.forEach(col -> {
-			
-				 drawShadow(g, centre, size, player, c.get(row, col), xShift, yShift);
-			
-		})
-	);
-	
+		// draw shadows over map
+		IntStream.range(pf.player().x()-range+1, pf.player().x()+range)
+		.forEach(row -> IntStream.range(pf.player().y()-range+1, pf.player().y()+range)
+		.forEach(col -> drawShadow(sf, pf, new Point(row, col))));
 	}
 	
-	void drawShadow(Graphics g, Point center, Dimension size, Point player, Cell c, float xShift, float yShift) {
-		int w1=c.x()*renderSize-(int)((center.x()+xShift)*renderSize);
-		 int h1=c.y()*renderSize-(int)((center.y()+yShift)*renderSize);
-		 double dist = Math.hypot(c.x()- player.x()-xShift, c.y() - player.y()-yShift) - 2;
+	/**
+	 * Method to draw shadows
+	 * @param sf  record containing screen fields
+	 * @param pf  record containing player fields
+	 * @param cellPos  current cell object's position
+	 */
+	void drawShadow(ScreenFields sf, PlayerFields pf, Point cellPos) {
+		 // calculate shadow dimensions
+		 int w1=cellPos.x()*RENDERSIZE-(int)((sf.centre().x()+pf.xShift())*RENDERSIZE);
+		 int h1=cellPos.y()*RENDERSIZE-(int)((sf.centre().y()+pf.yShift())*RENDERSIZE);
+		 
+		 // calculate distance of shadow from player
+		 double dist = Math.hypot(cellPos.x()- pf.player().x()-pf.xShift(), cellPos.y() - pf.player().y()-pf.yShift()) - 2;
 		 dist *= 50;
+//		 dist += Math.random() *4 -2;
+//		 dist -= (c.x()- player.x())*20 %4;
+//		 if(Math.abs(c.x()- player.x()) %4 == 1 && Math.abs(c.y()- player.y()) % 3 == 1){
+//			 dist += 15 * (xShift + yShift);
+//		 }
 		 if(dist < 0) {dist = 0;}
 		 if(dist > 255) {dist = 255;}
 		 
-		 g.setColor(new Color(0, 0, 0, (int)dist));
-		 g.fillRect(w1, h1, renderSize, renderSize);
+		 // draw shadow
+		 sf.g().setColor(new Color(0, 0, 0, (int)dist));
+		 sf.g().fillRect(w1, h1, RENDERSIZE, RENDERSIZE);
 	}
 	
 	
-	void drawCell(Graphics g, Point center, Dimension size, Point player, Cell c, float xShift, float yShift) {
-		int w1=c.x()*renderSize-(int)((center.x()+xShift)*renderSize);
-	    int h1=c.y()*renderSize-(int)((center.y()+yShift)*renderSize);
-	    int w2=w1+renderSize;
-	    int h2=h1+renderSize;
+	/**
+	 * Method to draw a single cell
+	 * @param sf  record containing screen fields
+	 * @param pf  record containing player fields
+	 * @param c  current cell object
+	 */
+	void drawCell(ScreenFields sf, PlayerFields pf, Cell c) {
+		// calculate image dimensions
+		int w1=c.x()*RENDERSIZE-(int)((sf.centre().x()+pf.xShift())*RENDERSIZE);
+	    int h1=c.y()*RENDERSIZE-(int)((sf.centre().y()+pf.yShift())*RENDERSIZE);
+	    int w2=w1+RENDERSIZE;
+	    int h2=h1+RENDERSIZE;
 	    
-	    // use player distance for lighting
-	    double dist = Math.hypot(c.x()- player.x(), c.y() - player.y()) - 2;
-	    
-	    var isOut=h2<=0 || w2<=0 || h1>=size.height || w1>=size.width;
-	    if(isOut){ return; }
-	    dist *= 10;
-	    if(dist > 255) {dist = 254;}
-	    g.setColor(new Color(0, 0, 0, 100));
-	    
+	    // draw enlarged images for solid objects as they are 3D and regular if not
 	    if(c.isSolid()) {
-	    	g.drawImage(c.getImage().image,w1,h1,w2+8,h2+8,0,0,renderSize+8,renderSize+8,null);
-//	    	g.fillRect(w1, h1, renderSize+8, renderSize+8);
-	    } else {
-	    	g.drawImage(c.getImage().image, w1, h1, w2, h2, 0, 0, renderSize, renderSize, null);
-//	    	g.fillRect(w1, h1, renderSize, renderSize);
+	    	sf.g().drawImage(Img.valueOf(c.getName()).image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null); //
+	    } else { //c.getImage().image
+	    	sf.g().drawImage(Img.valueOf(c.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+	    }
+	    
+	    // draw colour codes for doors
+	    if(c.getName().equals("LockedDoor")){
+	    	sf.g().setColor(Color.white);
+	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/6, h2 - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
+	    	sf.g().setColor(Color.getHSBColor((((LockedDoor)(c.state())).keyCode()-1)/4f, 0.75f, 0.65f));
+	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/8, h2 - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
 	    }
 	}
 	
-	void drawEntity(Graphics g, Point center, Dimension size, Point player, Entity ent, float xShift, float yShift){
+	
+	/**
+	 * Method to draw a single entity
+	 * @param sf  record containing screen fields
+	 * @param pf  record containing player fields
+	 * @param ent  current entity object
+	 */
+	void drawEntity(ScreenFields sf, PlayerFields pf, Entity ent){
+		// return if out of render distance
 		Point pos = ent.getPos();
-		int w1=pos.x()*renderSize-(int)((center.x()+xShift)*renderSize);
-	    int h1=pos.y()*renderSize-(int)((center.y()+yShift)*renderSize);
-	    int w2=w1+renderSize;
-	    int h2=h1+renderSize;
-	    Point e = ent.getPos();
-	    if(Math.hypot(e.x()- player.x()+0.5, e.y() - player.y()+0.5) > (int)((float)fadeIn/steps)) {return;}
-	    g.drawImage(ent.getImage().image, w1, h1, w2, h2, 0, 0, renderSize, renderSize, null);
+	    if(Math.hypot(pos.x()- pf.player().x()+0.5, pos.y() - pf.player().y()+0.5) > (int)((float)fadeIn/STEPS)) {return;}
+		
+		// calculate entity image dimensions
+		int w1=pos.x()*RENDERSIZE-(int)((sf.centre().x()+pf.xShift())*RENDERSIZE);
+	    int h1=pos.y()*RENDERSIZE-(int)((sf.centre().y()+pf.yShift())*RENDERSIZE);
+	    int w2=w1+RENDERSIZE;
+	    int h2=h1+RENDERSIZE;
+	    
+	    // draw image
+	    sf.g().drawImage(Img.valueOf(ent.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+	    
+	    if(ent instanceof Key){
+	    	sf.g().setColor(Color.white);
+	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/6, h2 - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
+	    	sf.g().setColor(Color.getHSBColor((((Key)ent).getKeyCode()-1)/4f, 0.5f, 0.65f));
+	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/8, h2 - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
+	    }
 	}
 	
-	void drawPlayer(Graphics g, Point center, Dimension size, Point pos) {
+	
+	/**
+	 * Method to draw a player
+	 * @param sf  record containing screen fields
+	 * @param pf  record containing player fields
+	 */
+	void drawPlayer(ScreenFields sf, Point pos) {
+		// get dimensions of image
 		double scale = 0.5;
-		double w1=pos.x()*renderSize-(center.x()*renderSize) + renderSize*(scale/2);
-		double h1=pos.y()*renderSize-(center.y()*renderSize) + renderSize*(scale/2);
-		double w2=w1+renderSize*scale;
-		double h2=h1+renderSize*scale;
-	    g.drawImage(Img.player.image,(int)w1,(int)h1,(int)w2,(int)h2,0,0,renderSize,renderSize,null);
+		double w1=pos.x()*RENDERSIZE-(sf.centre().x()*RENDERSIZE) + RENDERSIZE*(scale/2);
+		double h1=pos.y()*RENDERSIZE-(sf.centre().y()*RENDERSIZE) + RENDERSIZE*(scale/2);
+		double w2=w1+RENDERSIZE*scale;
+		double h2=h1+RENDERSIZE*scale;
+		
+		// work out player image to use
+		String type;
+		if(l.getPlayer().direction() != Direction.None) {
+			oldDir = l.getPlayer().direction();
+			type = "walk";
+		} else{
+			type = "idle";
+		}
+		int val = tickCount > 8 ? 1 : 2;
+		
+		// draw player image
+	    sf.g().drawImage(PlayerImg.valueOf(type+"_"+ oldDir + "_" + val).image,(int)w1,(int)h1,(int)w2,(int)h2,0,0,RENDERSIZE,RENDERSIZE,null);
 	}
 	
-	void drawGUI(Graphics g, Dimension s, Player p) {
+	
+	/**
+	 * Method to draw on screen informative elements
+	 * @param g    graphics to render in
+	 * @param s    size of screen
+	 * @param p    level object
+	 */
+	void drawGUI(Graphics g, Dimension s, Level l, Player p) {
+		// draw background card
+		int inventoryHeight = s.height - 3*RENDERSIZE;
+		int inventoryWidth = (int)(s.width * 3/12f);
 		g.setColor(new Color(120, 131, 84, fadeIn * 9));
-//		g.drawRoundRect(fadeIn, fadeIn, fadeIn, fadeIn, renderSize, fadeIn);
-//		g.fillRect(s.width - (int)(s.width * 2/6f), (int)(s.height * 1/12f) , (int)(s.width * 3/12f), (int)(s.height * 5/6f));
-		g.fillRoundRect(s.width - (int)(s.width * 3/12f) - (int)(s.height * 1/12f), (int)(s.height * 1/12f) , (int)(s.width * 3/12f), (int)(s.height * 5/6f), 30, 30);
+		g.fillRoundRect(s.width - RENDERSIZE - inventoryWidth, RENDERSIZE, inventoryWidth, inventoryHeight, 30, 30);
 		
+		// draw text
 		g.setColor(Color.white);
-		g.setFont( new Font("Arial", Font.PLAIN, 48));
-		g.drawString("Level",  s.width - (int)(s.width * 3/12f) , 130);
-		g.drawString("Time",  s.width - (int)(s.width * 3/12f) , 270);
-		g.drawString("Chips",  s.width - (int)(s.width * 3/12f) , 410);
-		g.setFont( new Font("Arial", Font.PLAIN, 36));
-		g.setColor(new Color(190, 196, 161));
-		g.drawString("001",  s.width - (int)(s.width * 3/12f) , 180);
-		g.drawString("120",  s.width - (int)(s.width * 3/12f) , 320);
-		g.drawString("002",  s.width - (int)(s.width * 3/12f) , 460);
+		g.setFont( LoadedFont.PixeloidSans.getSize(40f));
 		
+		// titles
+		g.drawString("Level",  s.width - inventoryWidth , 130);
+		g.drawString("Time",  s.width - inventoryWidth , 250);
+		g.drawString("Chips",  s.width - inventoryWidth , 370);
+		
+		g.setFont( LoadedFont.PixeloidSans.getSize(30f));
+		g.setColor(new Color(190, 196, 161));
+		
+		// values
+		g.drawString(String.format("%03d", l.getLevelNum()),  s.width - inventoryWidth , 170);
+		//g.drawString(String.format("%03d", (int)(l.getTime()*(0.034))),  s.width - inventoryWidth , 290);
+		g.drawString(String.format("%03d", l.getPlayer().treasuresToCollect()),  s.width - inventoryWidth , 410);
+		
+		
+		// inventory
+		g.setColor(new Color(120, 131, 84, fadeIn * 9));
+		g.fillRoundRect(s.width - RENDERSIZE - inventoryWidth, (int)(RENDERSIZE*1.5) + inventoryHeight, inventoryWidth, RENDERSIZE, 30, 30);
+		// inventory items
+		int invStartX = s.width - inventoryWidth - RENDERSIZE/2;
+		AtomicInteger count = new AtomicInteger();
+		p.inventory().forEach(ent -> {
+			if(count.get() <= 4) {
+			g.drawImage(Img.valueOf(ent.getName()).image, invStartX + ((int)(RENDERSIZE/1.25)*count.get()), (int)(RENDERSIZE*1.75) + inventoryHeight, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2,
+					(int)(RENDERSIZE*1.75) + inventoryHeight+ RENDERSIZE/2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+			count.getAndIncrement();}
+		});
+		
+		// sign
+		int infoFieldHeight = 2 * RENDERSIZE;
+		int infoFieldWidth = s.width - inventoryWidth - 3*RENDERSIZE;
+		// draw sign if present.
+		p.getActiveInfoField().ifPresent(a -> {
+			g.setColor(new Color(122, 101, 91, 225));
+			g.fillRoundRect(RENDERSIZE, s.height - infoFieldHeight - RENDERSIZE, infoFieldWidth, infoFieldHeight, 30 ,30);
+			g.setColor(Color.white);
+			g.setFont( LoadedFont.PixeloidSans.getSize(24f));
+			g.drawString(a.getMessage(), (int)(RENDERSIZE*1.5), s.height - infoFieldHeight);
+		});
 	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * Private record containing screen fields to be used for rendering
+	 * @author Declan Cross
+	 * @param g  graphics pane to draw on
+	 * @param centre  defined centre of content
+	 * @param size  size of screen
+	 */
+	private record ScreenFields(Graphics g, Point centre, Dimension size){}
+	
+	/**
+	 * Private record containing player fields used for positioning
+	 * @author Declan Cross
+	 * @param player  position of player object
+	 * @param xShift  calculated dist between old and new player pos
+	 * @param yShift  calculated dist between old and new player pos
+	 */
+	private record PlayerFields(Point player, float xShift, float yShift){}
 
 }

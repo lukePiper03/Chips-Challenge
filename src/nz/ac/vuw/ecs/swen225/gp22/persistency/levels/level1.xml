@@ -1,7 +1,6 @@
-<map>
-	<numRows>8</numRows>
-	<numCols>10</numCols>
-	<rows>
+<?xml version="1.0" encoding="UTF-8"?>
+<level num="1">
+	<map rows="8" cols="10">
 		<row>##########</row>
 		<row>#........#</row>
 		<row>#.#...#..#</row>
@@ -10,5 +9,14 @@
 		<row>#...L.##.#</row>
 		<row>#.....#.X#</row>
 		<row>##########</row>
-	</rows>
-</map>
+	</map>
+	<entities>
+		<key x="4" y="6" code="1"/>
+		<info x="1" y="1">
+			<message>Message display here!</message>
+		</info>
+		<treasure x="8" y="3"/>
+		<treasure x="8" y="4"/>
+		<exit x="7" y="6"/>
+	</entities>
+</level>
