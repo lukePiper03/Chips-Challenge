@@ -29,6 +29,7 @@ class DomainTests {
 
 	@Test void initialiseLevel() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'},
@@ -44,7 +45,7 @@ class DomainTests {
 										new Treasure(new Point(1,2)), 
 										new InfoField(new Point(1,3), ""),
 										new Exit(new Point(1,4)));
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		assert map.length == l.getCells().getMaxY(); //check Y boundary
 		for(int y = 0; y < map.length; y++) assert map[y].length == l.getCells().getMaxX(); //check X boundaries
@@ -65,6 +66,7 @@ class DomainTests {
 	
 	@Test void moveOnceLegal() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -72,7 +74,7 @@ class DomainTests {
 				{'#', '#', '#', '#'}
 		};
 		Set<Entity> entities = Set.of();
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Right);
 		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos
@@ -87,6 +89,7 @@ class DomainTests {
 	
 	@Test void moveOnceIllegal1() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -94,7 +97,7 @@ class DomainTests {
 				{'#', '#', '#', '#'}
 		};
 		Set<Entity> entities = Set.of();
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Left);
 		try { l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to illegal pos
@@ -106,6 +109,7 @@ class DomainTests {
 	}
 	@Test void moveOnceIllegal2() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -113,7 +117,7 @@ class DomainTests {
 				{'#', '#', '#', '#'}
 		};
 		Set<Entity> entities = Set.of();
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Left);
 		try { l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to illegal pos
@@ -126,6 +130,7 @@ class DomainTests {
 	
 	@Test void moveOnceIllegal3() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -133,7 +138,7 @@ class DomainTests {
 				{'#', '#', '#', '#'}
 		};
 		Set<Entity> entities = Set.of();
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Left);
 		try { l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to illegal pos
@@ -146,6 +151,7 @@ class DomainTests {
 	
 	@Test void moveToExitLegal() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -155,7 +161,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		Exit exit = new Exit(new Point(2,1));
 		entities.add(exit);
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Right);
 		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on exit
@@ -170,6 +176,7 @@ class DomainTests {
 	
 	@Test void moveToExitIllegal() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -178,7 +185,7 @@ class DomainTests {
 		};
 		Set<Entity> entities = new HashSet<>();
 		entities.add(new Exit(new Point(2,1)));
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		try {
 			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on exit
@@ -190,6 +197,7 @@ class DomainTests {
 	
 	@Test void moveToInfoFieldLegal1() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -199,7 +207,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		InfoField i = new InfoField(new Point(2,1), "");
 		entities.add(i);
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Right);
 		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on InfoField
@@ -225,6 +233,7 @@ class DomainTests {
 	
 	@Test void moveToInfoFieldLegal2() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -234,7 +243,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		InfoField i = new InfoField(new Point(2,1), "");
 		entities.add(i);
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Right);
 		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on InfoField
@@ -253,6 +262,7 @@ class DomainTests {
 	
 	@Test void moveToInfoFieldIllegal() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -262,7 +272,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		InfoField i = new InfoField(new Point(2,1), "");
 		entities.add(i);
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		try {
 			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on InfoField
@@ -276,6 +286,7 @@ class DomainTests {
 	
 	@Test void moveToKeyLegal() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -285,7 +296,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		Key key = new Key(new Point(2,1), 1);
 		entities.add(key);
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		assert ((LockedDoor)l.getCells().getAllLockedDoors().get(0).state()).keyCode() == key.getKeyCode();
 		
@@ -310,6 +321,7 @@ class DomainTests {
 	
 	@Test void moveToKeyIllegalNoLockedDoor() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -319,7 +331,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		Key key = new Key(new Point(2,1), 1);
 		entities.add(key);
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Right);
 		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Key
@@ -335,6 +347,7 @@ class DomainTests {
 	
 	@Test void moveToKeyIllegalNoMatchingCode() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -344,7 +357,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		Key key = new Key(new Point(2,1), 2);
 		entities.add(key);
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Right);
 		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Key
@@ -360,6 +373,7 @@ class DomainTests {
 	
 	@Test void moveToKeyIllegalNotOnKey() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -369,7 +383,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		Key key = new Key(new Point(2,1),1);
 		entities.add(key);
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		try {
 			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on Key
@@ -383,6 +397,7 @@ class DomainTests {
 	
 	@Test void moveToTreasureLegal1() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -392,7 +407,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		Treasure t = new Treasure(new Point(2,1));
 		entities.add(t);
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Right);
 		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Treasure
@@ -415,6 +430,7 @@ class DomainTests {
 	
 	@Test void moveToTreasureLegal2() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -424,7 +440,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		entities.add(new Treasure(new Point(1,1)));
 		entities.add(new Treasure(new Point(2,1)));
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Right);
 		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Treasure
@@ -458,6 +474,7 @@ class DomainTests {
 	
 	@Test void moveToTreasureIllegalNotOnTreasure() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 		
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -467,7 +484,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		Treasure key = new Treasure(new Point(2,1));
 		entities.add(key);
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		try {
 			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on Key
@@ -481,7 +498,8 @@ class DomainTests {
 	
 	@Test void moveToTreasureIllegalNoExitLock() {
 		Runnable next = () -> {};
-		
+		Runnable die = () -> {};
+
 		char[][] map = {
 				{'#', '#', '#', '#'},
 				{'#', 's', '.', '#'},
@@ -490,7 +508,7 @@ class DomainTests {
 		Set<Entity> entities = new HashSet<>();
 		Treasure t = new Treasure(new Point(2,1));
 		entities.add(t);
-		Level l = new Level(next,map,entities, 1);
+		Level l = new Level(next,die,map,entities, 1, 60);
 		
 		l.getPlayer().direction(Direction.Right);
 		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Treasure
@@ -516,13 +534,15 @@ class DomainTests {
 	
 	@Test void initialiseWithMonster() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
+
 		char[][] map = {
 				{'#', '#', '#', '#'},
 				{'#', 's', '.', '#'},
 				{'#', '#', '#', '#'}
 		};
 		Set<Entity> entities = Set.of();
-		Level l = new Level(next, map,entities, 1, new Monster(new Point(2,1)));
+		Level l = new Level(next, die, map,entities, 1, new Monster(new Point(2,1)), 60);
 		
 		assert l.getLevelNum() == 1;
 		
@@ -539,12 +559,13 @@ class DomainTests {
 		assert l.getMonster().get().getPos().equals(new Point(1,1));
 		assert l.getMonster().get().getOldPos().equals(new Point(2,1));
 		
-		l.tick(); //calls gameOver
-		l.gameOver();
+		l.tick(); //calls playerDiesGameOver
+		l.playerDiesGameOver();
 	}
 	
 	@Test void moveMonsterRandomly() {
 		Runnable next = () -> {};
+		Runnable die = () -> {};
 
 		char[][] map = {
 				{'#', '#', '#', '#'},
@@ -552,7 +573,7 @@ class DomainTests {
 				{'#', '#', '#', '#'}
 		};
 		Set<Entity> entities = Set.of();
-		Level l = new Level(next,map,entities, 1, new Monster(new Point(2,1)));
+		Level l = new Level(next,die,map,entities, 1, new Monster(new Point(2,1)), 60);
 		
 		assert l.getPlayer().getPos().equals(new Point(1,1));
 		assert l.getMonster().get().getPos().equals(new Point(2,1));
@@ -563,8 +584,29 @@ class DomainTests {
 		assert l.getMonster().get().getPos().equals(new Point(1,1));
 		assert l.getMonster().get().getOldPos().equals(new Point(2,1));
 		
-		l.tick(); //calls gameOver
-		l.gameOver();
+		l.tick(); //calls playerDiesGameOver
+		l.playerDiesGameOver();
+	}
+	
+	@Test void playerDiesOnWater() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		char[][] map = {
+				{'#', '#', '#', '#'},
+				{'#', 's', 'w', '#'},
+				{'#', '#', '#', '#'}
+		};
+		Set<Entity> entities = Set.of();
+		Level l = new Level(next,die,map,entities, 1, 60);
+		
+		assert l.getPlayer().getPos().equals(new Point(1,1));
+		
+		l.getPlayer().move(Direction.Right, l.getCells()); //move player on water
+		
+		assert l.getPlayer().getPos().equals(new Point(2,1));
+		
+		l.tick(); //calls playerDiesGameOver
+		l.playerDiesGameOver();
 	}
 
 }
