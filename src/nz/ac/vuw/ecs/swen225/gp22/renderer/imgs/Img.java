@@ -20,7 +20,8 @@ public enum Img{
   Key,
   ExitLock,
   Treasure,
-  Water;
+  Water,
+  Background;
   public final BufferedImage image;
   Img(){image=loadImage(this.name());}
   static private BufferedImage loadImage(String name){
