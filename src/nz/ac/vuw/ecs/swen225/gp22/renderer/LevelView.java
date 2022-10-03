@@ -130,9 +130,10 @@ public class LevelView extends JPanel{
 			.forEach(row -> IntStream.range(pf.player().y()-range+1, pf.player().y()+range)
 			.forEach(col -> {
 				if(c.get(row, col).isSolid()){
+					drawCell(sf, pf, new Cell(new Floor(), row, col));
 					wallTiles.add(c.get(row, col));
 				} else {
-					 drawCell(sf, pf, c.get(row, col));
+					drawCell(sf, pf, c.get(row, col));
 				}
 			})
 		);
@@ -203,7 +204,6 @@ public class LevelView extends JPanel{
 	    	sf.g().setColor(Color.white);
 	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/6, h2 - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
 	    	sf.g().setColor(Color.getHSBColor((((LockedDoor)(c.state())).keyCode()-1)/4f, 0.75f, 0.65f));
-	    	
 	    	sf.g().fillRect(w2 - RENDERSIZE/16 - RENDERSIZE/8, h2 - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
 	    }
 	}
@@ -278,8 +278,6 @@ public class LevelView extends JPanel{
 		int inventoryWidth = (int)(s.width * 3/12f);
 		g.setColor(new Color(120, 131, 84, fadeIn * 9));
 		g.fillRoundRect(s.width - RENDERSIZE - inventoryWidth, RENDERSIZE, inventoryWidth, inventoryHeight, 30, 30);
-//		g.fillRoundRect(s.width - (int)(s.width * 3/12f) - (int)(s.height * 1/12f), (int)(s.height * 1/12f) , (int)(s.width * 3/12f), (int)(s.height * 5/6f), 30, 30);
-		
 		
 		// draw text
 		g.setColor(Color.white);
@@ -300,19 +298,19 @@ public class LevelView extends JPanel{
 		
 		
 		// inventory
-
 		g.setColor(new Color(120, 131, 84, fadeIn * 9));
 		g.fillRoundRect(s.width - RENDERSIZE - inventoryWidth, (int)(RENDERSIZE*1.5) + inventoryHeight, inventoryWidth, RENDERSIZE, 30, 30);
-		
+		// inventory items
 		int invStartX = s.width - inventoryWidth - RENDERSIZE/2;
 		AtomicInteger count = new AtomicInteger();
 		p.inventory().forEach(ent -> {
 			if(count.get() <= 4) {
 			g.drawImage(Img.valueOf(ent.getName()).image, invStartX + ((int)(RENDERSIZE/1.25)*count.get()), (int)(RENDERSIZE*1.75) + inventoryHeight, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2,
 					(int)(RENDERSIZE*1.75) + inventoryHeight+ RENDERSIZE/2, 0, 0, RENDERSIZE, RENDERSIZE, null);
-			count.getAndIncrement();}});
+			count.getAndIncrement();}
+		});
 		
-		
+		// sign
 		int infoFieldHeight = 2 * RENDERSIZE;
 		int infoFieldWidth = s.width - inventoryWidth - 3*RENDERSIZE;
 		// draw sign if present.
