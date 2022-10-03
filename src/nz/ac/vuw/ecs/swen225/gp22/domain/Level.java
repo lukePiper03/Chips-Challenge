@@ -97,8 +97,7 @@ public class Level {
 	 * Every tick of the game. States of cells and entities may change.
 	 */
 	public void tick() {
-		countdown -= 0.0375;
-		System.out.println(countdown);
+		countdown -= 0.04;
 		if(countdown <= 0) {playerDiesGameOver(); return;} //player dies if time runs out
 		
 		//if monster is touching player, player dies
