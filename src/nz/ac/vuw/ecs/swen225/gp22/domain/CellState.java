@@ -18,11 +18,6 @@ public interface CellState{
 	char symbol(Cell self);
 }
 
-class Floor implements CellState{
-	public boolean isSolid(Cell self) {return false;}
-	public char symbol(Cell self) {return '.';}
-}
-
 class Wall implements CellState{
 	public boolean isSolid(Cell self) {return true;}
 	public char symbol(Cell self) {return '#';}

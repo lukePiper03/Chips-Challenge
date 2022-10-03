@@ -16,55 +16,59 @@ public class Level {
 	private Player p;
 	private Set<Entity> entities;
 	private Runnable next;
-	private int timeElapsed;
 	private Integer levelNum;
 	private Optional<Monster> monster;
 	private int hasEnded = 0;
 	private boolean endSequenceStarted = false;
 	private Optional<Runnable> end = Optional.empty();
-
+	
+	private Runnable die;
+	private double countdown; 
 	/**
 	 * Makes a Level WITHOUT a Monster
 	 * @param next the next 'phase' the game will be in (e.g. homescreen, next level)
-	 * @param soundPlayer the sound to play when level is started
+	 * @param die the phase when the player dies (when the user loses)
 	 * @param map the map of Cells that make up the Level
 	 * @param entities the Set of Entities (Key, Treasure, etc) for the Level
 	 * @param levelNum the level number
+	 * @param countdown the countdown of the Level
 	 */
-	public Level(Runnable next, char[][] map, Set<Entity> entities, Integer levelNum){
+	public Level(Runnable next, Runnable die, char[][] map, Set<Entity> entities, Integer levelNum, double countdown){
 		this.next = next;
-		timeElapsed = 0;
 		this.entities = entities;
-		this.levelNum = levelNum; //to track what level it's on
-		
+		this.levelNum = levelNum;
 		cells = new Cells(map);
 		p = new Player(cells.getSpawn(), entities);
 		monster = Optional.empty();
+		
+		this.die = die; //runnable to call when player dies
+		this.countdown = countdown; 
 	}
 	
 	/**
 	 * Makes a Level WITH a Monster
 	 * @param next the next 'phase' the game will be in (e.g. homescreen, next level)
-	 * @param soundPlayer the sound to play when level is started
+	 * @param die the phase when the player dies (when the user loses)
 	 * @param map the map of Cells that make up the Level
 	 * @param entities the Set of Entities (Key, Treasure, etc) for the Level
 	 * @param levelNum the level number
 	 * @param m the monster of the game, if any
+	 * @param countdown the countdown of the Level
 	 */
-	public Level(Runnable next, char[][] map, Set<Entity> entities, Integer levelNum, Monster m){
+	public Level(Runnable next, Runnable die,char[][] map, Set<Entity> entities, Integer levelNum, Monster m, double countdown){
 		this.next = next;
-		timeElapsed = 0;
 		this.entities = entities;
-		this.levelNum = levelNum; //to track what level it's on
-		
+		this.levelNum = levelNum;
 		cells = new Cells(map);
 		p = new Player(cells.getSpawn(), entities);
 		monster = Optional.of(m);
+		
+		this.die = die; //runnable to call when player dies
+		this.countdown = countdown; 
 	}
 
 	/**
-	 * (Temporarily) Switches back to the home menu.
-	 * (can switch to next levels once created)
+	 * Switches the screen to the next Level/winning screen
 	 */
 	public void gameOver() {
 		endSequenceStarted = true; //triggers the next Runnable in tick
@@ -74,7 +78,14 @@ public class Level {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//new Thread(() -> soundPlayer.fadeOut(Sound.eightbitsong, 50)).start();
+	}
+	
+	/**
+	 * Switches to homescreen/dying screen when the player is killed
+	 */
+	public void playerDiesGameOver() {
+		System.out.println("Player dies!");
+		die.run();
 	}
 	
 	/**
@@ -86,15 +97,19 @@ public class Level {
 	 * Every tick of the game. States of cells and entities may change.
 	 */
 	public void tick() {
-		//if(timeElapsed == 0) new Thread(() -> soundPlayer.loop(Sound.eightbitsong,50)).start();
-		timeElapsed++;
+		countdown -= 0.0375;
+		System.out.println(countdown);
+		if(countdown <= 0) {playerDiesGameOver(); return;} //player dies if time runs out
 		
-		//if monster is touching player, end the game
+		//if monster is touching player, player dies
 		monster.ifPresent(m -> {
-			if(m.getPos().equals(p.getPos())) gameOver();
+			if(m.getPos().equals(p.getPos())) playerDiesGameOver();
 		});
 		
-		//if player has active InfoField but is not on it anymore, make it null
+		//if player touches water, player dies
+		if(cells.get(p.getPos()).state() instanceof Water) playerDiesGameOver();
+		
+		//if player has active InfoField but is not on it anymore, make it en empty Optional
 		p.getActiveInfoField().ifPresent(i -> {
 			if(!p.getPos().equals(p.getActiveInfoField().get().getPos())) p.removeActiveInfoField();
 		});
