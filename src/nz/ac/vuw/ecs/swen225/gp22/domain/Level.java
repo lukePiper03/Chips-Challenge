@@ -159,4 +159,9 @@ public class Level {
 	 * @return the Monster optional. Could be empty.
 	 */
 	public Optional<Monster> getMonster(){return monster;}
+	
+	/**
+	 * @return get countdown of the Level
+	 */
+	public double getCountdown() {return countdown;}
 }

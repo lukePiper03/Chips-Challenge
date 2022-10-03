@@ -598,7 +598,7 @@ class DomainTests {
 		};
 		Set<Entity> entities = Set.of();
 		Level l = new Level(next,die,map,entities, 1, 60);
-		
+		l.getCountdown();
 		assert l.getPlayer().getPos().equals(new Point(1,1));
 		
 		l.getPlayer().move(Direction.Right, l.getCells()); //move player on water
