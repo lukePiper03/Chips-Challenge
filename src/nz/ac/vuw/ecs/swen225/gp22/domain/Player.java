@@ -1,16 +1,18 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 /**
  * @author Linda Zhang 300570498
  *  the player of the game. Represents Chap
  */
-public class Player {
+public class Player extends Subject{
 	private Point pos;
 	private Point oldPos; //for smooth rendering
 	private Direction direction = Direction.None;
@@ -23,6 +25,8 @@ public class Player {
 	private Set<Entity> inventory = new HashSet<>();
 	private Set<Entity> entitiesToRemove = new HashSet<>(); //set to add to if the entity is to be removed
 	
+	private Optional<InfoField> activeInfoField = Optional.empty(); //for whne the player is on an InfoField
+	
 	Player(Point p, Set<Entity> entities){
 		pos = p;
 		entitiesOnBoard = entities;
@@ -33,21 +37,17 @@ public class Player {
 	/**
 	 * @return the position of the player in a new point
 	 */
-	public Point getPos() {
-		return new Point(pos.x(), pos.y());
-	}
+	public Point getPos() {return new Point(pos.x(), pos.y());}
+	
 	/**
 	 * @return the previous old point of the player (for smooth animation in render)
 	 */
-	public Point getOldPos() {
-		return new Point(oldPos.x(),oldPos.y());
-	}
+	public Point getOldPos() {return new Point(oldPos.x(),oldPos.y());}
+	
 	/**
 	 * @return the moving time (for smooth animation in render)
 	 */
-	public float getMoveTime() {
-		return (float) timeSinceLastMove / (float)timestamp;
-	}
+	public float getMoveTime() {return (float) timeSinceLastMove / (float)timestamp;}
 	
 	/**
 	 * @return the player's current direction
@@ -65,7 +65,9 @@ public class Player {
 	 * @return the runnable applied to the direction
 	 */
 	public Runnable set(Function<Direction,Direction> f){
-		return ()->direction=f.apply(direction);
+		return ()->{
+			Recorder.recorder.savePlayerMoveEvent((int)System.currentTimeMillis(), direction);
+			direction=f.apply(direction);};
 	}
 	
 	/**
@@ -91,9 +93,22 @@ public class Player {
 	/**
 	 * @return the set to queue entities to be removed
 	 */
-	public Set<Entity> entitiesToRemove(){
-		return entitiesToRemove;
-	}
+	public Set<Entity> entitiesToRemove(){return entitiesToRemove;}
+	
+	/**
+	 * @return the InfoField the player is standing on. empty optional if not
+	 */
+	public Optional<InfoField> getActiveInfoField() {return activeInfoField;}
+	
+	/**
+	 * @param i set i to the active info field. Could be empty optional.
+	 */
+	public void setActiveInfoField(InfoField i) {activeInfoField = Optional.of(i);}
+	
+	/**
+	 * sets the infoField Optional back to empty 
+	 */
+	public void removeActiveInfoField() {activeInfoField = Optional.empty();}
 
 	
 	/**
@@ -105,7 +120,7 @@ public class Player {
 		
 		//allow movement every 5 ticks
 		if(timeSinceLastMove >= timestamp) {
-			move(direction, cells);
+			if(!cells.get(pos.add(direction.point())).isSolid()) move(direction, cells); //only call move if move is legal
 		}
 	}
 	
@@ -117,14 +132,15 @@ public class Player {
 	public void move(Direction d, Cells cells){
 		if(d == Direction.None) return; //no movement
 		timeSinceLastMove = 0;
-
-		if(cells.get(pos).isSolid()) { 
-			throw new IllegalArgumentException("Chap cannot be on a solid tile"); 
-		}
 		
 		Point newPos = pos.add(d.point());
+		
+		if(cells.get(newPos).isSolid()) { 
+			throw new IllegalArgumentException("Chap cannot be on a solid tile"); 
+		}
 		oldPos = getPos();
-		if(!cells.get(newPos).isSolid()) { pos = newPos; };
+		pos = newPos; 
+		onChange(); //Observer pattern for Renderer
 	}
 	
 	//total treasure count on the board

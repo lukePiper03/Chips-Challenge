@@ -1,9 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Linda Zhang  300570498
@@ -22,6 +20,7 @@ public class Cells {
 	public Cells(char[][] map) {
 		maxX = map[0].length;
 		maxY = map.length;
+		int countLockedDoors = 0;
 
 		for (int x = 0; x < maxX; x++) {
 			var tmp = new ArrayList<Cell>();
@@ -36,10 +35,13 @@ public class Cells {
 					spawn = new Point(x, y);
 					break;
 				case 'L':
-					tmp.add(new Cell(new LockedDoor(1), x, y)); //code should match key in entities - do later
+					tmp.add(new Cell(new LockedDoor(++countLockedDoors), x, y)); //each door has a different code
 					break;
 				case 'X':
 					tmp.add(new Cell(new ExitLock(), x, y));
+					break;
+				case 'w':
+					tmp.add(new Cell(new Water(), x, y));
 					break;
 				default:
 					tmp.add(new Cell(new Floor(), x, y));
@@ -73,12 +75,7 @@ public class Cells {
 	 * @return the cell on the point. If out of range, return a water cell.
 	 */
 	public Cell get(Point p) {
-		if (p.x() < 0 || p.y() < 0 || p.x() >= maxX || p.y() >= maxY) {
-			return new Cell(new Water(), p.x(), p.y()); //return water cell if out of the map
-		}
-		Cell res = inner.get(p.x()).get(p.y());
-		assert res != null;
-		return res;
+		return get(p.x(),p.y());
 	}
 	
 	/**
@@ -120,6 +117,20 @@ public class Cells {
 	 */
 	public int getMaxY() {
 		return maxY;
+	}
+	
+	/**
+	 * @return return Cells as a 2D array of symbols. Used for testing.
+	 */
+	public char[][] toMap(){
+		char[][] newMap = new char[maxY][maxX];
+		
+		for (int y = 0; y < maxY; y++) {
+			for (int x = 0; x < maxX; x++) {
+				newMap[y][x] = inner.get(x).get(y).symbol();
+			}
+		}
+		return newMap;
 	}
 
 }
