@@ -37,7 +37,7 @@ public class Levels {
 	 * @param filename - The name of the file to be loaded
 	 * @return Level - A level loaded from a file
 	 */
-	public static Level loadLevel(Runnable next,String filename) {
+	public static Level loadLevel(Runnable next,Runnable end,String filename) {
 		String prefix = "./src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";	// Filepath prefix
 		filename = prefix + filename;
 		Set<Entity> entities = new HashSet<Entity>();
@@ -48,6 +48,7 @@ public class Levels {
 			
 			Integer levelNum = Integer.parseInt(document.getRootElement().getAttributeValue("num"));
 			
+			int time = Integer.parseInt(document.getRootElement().getAttributeValue("time"));
 			// Creates the level map
 			int rows = Integer.parseInt(document.getRootElement().getChild("map").getAttributeValue("rows"));
 			int cols = Integer.parseInt(document.getRootElement().getChild("map").getAttributeValue("cols"));
@@ -65,7 +66,7 @@ public class Levels {
 			entityList.stream().filter(e -> e.getName().equals("treasure")).forEach(k -> createTreasure(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("info")).forEach(k -> createInfo(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("exit")).forEach(k -> createExit(k,entities));
-			return new Level(next,map,entities,levelNum);
+			return new Level(next,end,map,entities,levelNum,time);
 		}catch(JDOMException e) {
 			e.printStackTrace();
 		}catch(IOException ioe) {
@@ -129,6 +130,7 @@ public class Levels {
 		Cells cells = level.getCells();		// A cells object containing all the cells in the level
 		Element lev = new Element("level");
 		lev.setAttribute(new Attribute("num",level.getLevelNum()+""));
+		lev.setAttribute(new Attribute("time",level.getCountdown()+""));
 		doc.setRootElement(lev);
 		Element map = new Element("map");
 		map.setAttribute("rows",cells.getMaxY()+"");
