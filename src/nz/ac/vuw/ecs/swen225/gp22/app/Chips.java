@@ -13,26 +13,30 @@ import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.LevelView;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.fonts.LoadedFont;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
 
 public class Chips extends JFrame{
 //	State curState;
@@ -48,36 +52,35 @@ public class Chips extends JFrame{
 	      public void windowClosed(WindowEvent e){closePhase.run();}
 	    });
 	}
-	
+		
 	/**
 	 * Start menu of the game
 	 */
-	private void initialPhase() {
-		// Make JFrame
-		JFrame frame = new JFrame("Chips Challenge");
-	    frame.setSize(1000, 600);
-	      
-	    frame.setResizable(false);
-	    frame.setLayout(null);
-	      
-	    // Create Display
-	    var welcome = new JLabel(" Welcome to Chips Challenge! ");
+	private void initialPhase() {	    
+	    // Set background
+	    setContentPane(new JLabel(new ImageIcon(Img.Background.image)));
+		setLayout(new BorderLayout());
+	   
+		// Create Text and Buttons
+	    var welcome = new JLabel("<html>Bunny's<br/>Challenge!</html>", SwingConstants.CENTER);
 		var startLvl1 = new JButton(" Start! (Lvl 1) ");
 		var startLvl2 = new JButton(" Start! (Lvl 2) ");
-		welcome.setFont(new Font("Calibri", Font.PLAIN, 40));
+		
+		// Setting font and colour
+		welcome.setFont(LoadedFont.PixeloidSans.getSize(70f));
+		welcome.setForeground(Color.white);
+	   
+		// Set Bounds
+	    startLvl1.setBounds(200, 400, 200, 50);
+	    startLvl2.setBounds(600, 400, 200, 50);
+	    
+	    // Add Text and Buttons
+	    add(BorderLayout.CENTER, startLvl1);
+	    add(BorderLayout.CENTER, startLvl2);
+	    add(BorderLayout.CENTER, welcome);
 	 
-	    // Setting position and size
-		welcome.setBounds(200, 50, 600, 200);
-	    startLvl1.setBounds(200, 350, 200, 50);
-	    startLvl2.setBounds(600, 350, 200, 50);
-	      
-	    // Add display
-	    frame.add(welcome);
-	    frame.add(startLvl1);
-	    frame.add(startLvl2);
-	      
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setVisible(true);
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    setVisible(true);
 		   
 	    // closephase set up
 	    closePhase.run();
@@ -85,28 +88,35 @@ public class Chips extends JFrame{
 	     remove(welcome);
 	     remove(startLvl1);
 	     remove(startLvl2);
+	     remove(this);
 	     };
 	     
 	     // Add listeners
-	     startLvl1.addActionListener(e->phaseOne());
+	     startLvl1.addActionListener(e->setPhase());
 	     startLvl2.addActionListener(e->phaseTwo());
+	     
+	     setPreferredSize(new Dimension(1000,600));
  
 	     pack();
 	}
 	
 	private void phaseOne(){
-	    setPhase("level1.xml");
+//	    setPhase("level1.xml");
 	}
 		  
     private void phaseTwo() {
 	  System.out.println("Coming soon");
 	}
 	
-	void setPhase(String fileName){
+    void setPhase(){
 		System.out.println("Setting level");
 		// Set up new Level
-		Level level = Levels.loadLevel(()->initialPhase(), fileName);
-			
+		
+		Level level = Levels.loadLevel(()-> initialPhase(), "level1.xml");
+		
+		//Create the recorder
+		Recorder.recorder = new Recorder(level);
+		
 	    // Set up the viewport
 	    LevelView view = new LevelView(level);
 	    
@@ -128,7 +138,9 @@ public class Chips extends JFrame{
 	    pack();                     //after pack
 	    view.requestFocus();//need to be after pack
 	    timer.start();
+	   
 	  }
+
 	
 	
 	/**
