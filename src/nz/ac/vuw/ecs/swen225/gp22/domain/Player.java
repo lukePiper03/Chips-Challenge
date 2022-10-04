@@ -25,7 +25,7 @@ public class Player extends Subject{
 	private Set<Entity> inventory = new HashSet<>();
 	private Set<Entity> entitiesToRemove = new HashSet<>(); //set to add to if the entity is to be removed
 	
-	private Optional<InfoField> activeInfoField = Optional.empty(); //for whne the player is on an InfoField
+	private Optional<InfoField> activeInfoField = Optional.empty(); //for when the player is on an InfoField
 	
 	Player(Point p, Set<Entity> entities){
 		pos = p;
@@ -43,6 +43,14 @@ public class Player extends Subject{
 	 * @return the previous old point of the player (for smooth animation in render)
 	 */
 	public Point getOldPos() {return new Point(oldPos.x(),oldPos.y());}
+	
+	/**
+	 * @param newPos set the position of the player to the newPos, assigning oldPos to pos
+	 */
+	public void setPos(Point newPos) {
+		oldPos = pos;
+		pos = newPos;
+	}
 	
 	/**
 	 * @return the moving time (for smooth animation in render)
@@ -109,6 +117,18 @@ public class Player extends Subject{
 	 * sets the infoField Optional back to empty 
 	 */
 	public void removeActiveInfoField() {activeInfoField = Optional.empty();}
+	
+	/**
+	 * @param t the teleporter to find a match for
+	 * @return if there exists a teleporter that matches the given one
+	 */
+	public boolean foundMatchingTeleporter(Teleporter t) {
+		if(t.getOther() == null) return false; //other is null
+		long count = entitiesOnBoard.stream().filter(e -> e.equals(t.getOther())).count();
+		if(count != 1) return false; //must have one other also in entities
+		if(!t.getOther().getOther().equals(t)) return false; //other's other must be t
+		return true;
+	}
 
 	
 	/**
@@ -147,4 +167,6 @@ public class Player extends Subject{
 	private int totalTreasureCount() {
 		return (int) entitiesOnBoard.stream().filter(e -> e instanceof Treasure).count();
 	}
+	
+	
 }

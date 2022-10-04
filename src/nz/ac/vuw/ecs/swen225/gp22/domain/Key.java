@@ -26,7 +26,7 @@ public class Key extends Entity{
 				p.entitiesToRemove().add(this);
 				onChange();
 				
-				System.out.println("\n Inventory:");
+				//System.out.println("\n Inventory:");
 				p.inventory().forEach(i -> System.out.println(i));
 				
 				c.setState(new Floor()); //change state of LockedDoor to floor

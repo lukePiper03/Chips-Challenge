@@ -85,6 +85,7 @@ public class Level {
 	 */
 	public void playerDiesGameOver() {
 		System.out.println("Player dies!");
+		end.ifPresent(r -> r.run());
 		die.run();
 	}
 	
