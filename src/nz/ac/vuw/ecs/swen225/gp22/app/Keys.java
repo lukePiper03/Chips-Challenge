@@ -1,21 +1,45 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 
+import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
 import javax.swing.SwingUtilities;
 
 class Keys implements KeyListener {
   private Map<Integer,Runnable> actionsPressed = new HashMap<>();
   private Map<Integer,Runnable> actionsReleased = new HashMap<>();
+  Chips chip;
   public void setAction(int keyCode,Runnable onPressed,Runnable onReleased){
     actionsPressed.put(keyCode,onPressed);
     actionsReleased.put(keyCode,onReleased);
     }
   public void keyTyped(KeyEvent e){}
   public void keyPressed(KeyEvent e){
+	  if ((e.getModifiers() & ActionEvent.CTRL_MASK) ==ActionEvent.CTRL_MASK && e.getKeyCode() == KeyEvent.VK_1) {
+		  System.out.println("Starting Game from Level 1");
+		  chip.phaseOne();
+		  
+	  } else if ((e.getModifiers() & ActionEvent.CTRL_MASK) ==ActionEvent.CTRL_MASK && e.getKeyCode() == KeyEvent.VK_2) {
+		  System.out.println("Starting Game from Level 2");
+		  chip.phaseTwo();
+		  
+	  } else if ((e.getModifiers() & ActionEvent.CTRL_MASK) ==ActionEvent.CTRL_MASK && e.getKeyCode() == KeyEvent.VK_X) {
+		  System.out.println("Exiting");
+		  chip.initialPhase();
+		
+	  } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+		  System.out.println("Pausing");
+		  chip.pauseMenu();
+	  } else if ((e.getModifiers() & ActionEvent.CTRL_MASK) ==ActionEvent.CTRL_MASK && e.getKeyCode() == KeyEvent.VK_S) {
+		  System.out.println("Saving");
+		  Levels.saveLevel(chip.getCurrentLevel(), "savedLevel.xml");
+	  } else if ((e.getModifiers() & ActionEvent.CTRL_MASK) ==ActionEvent.CTRL_MASK && e.getKeyCode() == KeyEvent.VK_R) {
+		  System.out.println("Resuming Saved Level");
+	  }
     assert SwingUtilities.isEventDispatchThread();
     actionsPressed.getOrDefault(e.getKeyCode(),()->{}).run();
   }

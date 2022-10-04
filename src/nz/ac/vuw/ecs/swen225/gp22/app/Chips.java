@@ -29,11 +29,12 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
 public class Chips extends JFrame{
 //	State curState;
 	Controller controller;
+	Level level;
 	Runnable closePhase = ()->{};
 	
 	public Chips(){
 	    assert SwingUtilities.isEventDispatchThread();
-	    controller = new Controller();
+	    controller = new Controller(this);
 	    initialPhase();
 	    System.out.println("Initialising pane");
 	    addWindowListener(new WindowAdapter(){
@@ -44,7 +45,7 @@ public class Chips extends JFrame{
 	/**
 	 * Start menu of the game
 	 */
-	private void initialPhase() {	    
+	void initialPhase() {	    
 	    // Set background
 	    setContentPane(new JLabel(new ImageIcon(Img.Background.image)));
 		setLayout(new BorderLayout());
@@ -53,6 +54,7 @@ public class Chips extends JFrame{
 	    var welcome = new JLabel("<html>Bunny's<br>Challenge!</html>", SwingConstants.CENTER);
 		var startLvl1 = new JButton(" Start! (Lvl 1) ");
 		var startLvl2 = new JButton(" Start! (Lvl 2) ");
+		var loadLevel = new JButton("Load saved Level");
 		var help = new JButton("Help");
 		
 		// Setting font and colour
@@ -62,11 +64,13 @@ public class Chips extends JFrame{
 		// Set Bounds
 	    startLvl1.setBounds(200, 400, 200, 50);
 	    startLvl2.setBounds(600, 400, 200, 50);
-	    help.setBounds(400, 500, 200, 50);
+	    loadLevel.setBounds(200, 475, 200, 50);
+	    help.setBounds(600, 475, 200, 50);
 	    
 	    // Add Text and Buttons
 	    add(BorderLayout.CENTER, startLvl1);
 	    add(BorderLayout.CENTER, startLvl2);
+	    add(BorderLayout.CENTER, loadLevel);
 	    add(BorderLayout.CENTER, help);
 	    add(BorderLayout.CENTER, welcome);
 	 
@@ -79,6 +83,7 @@ public class Chips extends JFrame{
 	     remove(welcome);
 	     remove(startLvl1);
 	     remove(startLvl2);
+	     remove(loadLevel);
 	     remove(help);
 	     remove(this);
 	     };
@@ -86,6 +91,7 @@ public class Chips extends JFrame{
 	     // Add listeners
 	     startLvl1.addActionListener(e->phaseOne());
 	     startLvl2.addActionListener(e->phaseTwo());
+	     //loadLevel.addActionListener(e->Levels.loadLevel());
 	     help.addActionListener(e->helpMenu());
 	     
 	     setPreferredSize(new Dimension(1000,600));
@@ -106,7 +112,7 @@ public class Chips extends JFrame{
 		System.out.println("Setting level");
 		
 		// Set up new Level
-		Level level = Levels.loadLevel(next, end, fileName);
+		level = Levels.loadLevel(next, end, fileName);
 		
 		//Create the recorder
 		Recorder.recorder = new Recorder(level);
@@ -134,6 +140,10 @@ public class Chips extends JFrame{
 	    view.requestFocus();//need to be after pack
 	    timer.start();
 	  }
+    
+    public Level getCurrentLevel() {
+    	return level;
+    }
 	
 	/**
 	 * Pause menu displaying info for user
@@ -274,7 +284,7 @@ public class Chips extends JFrame{
 		
 		// Create text buttons
 		var header = new JLabel("A little stuck?", SwingConstants.CENTER);
-		var rules = new JLabel("The set of rules loren ispum etc blah blah blah", SwingConstants.CENTER);
+		var rules = new JLabel("<html>Movement: Use the WASD keys<br><br>Goal: To collect all the apples and go through the exit<br><br>Tips: Collect pickaxes to break rocks to access apples<br>DON'T get caught by the monster<br><br>For extra help look for sign posts around the map</html>", SwingConstants.CENTER);
 		var menu = new JButton("Back to Menu");
 		
 		// Setting position and size
@@ -285,7 +295,7 @@ public class Chips extends JFrame{
  		header.setFont(LoadedFont.PixeloidSans.getSize(50f));
  		header.setForeground(Color.white);
  		
- 		rules.setFont(new Font("Calibri", Font.BOLD, 16));
+ 		rules.setFont(new Font("Calibri", Font.BOLD, 20));
  		rules.setForeground(Color.white);
  		
  		// Add Text and Buttons

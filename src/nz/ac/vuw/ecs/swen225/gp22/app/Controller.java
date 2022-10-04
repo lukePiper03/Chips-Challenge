@@ -15,7 +15,8 @@ public class Controller extends Keys {
 	/**
 	 * Add initial keyBinds to keyConfig
 	 */
-	public Controller(){
+	public Controller(Chips c){
+		chip = c;
 		keyConfig.put("Up", KeyEvent.VK_W);
 		keyConfig.put("Down", KeyEvent.VK_S);
 		keyConfig.put("Left", KeyEvent.VK_A);
