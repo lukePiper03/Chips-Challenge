@@ -24,11 +24,25 @@ public enum Img{
   Background;
   public final BufferedImage image;
   Img(){image=loadImage(this.name());}
+  
+  /**
+   * Value safe enum getter for names, will not cause game to crash and uses replacement textures instead
+   * @param name
+   * @return enum of correct value
+   */
+  static public Img getValue(String name){
+	  try {
+		  return valueOf(name);
+	  } catch (IllegalArgumentException e){
+		  System.out.println(name + " enum value does not exist.");
+		  return Img.Water;
+	  }
+  }
   static private BufferedImage loadImage(String name){
     URL imagePath = Img.class.getResource(name+".png");
     try{return ImageIO.read(imagePath);}
     catch(IOException e) {
-    	System.out.println(name + ".png does not exist1");
+    	System.out.println(name + ".png does not exist.");
     	return Img.Water.image;
     }
   }

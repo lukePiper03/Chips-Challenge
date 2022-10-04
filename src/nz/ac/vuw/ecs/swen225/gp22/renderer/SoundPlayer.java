@@ -65,8 +65,7 @@ public class SoundPlayer
     	// get sound control and set to min volume
     	FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);        
         gainControl.setValue(20f * (float) Math.log10(0.01));
-        // set song to beginning and set to loop mode
-        getSound(s).setFramePosition(0);
+        // set song to loop mode
         getSound(s).loop(Clip.LOOP_CONTINUOUSLY);
         // loop to gradually fade in sound
         for(double i = 0; i<maxVol; i++) {
