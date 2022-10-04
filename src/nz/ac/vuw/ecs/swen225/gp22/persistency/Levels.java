@@ -17,7 +17,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
+
 
 /**
  * Creates and saves levels to and from files
@@ -35,10 +35,12 @@ public class Levels {
 	 * Loads a level based off what name is passed in
 	 * 
 	 * @param filename - The name of the file to be loaded
+	 * @param next - The next phase to be run after the level being loaded
+	 * @param end - The phase to be run if the player loses in the level
 	 * @return Level - A level loaded from a file
 	 */
 	public static Level loadLevel(Runnable next,Runnable end,String filename) {
-		String prefix = "./src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";	// Filepath prefix
+		String prefix = "./levels/";	// Filepath prefix
 		filename = prefix + filename;
 		Set<Entity> entities = new HashSet<Entity>();
 		try {
@@ -48,7 +50,7 @@ public class Levels {
 			
 			Integer levelNum = Integer.parseInt(document.getRootElement().getAttributeValue("num"));
 			
-			int time = Integer.parseInt(document.getRootElement().getAttributeValue("time"));
+			double time = Double.parseDouble(document.getRootElement().getAttributeValue("time"));
 			// Creates the level map
 			int rows = Integer.parseInt(document.getRootElement().getChild("map").getAttributeValue("rows"));
 			int cols = Integer.parseInt(document.getRootElement().getChild("map").getAttributeValue("cols"));
@@ -124,6 +126,7 @@ public class Levels {
 	/**
 	 * Saves the passed in level to a file
 	 * @param level - The level to be saved
+	 * @param filename - The name the file will be saved as
 	 */
 	public static void saveLevel(Level level,String filename){
 		Document doc = new Document();
@@ -156,7 +159,7 @@ public class Levels {
 		lev.addContent(entities);
 		
 		try {
-			new XMLOutputter(Format.getPrettyFormat()).output(doc, new FileWriter(filename));
+			new XMLOutputter(Format.getPrettyFormat()).output(doc, new FileWriter("./levels/"+filename));
 		} catch (IOException e1) {
 			System.out.println("failed to save level");
 			e1.printStackTrace();
