@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level num="2" time="60">
+    <map rows="14" cols="15">
+        <row>ww#####w#####ww</row>
+        <row>ww#...###...#ww</row>
+        <row>ww#.w.#.#...#ww</row>
+        <row>#####.#X#.#####</row>
+        <row>#ww.L.w.w.L...#</row>
+        <row>#...#.w.w.#...#</row>
+        <row>#####.wsw.#####</row>
+        <row>#.w.#.w.w.#...#</row>
+        <row>#...L...w.....#</row>
+        <row>######L######.#</row>
+        <row>wwww#..#..###.#</row>
+        <row>wwww#..#......#</row>
+        <row>wwww#.....#####</row>
+        <row>wwww#######wwww</row>
+    </map>
+    <entities>
+        <key x="3" y="2" code="1"/>
+        <key x="11" y="1" code="2"/>
+        <key x="1" y="5" code="3"/>
+        <key x="1" y="7" code="4"/>
+        <info x="7" y="5">
+            <message>Collect apples and watch out for water!</message>
+        </info>
+        <treasure x="2" y="5"/>
+        <treasure x="12" y="4"/>
+        <treasure x="1" y="8"/>
+        <treasure x="12" y="8"/>
+        <treasure x="8" y="10"/>
+        <treasure x="10" y="1"/>
+        <exit x="7" y="2"/>
+    </entities>
+</level>

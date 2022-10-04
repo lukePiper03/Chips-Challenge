@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level num="1" time="60">
+	<map rows="8" cols="10">
+		<row>##########</row>
+		<row>#.....L..#</row>
+		<row>#.#...#..#</row>
+		<row>#.#.s.w..#</row>
+		<row>#.....w..#</row>
+		<row>#.....##.#</row>
+		<row>#.....#.X#</row>
+		<row>##########</row>
+	</map>
+	<entities>
+		<key x="4" y="6" code="1"/>
+		<info x="1" y="1">
+			<message>Collect apples and watch out for water!</message>
+		</info>
+		<treasure x="8" y="3"/>
+		<treasure x="8" y="4"/>
+		<exit x="7" y="6"/>
+	</entities>
+</level>
