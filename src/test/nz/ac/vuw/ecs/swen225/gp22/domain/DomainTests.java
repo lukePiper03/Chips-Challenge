@@ -17,6 +17,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Monster;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Point;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Teleporter;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.domain.LockedDoor;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.SoundPlayer;
@@ -522,15 +523,7 @@ class DomainTests {
 		l.gameOver();
 	}
 	
-	//helper method to check if the map of cells match
-	private boolean mapsMatch(char[][] map, char[][] cellMap) {
-		for (int y = 0; y < map.length; y++) {
-			for (int x = 0; x < map[y].length; x++) {
-				if(map[y][x] != cellMap[y][x]) return false;
-			}
-		}
-		return true;
-	}
+	
 	
 	@Test void initialiseWithMonster() {
 		Runnable next = () -> {};
@@ -607,6 +600,166 @@ class DomainTests {
 		
 		l.tick(); //calls playerDiesGameOver
 		l.playerDiesGameOver();
+	}
+	
+	@Test void moveToTeleporterLegal() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		char[][] map = {
+				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'},
+				{'#', 's', '.', '.', '.', '.', '.', '.', '.', '#'},
+				{'#', '.', '#', '.', '.', '.', '#', '.', '.', '#'},
+				{'#', '.', '#', '.', '.', '.', '.', '.', '.', '#'},
+				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
+				{'#', '.', '.', '.', 'L', '.', '#', '#', '.', '#'},
+				{'#', '.', '.', '.', '.', '.', '#', '.', 'X', '#'},
+				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Teleporter t1 = new Teleporter(new Point(2,1), null);
+		Teleporter t2 = new Teleporter(new Point(4,1), null);
+		t1.setOther(t2);
+		t2.setOther(t1);
+		entities.add(t1);
+		entities.add(t2);
+		Level l = new Level(next,die,map,entities, 1, 60);
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move player on t1
+		
+		l.tick(); //calls onInteraction to teleport player
+		
+		assert l.getPlayer().getPos().equals(new Point(5,1)); //player should land right to t2
+		
+		l.tick();
+		l.gameOver();
+	}
+	
+	@Test void moveToTeleporterIllegal1() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		char[][] map = {
+				{'#', '#', '#', '#'},
+				{'#', 's', 'w', '#'},
+				{'#', '#', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Teleporter t1 = new Teleporter(new Point(2,1), null);
+		entities.add(t1);
+		Level l = new Level(next,die,map,entities, 1, 60);
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move player on t1
+		
+		try {
+			l.tick(); //calls onInteraction to teleport player. should fail bc other is null
+		}catch(IllegalArgumentException e) {}
+	}
+	
+	@Test void moveToTeleporterIllegal2() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		char[][] map = {
+				{'#', '#', '#', '#'},
+				{'#', 's', 'w', '#'},
+				{'#', '#', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Teleporter t1 = new Teleporter(new Point(2,1), null);
+		t1.setOther(new Teleporter(new Point(0,0),null)); //teleporter that is not in entities
+		entities.add(t1);
+		Level l = new Level(next,die,map,entities, 1, 60);
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move player on t1
+		
+		try {
+			l.tick(); //calls onInteraction to teleport player. should fail bc other is not in entities
+		}catch(IllegalArgumentException e) {}
+	}
+	
+	@Test void moveToTeleporterIllegal3() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		char[][] map = {
+				{'#', '#', '#', '#'},
+				{'#', 's', 'w', '#'},
+				{'#', '#', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Teleporter t1 = new Teleporter(new Point(2,1), null);
+		Teleporter t2 = new Teleporter(new Point(4,1), null);
+		t1.setOther(t2);
+		t2.setOther(new Teleporter(new Point(3,1), null)); //other of t1 does not have t1 has its other
+		entities.add(t1);
+		entities.add(t2);
+		Level l = new Level(next,die,map,entities, 1, 60);
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move player on t1
+		
+		try {
+			l.tick(); //calls onInteraction to teleport player. should fail bc others don't match
+		}catch(IllegalArgumentException e) {}
+	}
+	
+	@Test void moveToTeleporterIllegal4() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		
+		char[][] map = {
+				{'#', '#', '#', '#'},
+				{'#', 's', '.', '#'},
+				{'#', '#', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();;
+		Teleporter t1 = new Teleporter(new Point(2,1), null);
+		entities.add(t1);
+		Level l = new Level(next,die,map,entities, 1, 60);
+		
+		try {
+			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on Teleporter
+		}catch(IllegalStateException e) {}
+	}
+	
+	@Test void moveToTeleporterIllegal5() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		char[][] map = {
+				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'},
+				{'#', 's', '.', '.', '.', '#', '.', '.', '.', '#'},
+				{'#', '.', '#', '.', '.', '.', '#', '.', '.', '#'},
+				{'#', '.', '#', '.', '.', '.', '.', '.', '.', '#'},
+				{'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
+				{'#', '.', '.', '.', 'L', '.', '#', '#', '.', '#'},
+				{'#', '.', '.', '.', '.', '.', '#', '.', 'X', '#'},
+				{'#', '#', '#', '#', '#', '#' ,'#' ,'#', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Teleporter t1 = new Teleporter(new Point(2,1), null);
+		Teleporter t2 = new Teleporter(new Point(4,1), null);
+		t1.setOther(t2);
+		t2.setOther(t1);
+		entities.add(t1);
+		entities.add(t2);
+		Level l = new Level(next,die,map,entities, 1, 60);
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move player on t1
+		
+		try {
+			l.tick(); //calls onInteraction to teleport player. should fail bc the landing pos is solid
+		}catch(IllegalStateException e) {}
+	}
+	
+	//helper method to check if the map of cells match
+	private boolean mapsMatch(char[][] map, char[][] cellMap) {
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[y].length; x++) {
+				if(map[y][x] != cellMap[y][x]) return false;
+			}
+		}
+		return true;
 	}
 
 }

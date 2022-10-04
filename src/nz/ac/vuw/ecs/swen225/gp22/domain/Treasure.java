@@ -29,7 +29,7 @@ public class Treasure extends Entity{
 		}
 		assert treasureCount == p.treasuresToCollect() + 1: "Treasure count was not correctly decreased";
 		
-		System.out.println("Treasure Count: "+p.treasuresToCollect());
+		//System.out.println("Treasure Count: "+p.treasuresToCollect());
 		
 	}
 	public Point getPos() {return pos;}
