@@ -21,6 +21,9 @@ public enum Img{
   ExitLock,
   Treasure,
   Water,
+  Monster,
+  Boots,
+  Flippers,
   Background;
   public final BufferedImage image;
   Img(){image=loadImage(this.name());}
