@@ -27,12 +27,18 @@ public class Player extends Subject{
 	
 	private Optional<InfoField> activeInfoField = Optional.empty(); //for when the player is on an InfoField
 	
-	Player(Point p, Set<Entity> entities){
+	/**
+	 * @param p the location of the player
+	 * @param entities the entities on the board
+	 */
+	public Player(Point p, Set<Entity> entities){
 		pos = p;
 		entitiesOnBoard = entities;
 		oldPos = getPos();
 		treasuresToCollect = totalTreasureCount(); // start with the total number of treasures on the board
 	}
+	
+	
 	
 	/**
 	 * @return the position of the player in a new point
@@ -87,6 +93,13 @@ public class Player extends Subject{
 	 * @return all the entities in the players inventory (picked up)
 	 */
 	public Set<Entity> inventory(){return inventory;}
+	
+	/**
+	 * @param i the inventory to set to the current inventory
+	 */
+	public void setInventory(Set<Entity> i) {
+		inventory = i;
+	}
 	
 	/**
 	 * @return the number of treasures on the board currently
