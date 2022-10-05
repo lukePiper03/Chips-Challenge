@@ -6,38 +6,29 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
  */
 public class Key extends Entity{
 	private final Point pos;
-	private final int matchDoorCode;
+	private final char color;
 	/**
 	 * @param pos the location ofthe Key
-	 * @param matchDoorCode the code of the Key that matches a LockedDoor
+	 * @param color the char that represents the color of the key
 	 */
-	public Key(Point pos, int matchDoorCode){this.pos = pos; this.matchDoorCode = matchDoorCode;}
+	public Key(Point pos, char color){this.pos = pos; this.color = color;}
 	
 	public void onInteraction(Player p, Cells cells) {
 		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Key!");
 		
 		//intial values before change is made
 		int inventorySize = p.inventory().size();
+
+		//found a matching locked door, remove key
+		p.inventory().add(this);
+		p.entitiesToRemove().add(this);
+		onChange();
 		
-		for(Cell c: cells.getAllLockedDoors()) {
-			if(((LockedDoor) c.state()).keyCode() == matchDoorCode) {
-				//found a matching locked door, remove key
-				p.inventory().add(this);
-				p.entitiesToRemove().add(this);
-				onChange();
-				
-				//System.out.println("\n Inventory:");
-				p.inventory().forEach(i -> System.out.println(i));
-				
-				c.setState(new Floor()); //change state of LockedDoor to floor
-				break; //only unlock one door for each key
-			}
-		}
-		assert p.inventory().size() == inventorySize + 1: "No LockedDoor exists to match this key or key was not correctly removed";
+		assert p.inventory().size() == inventorySize + 1: "key was not correctly removed";
 	}
 	public Point getPos() {return pos;}
 	/**
 	 * @return the code that matches a LockedDoor
 	 */
-	public int getKeyCode() {return matchDoorCode;}
+	public char getColor() {return color;}
 }

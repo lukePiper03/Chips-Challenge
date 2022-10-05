@@ -8,7 +8,7 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 public interface CellState{
 	/**
 	 * @param self the Cell object continaing the CellState
-	 * @return if the cell is solid (player cannot go through
+	 * @return if the cell is solid (player cannot go through)
 	 */
 	boolean isSolid(Cell self);
 	/**

@@ -48,6 +48,11 @@ public class Monster {
 	 */
 	public float getMoveTime() {return (float) timeSinceLastMove / (float)timestamp;}
 	
+	/**
+	 * @return the name of the class, to be used by renderer
+	 */
+	public String getName() {return this.getClass().getSimpleName();}
+	
 	
 	/**
 	 * the monster at each tick

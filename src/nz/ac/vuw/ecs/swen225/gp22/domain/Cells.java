@@ -20,7 +20,6 @@ public class Cells {
 	public Cells(char[][] map) {
 		maxX = map[0].length;
 		maxY = map.length;
-		int countLockedDoors = 0;
 
 		for (int x = 0; x < maxX; x++) {
 			var tmp = new ArrayList<Cell>();
@@ -34,8 +33,14 @@ public class Cells {
 					tmp.add(new Cell(new Spawn(), x, y));
 					spawn = new Point(x, y);
 					break;
-				case 'L':
-					tmp.add(new Cell(new LockedDoor(++countLockedDoors), x, y)); //each door has a different code
+				case 'R':
+					tmp.add(new Cell(new RedLockedDoor(), x, y));
+					break;
+				case 'B':
+					tmp.add(new Cell(new BlueLockedDoor(), x, y));
+					break;
+				case 'G':
+					tmp.add(new Cell(new GreenLockedDoor(), x, y));
 					break;
 				case 'X':
 					tmp.add(new Cell(new ExitLock(), x, y));
@@ -79,12 +84,14 @@ public class Cells {
 	}
 	
 	/**
-	 * Gets all Locked doors on the board
+	 * Gets all Locked doors on the board of a specific color
+	 * @param color the symbol that matches the color of the key
 	 * @return the list of Locked doors
 	 */
-	public List<Cell> getAllLockedDoors(){
+	public List<Cell> getAllLockedDoorsOfType(char color){
 		return inner.stream().flatMap(cells -> cells.stream())
 						.filter(c -> c.state() instanceof LockedDoor)
+						.filter(c -> c.symbol() == color)
 						.toList();
 	}
 	
