@@ -175,6 +175,8 @@ public class Levels {
 		level.getEntites().stream().filter(e -> e instanceof Treasure).forEach(k -> {entities.addContent(saveTreasure((Treasure)k));});
 		level.getEntites().stream().filter(e -> e instanceof InfoField).forEach(k -> {entities.addContent(saveInfo((InfoField)k));});
 		level.getEntites().stream().filter(e -> e instanceof Exit).forEach(k -> {entities.addContent(saveExit((Exit)k));});
+		List<Entity> teleporters = level.getEntites();
+		teleporters.stream().filter(e -> e instanceof Teleporter).forEach(k -> {entities.addContent(saveTeleporter((Teleporter)k,teleporters));});
 		lev.addContent(entities);
 		
 		try {
@@ -236,6 +238,21 @@ public class Levels {
 		exit.setAttribute(new Attribute("x",k.getPos().x()+""));
 		exit.setAttribute(new Attribute("y",k.getPos().y()+""));
 		return exit;
+	}
+	
+	/**
+	 * Saves a teleporter entitiy
+	 * @param k - the exit to be saved
+	 * @return the teleporter as an xml element
+	 */
+	private static Element saveTeleporter(Teleporter k,List<Entity> teleList) {
+		Element tel1 = new Element("teleporter");
+		tel1.setAttribute(new Attribute("x",k.getPos().x()+""));
+		tel1.setAttribute(new Attribute("y",k.getPos().y()+""));
+		tel1.setAttribute(new Attribute("endx",k.getOther().getPos().x()+""));
+		tel1.setAttribute(new Attribute("endy",k.getOther().getPos().y()+""));
+		teleList.remove(k.getOther());
+		return tel1;
 	}
 
 }
