@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<replay>
+  <map />
+  <events>
+    <event time="-1436994619">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1436994361">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="-1436993851">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1436993776">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1436993700">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1436993691">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1436993607">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1436993522">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1436993438">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1436993397">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="-1436993394">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1436992879">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1436992803">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1436992746">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1436991782">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="-1436991637">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="-1436991350">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+  </events>
+</replay>

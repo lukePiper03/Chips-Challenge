@@ -19,29 +19,35 @@ class Keys implements KeyListener {
     }
   public void keyTyped(KeyEvent e){}
   public void keyPressed(KeyEvent e){
-	  if ((e.getModifiers() & ActionEvent.CTRL_MASK) ==ActionEvent.CTRL_MASK && e.getKeyCode() == KeyEvent.VK_1) {
+	  if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_1) {
 		  System.out.println("Starting Game from Level 1");
 		  chip.phaseOne();
 		  
-	  } else if ((e.getModifiers() & ActionEvent.CTRL_MASK) ==ActionEvent.CTRL_MASK && e.getKeyCode() == KeyEvent.VK_2) {
+	  } else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_2) {
 		  System.out.println("Starting Game from Level 2");
 		  chip.phaseTwo();
 		  
-	  } else if ((e.getModifiers() & ActionEvent.CTRL_MASK) ==ActionEvent.CTRL_MASK && e.getKeyCode() == KeyEvent.VK_X) {
+	  } else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_X) {
 		  System.out.println("Exiting");
 		  chip.initialPhase();
 		
 	  } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 		  System.out.println("Pausing");
-		  chip.pauseMenu();
-	  } else if ((e.getModifiers() & ActionEvent.CTRL_MASK) ==ActionEvent.CTRL_MASK && e.getKeyCode() == KeyEvent.VK_S) {
+		  if(chip.inPause == false) {
+			  chip.pauseMenu();
+		  }
+		  
+	  } else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S) {
 		  System.out.println("Saving");
-		  Levels.saveLevel(chip.getCurrentLevel(), "savedLevel.xml");
-	  } else if ((e.getModifiers() & ActionEvent.CTRL_MASK) ==ActionEvent.CTRL_MASK && e.getKeyCode() == KeyEvent.VK_R) {
+		  //Levels.saveLevel(chip.getCurrentLevel(), "savedLevel.xml");
+		  chip.saveMenu();
+		  
+	  } else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_R) {
 		  System.out.println("Resuming Saved Level");
-	  }
+		  chip.loadMenu();
+	  } else {
     assert SwingUtilities.isEventDispatchThread();
-    actionsPressed.getOrDefault(e.getKeyCode(),()->{}).run();
+    actionsPressed.getOrDefault(e.getKeyCode(),()->{}).run();}
   }
  
   public void keyReleased(KeyEvent e){
