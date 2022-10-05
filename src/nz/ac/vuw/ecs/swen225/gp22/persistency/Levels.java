@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.stream.IntStream;
 
@@ -27,8 +28,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 public class Levels {
 	
 //	public static void main(String args[]) {
-//		Level testLevel = loadLevel(()->System.out.println(""),new SoundPlayer(),"level1.xml");
-//		saveLevel(testLevel,"testLevel.xml");
+//		//Level testLevel = loadLevel(()->System.out.println(""),"level1.xml");
+//		//saveLevel(testLevel,"testLevel.xml");
 //	}
 	
 	/**
@@ -68,6 +69,7 @@ public class Levels {
 			entityList.stream().filter(e -> e.getName().equals("treasure")).forEach(k -> createTreasure(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("info")).forEach(k -> createInfo(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("exit")).forEach(k -> createExit(k,entities));
+			entityList.stream().filter(e -> e.getName().equals("teleporter")).forEach(k -> createTeleporter(k,entities));
 			return new Level(next,end,map,entities,levelNum,time);
 		}catch(JDOMException e) {
 			e.printStackTrace();
@@ -121,6 +123,23 @@ public class Levels {
 		int x = Integer.parseInt(e.getAttributeValue("x"));
 		int y = Integer.parseInt(e.getAttributeValue("y"));
 		entities.add(new Exit(new Point(x,y)));
+	}
+	
+	/**
+	 * Creates a teleporter from a string from the file
+	 * @param e - The element from the file
+	 * @param entities - The current list of entities
+	 */
+	private static void createTeleporter(Element e,Set<Entity> entities) {
+		int x = Integer.parseInt(e.getAttributeValue("x"));
+		int y = Integer.parseInt(e.getAttributeValue("y"));
+		int endx = Integer.parseInt(e.getAttributeValue("endx"));
+		int endy = Integer.parseInt(e.getAttributeValue("endy"));
+		Teleporter tel1 = new Teleporter(new Point(x,y),null);
+		Teleporter tel2 = new Teleporter(new Point(endx,endy),tel1);
+		tel1.setOther(tel2);
+		entities.add(tel1);
+		entities.add(tel2);
 	}
 	
 	/**

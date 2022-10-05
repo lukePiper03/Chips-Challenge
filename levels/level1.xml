@@ -17,6 +17,7 @@
 		</info>
 		<treasure x="8" y="3"/>
 		<treasure x="8" y="4"/>
+		<teleporter x="1" y="3" endx="7" endy="2"/>
 		<exit x="7" y="6"/>
 	</entities>
 </level>
