@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.persistency;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ServiceLoader;
@@ -175,8 +176,8 @@ public class Levels {
 		level.getEntites().stream().filter(e -> e instanceof Treasure).forEach(k -> {entities.addContent(saveTreasure((Treasure)k));});
 		level.getEntites().stream().filter(e -> e instanceof InfoField).forEach(k -> {entities.addContent(saveInfo((InfoField)k));});
 		level.getEntites().stream().filter(e -> e instanceof Exit).forEach(k -> {entities.addContent(saveExit((Exit)k));});
-		List<Entity> teleporters = level.getEntites();
-		teleporters.stream().filter(e -> e instanceof Teleporter).forEach(k -> {entities.addContent(saveTeleporter((Teleporter)k,teleporters));});
+		List<Entity> teleporters = new ArrayList<Entity>(level.getEntites());
+		level.getEntites().stream().filter(e -> e instanceof Teleporter).forEach(k -> {if(teleporters.contains(k))entities.addContent(saveTeleporter((Teleporter)k,teleporters));teleporters.remove(k);});
 		lev.addContent(entities);
 		
 		try {
