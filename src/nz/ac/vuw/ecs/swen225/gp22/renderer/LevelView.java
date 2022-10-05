@@ -204,7 +204,7 @@ public class LevelView extends JPanel{
 	    
 	    // draw colour codes for doors
 	    if(c.getName().equals("LockedDoor")){
-	    	drawIndicator(sf.g(), w2, h2, (((LockedDoor)(c.state())).keyCode()-1));
+//	    	drawIndicator(sf.g(), w2, h2, (((LockedDoor)(c.state())).keyCode()-1));
 	    }
 	}
 	
@@ -230,7 +230,7 @@ public class LevelView extends JPanel{
 	    sf.g().drawImage(Img.getValue(ent.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
 	    
 	    if(ent instanceof Key){
-	    	drawIndicator(sf.g(), w2, h2, (((Key)ent).getKeyCode()-1));
+//	    	drawIndicator(sf.g(), w2, h2, (((Key)ent).getKeyCode()-1));
 	    }
 	}
 	
@@ -333,7 +333,7 @@ public class LevelView extends JPanel{
 			if(count.get() <= 4) {
 			g.drawImage(Img.getValue(ent.getName()).image, invStartX + ((int)(RENDERSIZE/1.25)*count.get()), (int)(RENDERSIZE*1.75) + inventoryHeight, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2,
 					(int)(RENDERSIZE*1.75) + inventoryHeight+ RENDERSIZE/2, 0, 0, RENDERSIZE, RENDERSIZE, null);
-			drawIndicator(g, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2, (int)(RENDERSIZE*1.75) + inventoryHeight+8+ RENDERSIZE/2, (((Key)ent).getKeyCode()-1));
+//			drawIndicator(g, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2, (int)(RENDERSIZE*1.75) + inventoryHeight+8+ RENDERSIZE/2, (((Key)ent).getKeyCode()-1));
 			count.getAndIncrement();}
 		});
 		
