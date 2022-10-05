@@ -140,7 +140,8 @@ public class Player extends Subject{
 		
 		//allow movement every 5 ticks
 		if(timeSinceLastMove >= timestamp) {
-			if(!cells.get(pos.add(direction.point())).isSolid()) move(direction, cells); //only call move if move is legal
+			Cell nextCell = cells.get(pos.add(direction.point()));
+			if(!nextCell.isSolid() || nextCell.state() instanceof LockedDoor) move(direction, cells); //only call move if move is legal
 		}
 	}
 	
@@ -151,11 +152,24 @@ public class Player extends Subject{
 	 */
 	public void move(Direction d, Cells cells){
 		if(d == Direction.None) return; //no movement
-		timeSinceLastMove = 0;
 		
 		Point newPos = pos.add(d.point());
+		Cell nextCell = cells.get(newPos);
 		
-		if(cells.get(newPos).isSolid()) { 
+		//remove LockedDoor if key exits to unlock it (has matching color)
+		if(nextCell.state() instanceof LockedDoor){
+			Key key = findMatchingKey(nextCell.symbol());
+			if(key != null) {
+				if(key.getColor() != 'G' || (key.getColor() == 'G' && cells.getAllLockedDoorsOfType(key.getColor()).size() == 1)) {
+					inventory.remove(key); //remove from inventory if red or blue, and green if last door
+				}
+				nextCell.setState(new Floor());
+			}
+			else return; //otherwise don't move
+		}
+		
+		timeSinceLastMove = 0;
+		if(nextCell.isSolid()) { 
 			throw new IllegalArgumentException("Chap cannot be on a solid tile"); 
 		}
 		oldPos = getPos();
@@ -166,6 +180,13 @@ public class Player extends Subject{
 	//total treasure count on the board
 	private int totalTreasureCount() {
 		return (int) entitiesOnBoard.stream().filter(e -> e instanceof Treasure).count();
+	}
+	
+	//finds a key that matches this color or else return null
+	private Key findMatchingKey(char col) {
+		return inventory.stream().filter(e -> e instanceof Key && ((Key)e).getColor() == col)
+								.map(e -> (Key)e)
+								.findFirst().orElse(null);
 	}
 	
 	
