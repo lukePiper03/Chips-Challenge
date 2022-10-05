@@ -33,12 +33,13 @@ public class Level {
 	 * @param levelNum the level number
 	 * @param countdown the countdown of the Level
 	 */
-	public Level(Runnable next, Runnable die, char[][] map, Set<Entity> entities, Integer levelNum, double countdown){
+	public Level(Runnable next, Runnable die, char[][] map, Set<Entity> entities, Integer levelNum, double countdown, Player p){
 		this.next = next;
 		this.entities = entities;
 		this.levelNum = levelNum;
 		cells = new Cells(map);
-		p = new Player(cells.getSpawn(), entities);
+		//p = new Player(cells.getSpawn(), entities);
+		this.p = p;
 		monster = Optional.empty();
 		
 		this.die = die; //runnable to call when player dies
@@ -64,12 +65,13 @@ public class Level {
 	 * @param m the monster of the game, if any
 	 * @param countdown the countdown of the Level
 	 */
-	public Level(Runnable next, Runnable die,char[][] map, Set<Entity> entities, Integer levelNum, Monster m, double countdown){
+	public Level(Runnable next, Runnable die,char[][] map, Set<Entity> entities, Integer levelNum, Monster m, double countdown, Player p){
 		this.next = next;
 		this.entities = entities;
 		this.levelNum = levelNum;
 		cells = new Cells(map);
-		p = new Player(cells.getSpawn(), entities);
+		//p = new Player(cells.getSpawn(), entities);
+		this.p = p;
 		monster = Optional.of(m);
 		
 		this.die = die; //runnable to call when player dies
