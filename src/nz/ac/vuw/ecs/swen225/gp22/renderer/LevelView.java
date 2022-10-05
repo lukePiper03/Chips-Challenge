@@ -145,6 +145,9 @@ public class LevelView extends JPanel{
 		// walls must be drawn last for 3D effect
 		wallTiles.forEach(a -> drawCell(sf, pf, a));
 		
+		// draw monsters
+		l.getMonster().ifPresent(mon -> drawEntity(sf, pf, mon));
+		
 		// draw shadows over map
 		IntStream.range(pf.player().x()-range+1, pf.player().x()+range)
 		.forEach(row -> IntStream.range(pf.player().y()-range+1, pf.player().y()+range)
@@ -229,6 +232,28 @@ public class LevelView extends JPanel{
 	    if(ent instanceof Key){
 	    	drawIndicator(sf.g(), w2, h2, (((Key)ent).getKeyCode()-1));
 	    }
+	}
+	
+	/**
+	 * Method to draw a single entity
+	 * @param sf  record containing screen fields
+	 * @param pf  record containing player fields
+	 * @param ent  current entity object
+	 */
+	void drawEntity(ScreenFields sf, PlayerFields pf, Monster mon){
+		// return if out of render distance
+		Point pos = mon.getPos();
+	    if(Math.hypot(pos.x()- pf.player().x()+0.5, pos.y() - pf.player().y()+0.5) > (int)((float)fadeIn/STEPS)) {return;}
+		
+		// calculate entity image dimensions
+		int w1=pos.x()*RENDERSIZE-(int)((sf.centre().x()+pf.xShift())*RENDERSIZE);
+	    int h1=pos.y()*RENDERSIZE-(int)((sf.centre().y()+pf.yShift())*RENDERSIZE);
+	    int w2=w1+RENDERSIZE;
+	    int h2=h1+RENDERSIZE;
+	    
+	    // draw image
+	    sf.g().drawImage(Img.getValue(mon.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+
 	}
 	
 	void drawIndicator(Graphics g, int x, int y, int value){
