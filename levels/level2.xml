@@ -4,23 +4,23 @@
         <row>ww#####w#####ww</row>
         <row>ww#...###...#ww</row>
         <row>ww#.w.#.#...#ww</row>
-        <row>#####.#X#.#####</row>
-        <row>#ww.L.w.w.L...#</row>
+        <row>#####.#X#B#####</row>
+        <row>#ww.B.w.w.G...#</row>
         <row>#...#.w.w.#...#</row>
         <row>#####.wsw.#####</row>
         <row>#.w.#.w.w.#...#</row>
-        <row>#...L...w.....#</row>
-        <row>######L######.#</row>
+        <row>#...G...w.....#</row>
+        <row>######R######.#</row>
         <row>wwww#..#..###.#</row>
         <row>wwww#..#......#</row>
         <row>wwww#.....#####</row>
         <row>wwww#######wwww</row>
     </map>
     <entities>
-        <key x="3" y="2" code="1"/>
-        <key x="11" y="1" code="2"/>
-        <key x="1" y="5" code="3"/>
-        <key x="1" y="7" code="4"/>
+        <key x="3" y="2" code="B"/>
+        <key x="11" y="1" code="R"/>
+        <key x="1" y="5" code="G"/>
+        <key x="1" y="7" code="B"/>
         <info x="7" y="5">
             <message>Collect apples and watch out for water!</message>
         </info>

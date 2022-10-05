@@ -87,8 +87,8 @@ public class Levels {
 	private static void createKey(Element e,Set<Entity> entities) {
 		int x = Integer.parseInt(e.getAttributeValue("x"));
 		int y = Integer.parseInt(e.getAttributeValue("y"));
-		int code = Integer.parseInt(e.getAttributeValue("code"));
-		entities.add(new Key(new Point(x,y),code));
+		String code = e.getAttributeValue("code");
+		entities.add(new Key(new Point(x,y),code.charAt(0)));
 	}
 	
 	/**
@@ -195,7 +195,7 @@ public class Levels {
 		Element key = new Element("key");
 		key.setAttribute(new Attribute("x",k.getPos().x()+""));
 		key.setAttribute(new Attribute("y",k.getPos().y()+""));
-		key.setAttribute(new Attribute("code",k.getKeyCode()+""));
+		key.setAttribute(new Attribute("code",k.getColor()+""));
 		return key;
 	}
 	
