@@ -284,116 +284,194 @@ class DomainTests {
 		l.gameOver();
 	}
 	
-//	@Test void moveToKeyLegal() {
-//		Runnable next = () -> {};
-//		Runnable die = () -> {};
-//		
-//		char[][] map = {
-//				{'#', '#', '#', '#'},
-//				{'#', 's', '.', 'L'},
-//				{'#', '#', '#', '#'}
-//		};
-//		Set<Entity> entities = new HashSet<>();
-//		Key key = new Key(new Point(2,1), 1);
-//		entities.add(key);
-//		Level l = new Level(next,die,map,entities, 1, 60);
-//		
-//		assert ((LockedDoor)l.getCells().getAllLockedDoors().get(0).state()).keyCode() == key.getKeyCode();
-//		
-//		l.getPlayer().direction(Direction.Right);
-//		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Key
-//		
-//		assert l.getPlayer().getPos().equals(new Point(2,1));
-//		assert l.getPlayer().getOldPos().equals(new Point(1,1));
-//		
-//		l.tick(); //call onInteraction for the key
-//		assert l.getPlayer().inventory().contains(key); //key added to inventory
-//		assert entities.isEmpty(); //key removed from entities
-//		assert !mapsMatch(map,l.getCells().toMap()); //cells should now be different
-//		char[][] newMap = {
-//				{'#', '#', '#', '#'},
-//				{'#', 's', '.', '.'},
-//				{'#', '#', '#', '#'}
-//		};
-//		assert mapsMatch(newMap, l.getCells().toMap()); //locked door is unlocked when key is picked up
-//		l.gameOver();
-//	}
+	@Test void moveToRedKeyLegal() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		
+		char[][] map = {
+				{'B', 'G', '#', '#'},
+				{'s', '.', '.', 'R'},
+				{'.', '.', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Key key = new Key(new Point(1,1), 'R');
+		entities.add(key);
+		entities.add(new Key(new Point(0,2), 'B'));
+		entities.add(new Key(new Point(1,2), 'G'));
+		Level l = new Level(next,die,map,entities, 1, 60);
+
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Key
+		
+		l.tick(); //call onInteraction for the key
+		
+		assert l.getPlayer().inventory().contains(key); //key added to inventory
+		assert entities.size() == 2; //key removed from entities
+		assert mapsMatch(map,l.getCells().toMap()); //lockedDoor not removed yet
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move legal pos
+		assert mapsMatch(map,l.getCells().toMap()); //lockedDoor not removed yet
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on lockedDoor
+		char[][] newMap = {
+				{'B', 'G', '#', '#'},
+				{'s', '.', '.', '.'},
+				{'.', '.', '#', '#'}
+		};
+		assert mapsMatch(newMap, l.getCells().toMap()); //locked door is now a floor tile
+		assert l.getPlayer().inventory().isEmpty(); //key removed frm inventory
+	}
 	
-//	@Test void moveToKeyIllegalNoLockedDoor() {
-//		Runnable next = () -> {};
-//		Runnable die = () -> {};
-//		
-//		char[][] map = {
-//				{'#', '#', '#', '#'},
-//				{'#', 's', '.', '.'},
-//				{'#', '#', '#', '#'}
-//		};
-//		Set<Entity> entities = new HashSet<>();
-//		Key key = new Key(new Point(2,1), 1);
-//		entities.add(key);
-//		Level l = new Level(next,die,map,entities, 1, 60);
-//		
-//		l.getPlayer().direction(Direction.Right);
-//		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Key
-//		
-//		assert l.getPlayer().getPos().equals(new Point(2,1));
-//		assert l.getPlayer().getOldPos().equals(new Point(1,1));
-//		
-//		try {
-//			l.tick(); //call onInteraction for the key, but Locked Door does not exist
-//		}catch(AssertionError e) {}
-//		l.gameOver();
-//	}
-//	
-//	@Test void moveToKeyIllegalNoMatchingCode() {
-//		Runnable next = () -> {};
-//		Runnable die = () -> {};
-//		
-//		char[][] map = {
-//				{'#', '#', '#', '#'},
-//				{'#', 's', '.', 'L'},
-//				{'#', '#', '#', '#'}
-//		};
-//		Set<Entity> entities = new HashSet<>();
-//		Key key = new Key(new Point(2,1), 2);
-//		entities.add(key);
-//		Level l = new Level(next,die,map,entities, 1, 60);
-//		
-//		l.getPlayer().direction(Direction.Right);
-//		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Key
-//		
-//		assert l.getPlayer().getPos().equals(new Point(2,1));
-//		assert l.getPlayer().getOldPos().equals(new Point(1,1));
-//		
-//		try {
-//			l.tick(); //call onInteraction for the key, but Locked Door does not match the code of the key
-//		}catch(AssertionError e) {}
-//		l.gameOver();
-//	}
-//	
-//	@Test void moveToKeyIllegalNotOnKey() {
-//		Runnable next = () -> {};
-//		Runnable die = () -> {};
-//		
-//		char[][] map = {
-//				{'#', '#', '#', '#'},
-//				{'#', 's', '.', '#'},
-//				{'#', '#', '#', '#'}
-//		};
-//		Set<Entity> entities = new HashSet<>();
-//		Key key = new Key(new Point(2,1),1);
-//		entities.add(key);
-//		Level l = new Level(next,die,map,entities, 1, 60);
-//		
-//		try {
-//			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on Key
-//		}catch(IllegalStateException e) {}
-//		
-//		assert l.getPlayer().inventory().isEmpty();
-//		
-//		l.tick();
-//		l.gameOver();
-//	}
+	@Test void moveToBlueKeyLegal() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		
+		char[][] map = {
+				{'B', 'G', '#', '#'},
+				{'s', '.', '.', 'B'},
+				{'.', '.', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Key key = new Key(new Point(1,1), 'B');
+		entities.add(key);
+		entities.add(new Key(new Point(0,2), 'B'));
+		entities.add(new Key(new Point(1,2), 'G'));
+		Level l = new Level(next,die,map,entities, 1, 60);
+
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Key
+		
+		l.tick(); //call onInteraction for the key
+		
+		assert l.getPlayer().inventory().contains(key); //key added to inventory
+		assert entities.size() == 2; //key removed from entities
+		assert mapsMatch(map,l.getCells().toMap()); //lockedDoor not removed yet
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move legal pos
+		assert mapsMatch(map,l.getCells().toMap()); //lockedDoor not removed yet
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on lockedDoor
+		char[][] newMap = {
+				{'B', 'G', '#', '#'},
+				{'s', '.', '.', '.'},
+				{'.', '.', '#', '#'}
+		};
+		assert mapsMatch(newMap, l.getCells().toMap()); //locked door is now a floor tile
+		assert l.getPlayer().inventory().isEmpty(); //key removed frm inventory
+	}
+	
+	@Test void moveToGreenKeyLegal() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		
+		char[][] map = {
+				{'B', 'R', '#', '#'},
+				{'s', '.', 'G', 'G'},
+				{'.', '.', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Key key = new Key(new Point(1,1), 'G');
+		entities.add(key);
+		entities.add(new Key(new Point(0,2), 'B'));
+		entities.add(new Key(new Point(1,2), 'R'));
+		Level l = new Level(next,die,map,entities, 1, 60);
+
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Key
+		
+		l.tick(); //call onInteraction for the key
+		
+		assert l.getPlayer().inventory().contains(key); //key added to inventory
+		assert entities.size() == 2; //key removed from entities
+		assert mapsMatch(map,l.getCells().toMap()); //lockedDoor not removed yet
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on lockedDoor
+		char[][] newMap = {
+				{'B', 'R', '#', '#'},
+				{'s', '.', '.', 'G'},
+				{'.', '.', '#', '#'}
+		};
+		
+		assert mapsMatch(newMap,l.getCells().toMap()); //first door removed
+		assert !l.getPlayer().inventory().isEmpty(); //key should not be removed from inventory (green key!)
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on another lockedDoor
+		char[][] newMap2 = {
+				{'B', 'R', '#', '#'},
+				{'s', '.', '.', '.'},
+				{'.', '.', '#', '#'}
+		};
+		assert mapsMatch(newMap2, l.getCells().toMap()); //secodn door removed
+		assert l.getPlayer().inventory().isEmpty(); //key removed from inventory after all green doors are gone
+	}
+	
+	@Test void moveToRedKeyIllegal() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		
+		char[][] map = {
+				{'B', 'G', '#', '#'},
+				{'s', '.', 'R', 'R'},
+				{'.', '.', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Key key = new Key(new Point(1,1), 'R');
+		entities.add(key);
+		entities.add(new Key(new Point(0,2), 'B'));
+		entities.add(new Key(new Point(1,2), 'G'));
+		Level l = new Level(next,die,map,entities, 1, 60);
+
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Key
+		
+		l.tick(); //call onInteraction for the key
+		
+		assert l.getPlayer().inventory().contains(key); //key added to inventory
+		assert entities.size() == 2; //key removed from entities
+		assert mapsMatch(map,l.getCells().toMap()); //lockedDoor not removed yet
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move legal pos
+		char[][] newMap = {
+				{'B', 'G', '#', '#'},
+				{'s', '.', '.', 'R'},
+				{'.', '.', '#', '#'}
+		};
+		assert mapsMatch(newMap,l.getCells().toMap()); //lockedDoor removed
+		assert l.getPlayer().inventory().isEmpty(); //key removed from inventory
+		
+		l.getPlayer().direction(Direction.Right);
+		try {
+			l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //key no longer in inventory so illegal
+		}catch(IllegalArgumentException e) {}
+	}
+	
+	@Test void moveToKeyIllegalNotOnKey() {
+	Runnable next = () -> {};
+	Runnable die = () -> {};
+	
+	char[][] map = {
+			{'#', '#', '#', '#'},
+			{'#', 's', '.', '#'},
+			{'#', '#', '#', '#'}
+	};
+	Set<Entity> entities = new HashSet<>();
+	Key key = new Key(new Point(2,1),'R');
+	entities.add(key);
+	Level l = new Level(next,die,map,entities, 1, 60);
+	
+	try {
+		entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on Key
+	}catch(IllegalStateException e) {}
+	
+	assert l.getPlayer().inventory().isEmpty();
+}
 	
 	@Test void moveToTreasureLegal1() {
 		Runnable next = () -> {};

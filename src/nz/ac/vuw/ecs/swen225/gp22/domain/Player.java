@@ -160,7 +160,7 @@ public class Player extends Subject{
 		if(nextCell.state() instanceof LockedDoor){
 			Key key = findMatchingKey(nextCell.symbol());
 			if(key != null) {
-				if(key.getColor() != 'G' || (key.getColor() == 'G' && cells.getAllLockedDoorsOfType(key.getColor()).size() == 1)) {
+				if(key.getColor() != 'G' || cells.getAllLockedDoorsOfType(key.getColor()).size() == 1) {
 					inventory.remove(key); //remove from inventory if red or blue, and green if last door
 				}
 				nextCell.setState(new Floor());

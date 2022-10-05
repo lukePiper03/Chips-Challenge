@@ -19,20 +19,11 @@ public class Key extends Entity{
 		//intial values before change is made
 		int inventorySize = p.inventory().size();
 
-		//for(Cell c: cells.getAllLockedDoorsOfType(color)) { //should be at least one
-			
-			//found a matching locked door, remove key
-			p.inventory().add(this);
-			p.entitiesToRemove().add(this);
-			onChange();
-			
-			//System.out.println("Inventory:");
-			//p.inventory().forEach(i -> System.out.println(i));
-			
-			//c.setState(new Floor()); //change state of LockedDoor to floor
-			//break; //only unlock one door for each key for now
-			
-		//}
+		//found a matching locked door, remove key
+		p.inventory().add(this);
+		p.entitiesToRemove().add(this);
+		onChange();
+		
 		assert p.inventory().size() == inventorySize + 1: "key was not correctly removed";
 	}
 	public Point getPos() {return pos;}
