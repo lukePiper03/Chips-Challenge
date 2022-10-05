@@ -9,18 +9,3 @@ public class LockedDoor implements CellState{
 	public boolean isSolid(Cell self) {return true;}
 	public char symbol(Cell self) {throw new IllegalStateException("LockedDoor must be extended.");}
 }
-
-class RedLockedDoor extends LockedDoor{
-	@Override
-	public char symbol(Cell self) {return 'R';}
-}
-
-class BlueLockedDoor extends LockedDoor{
-	@Override
-	public char symbol(Cell self) {return 'B';}
-}
-
-class GreenLockedDoor extends LockedDoor{
-	@Override
-	public char symbol(Cell self) {return 'G';}
-}
