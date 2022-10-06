@@ -16,17 +16,22 @@ public enum Img{
   Wall,
   Spawn,
   Player,
-  LockedDoor,
+  RedLockedDoor,
+  BlueLockedDoor,
+  GreenLockedDoor,
   InfoField,
   Exit,
-  Key,
+  Key_R,
+  Key_G,
+  Key_B,
   ExitLock,
   Treasure,
   Water,
   Monster,
   Boots,
   Flippers,
-  Background;
+  Background,
+  Teleporter;
   public final BufferedImage image;
   Img(){image=loadImage(this.name());}
   
@@ -49,8 +54,8 @@ public enum Img{
    * @param var
    * @return
    */
-  static public Img getValue(String name, int var){
-	  String image = name+"_"+var;
+  static public Img getValue(String name, int curVal, int maxVal){
+	  String image = name+"_"+(int)(curVal/(float)maxVal);
 	  return Stream.of(Img.values()).anyMatch(v -> v.name().equals(image)) ? getValue(image) : getValue(name);
   }
   
