@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 class Keys implements KeyListener {
   private Map<Integer,Runnable> actionsPressed = new HashMap<>();
   private Map<Integer,Runnable> actionsReleased = new HashMap<>();
+  int spaceBarCount = 0;
   Chips chip;
   public void setAction(int keyCode,Runnable onPressed,Runnable onReleased){
     actionsPressed.put(keyCode,onPressed);
@@ -33,8 +34,10 @@ class Keys implements KeyListener {
 		
 	  } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 		  System.out.println("Pausing");
-		  if(chip.inPause == false) {
+		  if(chip.getPause() == false) {
 			  chip.pauseMenu();
+		  } else {
+			  chip.closePausePopup(chip.popup);
 		  }
 		  
 	  } else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S) {
