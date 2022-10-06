@@ -33,13 +33,13 @@ public class Level {
 	 * @param entities the Set of Entities (Key, Treasure, etc) for the Level
 	 * @param levelNum the level number
 	 * @param countdown the countdown of the Level
+	 * @param p the player in the level
 	 */
 	public Level(Runnable next, Runnable die, char[][] map, Set<Entity> entities, Integer levelNum, double countdown, Player p){
 		this.next = next;
 		this.entities = entities;
 		this.levelNum = levelNum;
 		cells = new Cells(map);
-		//p = new Player(cells.getSpawn(), entities);
 		this.p = p;
 		monster = Optional.empty();
 		
@@ -58,13 +58,13 @@ public class Level {
 	 * @param levelNum the level number
 	 * @param m the monster of the game, if any
 	 * @param countdown the countdown of the Level
+	 * @param p the player in the game
 	 */
 	public Level(Runnable next, Runnable die,char[][] map, Set<Entity> entities, Integer levelNum, Monster m, double countdown, Player p){
 		this.next = next;
 		this.entities = entities;
 		this.levelNum = levelNum;
 		cells = new Cells(map);
-		//p = new Player(cells.getSpawn(), entities);
 		this.p = p;
 		monster = Optional.of(m);
 		
@@ -112,7 +112,7 @@ public class Level {
 		});
 		
 		//if player touches water, player dies
-		if(cells.get(p.getPos()).state() instanceof Water) playerDiesGameOver();
+		if(!p.bootsInInventory() && cells.get(p.getPos()).state() instanceof Water) playerDiesGameOver();
 		
 		//if player has active InfoField but is not on it anymore, make it en empty Optional
 		p.getActiveInfoField().ifPresent(i -> {
