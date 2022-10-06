@@ -32,4 +32,8 @@
         <treasure x="10" y="1"/>
         <exit x="7" y="2"/>
     </entities>
+    <player x="7" y="6">
+        <inventory>
+        </inventory>
+    </player>
 </level>

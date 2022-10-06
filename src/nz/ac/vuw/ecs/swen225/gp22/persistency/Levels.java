@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.persistency;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ServiceLoader;
@@ -70,7 +71,16 @@ public class Levels {
 			entityList.stream().filter(e -> e.getName().equals("info")).forEach(k -> createInfo(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("exit")).forEach(k -> createExit(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("teleporter")).forEach(k -> createTeleporter(k,entities));
-			return new Level(next,end,map,entities,levelNum,time);
+			
+			// Creates the player
+			Set<Entity> inventory = new HashSet<Entity>();
+			int playerx = Integer.parseInt(document.getRootElement().getChild("player").getAttributeValue("x"));
+			int playery = Integer.parseInt(document.getRootElement().getChild("player").getAttributeValue("y"));
+			document.getRootElement().getChild("player").getChild("inventory").getChildren().stream()
+			.filter(e -> e.getName().equals("key")).forEach(k -> createKey(k,inventory));
+			Player player = new Player(new Point(playerx,playery),entities);
+			player.setInventory(inventory);
+			return new Level(next,end,map,entities,levelNum,time,player);
 		}catch(JDOMException e) {
 			e.printStackTrace();
 		}catch(IOException ioe) {
@@ -175,8 +185,18 @@ public class Levels {
 		level.getEntites().stream().filter(e -> e instanceof Treasure).forEach(k -> {entities.addContent(saveTreasure((Treasure)k));});
 		level.getEntites().stream().filter(e -> e instanceof InfoField).forEach(k -> {entities.addContent(saveInfo((InfoField)k));});
 		level.getEntites().stream().filter(e -> e instanceof Exit).forEach(k -> {entities.addContent(saveExit((Exit)k));});
+		List<Entity> teleporters = new ArrayList<Entity>(level.getEntites());
+		level.getEntites().stream().filter(e -> e instanceof Teleporter).forEach(k -> {if(teleporters.contains(k))entities.addContent(saveTeleporter((Teleporter)k,teleporters));teleporters.remove(k);});
 		lev.addContent(entities);
 		
+		// Adds a player to the save file
+		Element player = new Element("player");
+		player.setAttribute(new Attribute("x",level.getPlayer().getPos().x()+""));
+		player.setAttribute(new Attribute("y",level.getPlayer().getPos().y()+""));
+		Element inventory = new Element("inventory");
+		level.getPlayer().inventory().stream().filter(e->e instanceof Key).forEach(k->{inventory.addContent(saveKey((Key)k));});
+		player.addContent(inventory);
+		lev.addContent(player);
 		try {
 			new XMLOutputter(Format.getPrettyFormat()).output(doc, new FileWriter("./levels/"+filename));
 		} catch (IOException e1) {
@@ -237,5 +257,20 @@ public class Levels {
 		exit.setAttribute(new Attribute("y",k.getPos().y()+""));
 		return exit;
 	}
-
+	
+	/**
+	 * Saves a teleporter entitiy
+	 * @param k - the exit to be saved
+	 * @return the teleporter as an xml element
+	 */
+	private static Element saveTeleporter(Teleporter k,List<Entity> teleList) {
+		Element tel1 = new Element("teleporter");
+		tel1.setAttribute(new Attribute("x",k.getPos().x()+""));
+		tel1.setAttribute(new Attribute("y",k.getPos().y()+""));
+		tel1.setAttribute(new Attribute("endx",k.getOther().getPos().x()+""));
+		tel1.setAttribute(new Attribute("endy",k.getOther().getPos().y()+""));
+		teleList.remove(k.getOther());
+		return tel1;
+	}
+	
 }
