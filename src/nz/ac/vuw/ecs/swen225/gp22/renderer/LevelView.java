@@ -198,14 +198,10 @@ public class LevelView extends JPanel{
 	    // draw enlarged images for solid objects as they are 3D and regular if not
 	    if(c.isSolid()) {
 	    	sf.g().drawImage(Img.getValue(c.getName()).image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null); //
-	    } else { //c.getImage().image
+	    } else {
 	    	sf.g().drawImage(Img.getValue(c.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
 	    }
 	    
-	    // draw colour codes for doors
-	    if(c.getName().equals("LockedDoor")){
-//	    	drawIndicator(sf.g(), w2, h2, (((LockedDoor)(c.state())).keyCode()-1));
-	    }
 	}
 	
 	
@@ -227,10 +223,15 @@ public class LevelView extends JPanel{
 	    int h2=h1+RENDERSIZE;
 	    
 	    // draw image
-	    sf.g().drawImage(Img.getValue(ent.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
-	    
 	    if(ent instanceof Key){
-//	    	drawIndicator(sf.g(), w2, h2, (((Key)ent).getKeyCode()-1));
+	    	sf.g().drawImage(Img.getValue(ent.getName() + '_' + ((Key)ent).getColor() ).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+	    } 
+	    else if(ent instanceof Exit) {
+	    	// changes state of exit given images
+	    	sf.g().drawImage(Img.getValue(ent.getName(), l.getPlayer().treasuresToCollect(), 4).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+	    }
+	    else {
+	    	sf.g().drawImage(Img.getValue(ent.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
 	    }
 	}
 	
@@ -331,9 +332,8 @@ public class LevelView extends JPanel{
 		AtomicInteger count = new AtomicInteger();
 		p.inventory().forEach(ent -> {
 			if(count.get() <= 4) {
-			g.drawImage(Img.getValue(ent.getName()).image, invStartX + ((int)(RENDERSIZE/1.25)*count.get()), (int)(RENDERSIZE*1.75) + inventoryHeight, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2,
+			g.drawImage(Img.getValue(ent.getName() + '_' + ((Key)ent).getColor()).image, invStartX + ((int)(RENDERSIZE/1.25)*count.get()), (int)(RENDERSIZE*1.75) + inventoryHeight, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2,
 					(int)(RENDERSIZE*1.75) + inventoryHeight+ RENDERSIZE/2, 0, 0, RENDERSIZE, RENDERSIZE, null);
-//			drawIndicator(g, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2, (int)(RENDERSIZE*1.75) + inventoryHeight+8+ RENDERSIZE/2, (((Key)ent).getKeyCode()-1));
 			count.getAndIncrement();}
 		});
 		
