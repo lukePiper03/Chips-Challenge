@@ -11,6 +11,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Boots;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Entity;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
 import nz.ac.vuw.ecs.swen225.gp22.domain.InfoField;
@@ -893,6 +894,53 @@ class DomainTests {
 		
 		try {
 			l.tick(); //calls onInteraction to teleport player. should fail bc the landing pos is solid
+		}catch(IllegalStateException e) {}
+	}
+	
+	@Test void moveToBootsLegal() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		char[][] map = {
+				{'#', '#', '#', '#'},
+				{'s', '.', 'w', '#'},
+				{'#', '#', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Boots b = new Boots(new Point(1,1));
+		entities.add(b);
+		Player p = new Player(new Point(0,1), entities);
+		Level l = new Level(next,die,map,entities, 1, 60,p);
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move player on boots
+		
+		l.tick(); //calls onInteraction for boots
+		
+		assert l.getPlayer().inventory().contains(b);
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move player on water. Should be legal
+		
+		assert l.getPlayer().getPos().equals(new Point(2,1));
+		l.tick();
+	}
+	
+	@Test void moveToBootsIllegal() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		char[][] map = {
+				{'#', '#', '#', '#'},
+				{'s', '.', 'w', '#'},
+				{'#', '#', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Boots b = new Boots(new Point(1,1));
+		entities.add(b);
+		Player p = new Player(new Point(0,1), entities);
+		Level l = new Level(next,die,map,entities, 1, 60,p);
+		
+		try {
+			entities.stream().forEach(e -> e.onInteraction(l.getPlayer(), l.getCells())); //player not on Teleporter
 		}catch(IllegalStateException e) {}
 	}
 	

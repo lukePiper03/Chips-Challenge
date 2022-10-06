@@ -38,8 +38,6 @@ public class Player extends Subject{
 		treasuresToCollect = totalTreasureCount(); // start with the total number of treasures on the board
 	}
 	
-	
-	
 	/**
 	 * @return the position of the player in a new point
 	 */
@@ -141,6 +139,13 @@ public class Player extends Subject{
 		if(count != 1) return false; //must have one other also in entities
 		if(!t.getOther().getOther().equals(t)) return false; //other's other must be t
 		return true;
+	}
+	
+	/**
+	 * @return true if there are boots in the inventory
+	 */
+	public boolean bootsInInventory() {
+		return inventory.stream().anyMatch(e -> e instanceof Boots);
 	}
 
 	

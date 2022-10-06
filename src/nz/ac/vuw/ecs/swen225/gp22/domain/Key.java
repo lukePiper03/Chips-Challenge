@@ -19,7 +19,7 @@ public class Key extends Entity{
 		//intial values before change is made
 		int inventorySize = p.inventory().size();
 
-		//found a matching locked door, remove key
+		//remove key
 		p.inventory().add(this);
 		p.entitiesToRemove().add(this);
 		onChange();
