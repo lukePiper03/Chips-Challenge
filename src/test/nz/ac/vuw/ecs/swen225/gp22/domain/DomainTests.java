@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -636,9 +637,10 @@ class DomainTests {
 		};
 		Set<Entity> entities = Set.of();
 		Player p = new Player(new Point(1,1), entities);
-		Level l = new Level(next, die, map,entities, 1, new Monster(new Point(2,1)), 60, p);
+		Level l = new Level(next, die, map,entities, 1, new Monster(new Point(2,1), List.of()), 60, p);
 		
 		assert l.getLevelNum() == 1;
+		assert l.getMonster().get().getRoute().equals(List.of());
 		
 		assert l.getPlayer().getPos().equals(new Point(1,1));
 		assert l.getMonster().get().getPos().equals(new Point(2,1));
@@ -657,30 +659,63 @@ class DomainTests {
 		l.playerDiesGameOver();
 	}
 	
-	@Test void moveMonsterRandomly() {
+	@Test void moveMonsterWithRoute() {
 		Runnable next = () -> {};
 		Runnable die = () -> {};
 
 		char[][] map = {
 				{'#', '#', '#', '#'},
-				{'#', 's', '.', '#'},
+				{'s', '.', '.', '#'},
 				{'#', '#', '#', '#'}
 		};
 		Set<Entity> entities = Set.of();
 		Player p = new Player(new Point(1,1), entities);
-		Level l = new Level(next,die,map,entities, 1, new Monster(new Point(2,1)), 60, p);
+		Level l = new Level(next,die,map,entities, 1, new Monster(new Point(2,1), List.of(Direction.Left, Direction.Right)), 60, p);
 		
 		assert l.getPlayer().getPos().equals(new Point(1,1));
 		assert l.getMonster().get().getPos().equals(new Point(2,1));
 		
-		l.tick(); //moves monster left since it's the only legal move
+		l.tick(); //route moves monster left
 		
-		assert l.getPlayer().getPos().equals(new Point(1,1));
 		assert l.getMonster().get().getPos().equals(new Point(1,1));
 		assert l.getMonster().get().getOldPos().equals(new Point(2,1));
 		
-		l.tick(); //calls playerDiesGameOver
-		l.playerDiesGameOver();
+		l.getMonster().get().move(l.getMonster().get().getRoute().get(1), l.getCells()); //move monster right
+		
+		assert l.getMonster().get().getPos().equals(new Point(2,1));	
+		assert l.getMonster().get().getOldPos().equals(new Point(1,1));	
+	}
+	
+	@Test void moveMonsterWithRouteIllegal1() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+
+		char[][] map = {
+				{'#', '#', '#', '#'},
+				{'s', '.', '.', '#'},
+				{'#', '#', '#', '#'}
+		};
+		Set<Entity> entities = Set.of();
+		Player p = new Player(new Point(1,1), entities);
+		try {
+			Level l = new Level(next,die,map,entities, 1, new Monster(new Point(2,1), List.of(Direction.Left)), 60, p);
+		}catch(IllegalArgumentException e) {}
+	}
+	
+	@Test void moveMonsterWithRouteIllegal2() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+
+		char[][] map = {
+				{'#', '#', '#', '#'},
+				{'s', '.', '.', '#'},
+				{'#', '#', '#', '#'}
+		};
+		Set<Entity> entities = Set.of();
+		Player p = new Player(new Point(1,1), entities);
+		try {
+			Level l = new Level(next,die,map,entities, 1, new Monster(new Point(2,1), List.of(Direction.Up)), 60, p);
+		}catch(IllegalArgumentException e) {}
 	}
 	
 	@Test void playerDiesOnWater() {
