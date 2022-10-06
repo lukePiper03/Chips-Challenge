@@ -4,8 +4,6 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -39,10 +37,13 @@ public class Chips extends JFrame{
 	Controller controller;
 	Level level;
 	boolean inPause;
+	boolean inLevel = false;
 	
 	boolean isSave1 = false;
 	boolean isSave2 = false;
 	boolean isSave3 = false;
+	
+	JPanel popup;
 		
 	Runnable closePhase = ()->{};
 	
@@ -63,8 +64,7 @@ public class Chips extends JFrame{
 		inPause = false;
 	    // Set background
 	    setContentPane(new JLabel(new ImageIcon(Img.Background.image)));
-		setLayout(new OverlayLayout(getContentPane()));
-		setLocationRelativeTo(null);
+	    setLayout(new BorderLayout());
 	    
 		// Create Text and Buttons
 	    var welcome = new JLabel("<html>Bunny's<br>Challenge!</html>", SwingConstants.CENTER);
@@ -78,9 +78,8 @@ public class Chips extends JFrame{
 		welcome.setForeground(Color.white);
 	   
 		// Set Bounds
-	   // startLvl1.setBounds(200, 600, 200, 50);
-	    startLvl1.setAlignmentX(0.3f);
-	   startLvl1.setAlignmentY(0.8f);
+	    startLvl1.setBounds(200, 400, 200, 50);
+
 	    startLvl2.setBounds(600, 400, 200, 50);
 	    loadLevel.setBounds(200, 475, 200, 50);
 	    help.setBounds(600, 475, 200, 50);
@@ -89,7 +88,7 @@ public class Chips extends JFrame{
 	    setCursor(new Cursor(Cursor.HAND_CURSOR));
 	    
 	    // Add Text and Buttons
-	    add( startLvl1);
+	    add(BorderLayout.CENTER, startLvl1);
 	    add(BorderLayout.CENTER, startLvl2);
 	    add(BorderLayout.CENTER, loadLevel);
 	    add(BorderLayout.CENTER, help);
@@ -123,6 +122,7 @@ public class Chips extends JFrame{
  
 	     requestFocus();
 	     pack();
+	     setLocationRelativeTo(null);
 	}
 	
 	public void phaseOne(){
@@ -135,6 +135,10 @@ public class Chips extends JFrame{
 	
     void setPhase(Runnable next, Runnable end, String fileName){
 		System.out.println("Setting level");
+		inPause = false;
+		
+		setLayout(new OverlayLayout(getContentPane()));
+		setLocationRelativeTo(null);
 		
 		// Set up new Level
 		level = Levels.loadLevel(next, end, fileName);
@@ -150,6 +154,9 @@ public class Chips extends JFrame{
 	    controller.newInstance(level.getPlayer());
 	    
 	    view.setFocusable(true);
+	    
+	    var pause = new JButton("Pause");
+	    //add(BorderLayout.NORTH, pause);
 	    
 	    // New timer
 	    Timer timer = new Timer(33,unused->{
@@ -175,6 +182,9 @@ public class Chips extends JFrame{
     	return level;
     }
     
+    public boolean getPause() {
+    	return inPause;
+    }
     void loadMenu() {
     	setContentPane(new JLabel(new ImageIcon(Img.Background.image)));
  		setLayout(new BorderLayout());
@@ -184,6 +194,11 @@ public class Chips extends JFrame{
  		var save1 = new JLabel("Save 1 Slot");
  		var save2 = new JLabel("Save 2 Slot");
  		var save3 = new JLabel("Save 3 SLot");
+ 		
+ 		var timeLeft = new JLabel("Time Left: ");
+ 		var level = new JLabel("Level: ");
+ 		var treasuresToCollect = new JLabel("Treasure To Collect: ");
+ 		
  		var save1Button = new JButton("Load Save 1");
  		var save2Button = new JButton("Load Save 2");
  		var save3Button = new JButton("Load Save 3");
@@ -192,10 +207,9 @@ public class Chips extends JFrame{
  		
  		
  		// Setting position and size
- 		//header.setBounds(200, 50, 600, 200);
- 		save1.setBounds(150, 150, 200, 100);
- 		save2.setBounds(400, 150, 200, 100);
- 		save3.setBounds(650, 150, 200, 100);
+ 		save1.setBounds(150, 100, 200, 100);
+ 		save2.setBounds(400, 100, 200, 100);
+ 		save3.setBounds(650, 100, 200, 100);
  		
  		save1Button.setBounds(150, 250, 200, 100);
  		save2Button.setBounds(400, 250, 200, 100);
@@ -283,7 +297,7 @@ public class Chips extends JFrame{
  		var save2Button = new JButton("Save to Slot 2");
  		var save3Button = new JButton("Save to Slot 3");
  		var text = new JLabel("");
- 		var resume = new JButton("Resume Level");
+ 		//var resume = new JButton("Resume Level");
  		var menu = new JButton(" Back to Menu ");
  		
  		// Setting position and size
@@ -296,7 +310,7 @@ public class Chips extends JFrame{
  		save2Button.setBounds(400, 250, 200, 100);
  		save3Button.setBounds(650, 250, 200, 100);
  		
- 		resume.setBounds(400, 425, 200, 50);
+ 		//resume.setBounds(400, 425, 200, 50);
  	    menu.setBounds(400, 500, 200, 50);
  	      
  	    // Setting font and colour
@@ -311,7 +325,7 @@ public class Chips extends JFrame{
  		save3.setForeground(Color.white);
   	    
   	    // Add Text and Buttons
- 		add(resume);
+ 		//add(resume);
   	    add(menu);
   	    add(save1);
   	    add(save2);
@@ -353,29 +367,26 @@ public class Chips extends JFrame{
   	    setResizable(false);
   
  	    pack();
+
     }
 	
+    void closePausePopup(JPanel popup) {
+    	remove(popup);
+    	inPause = false;
+    }
+    
 	/**
 	 * Pause menu displaying info for user
 	 */
 	void pauseMenu() {
 		inPause = true;
-		
-		//JFrame frame = new JFrame("Pause Menu");
-		//frame.setLayout(null);
-		
-		// Set background
-//	    setContentPane(new JLabel(new ImageIcon(Img.Background.image)));
-//		setLayout(new OverlayLayout(frame));
-		//frame.setDefaultCloseOperation(JFrame.inPause = false);
-		
-		JPanel popup = new JPanel();
-//		popup.setBounds(200, 300, 300, 300);
+
+		popup = new JPanel();
 		popup.setMaximumSize(new Dimension(600, 400));
 		popup.setOpaque(true);
+		popup.setLayout(new BorderLayout());
 		
 		popup.setAlignmentX(0.1f);
-		//popup.setAlignmentY(0.3f);
 		popup.setBackground(new Color(120, 131, 84));
 		popup.setBorder(BorderFactory.createLineBorder(Color.white, 10));
 		
@@ -387,11 +398,15 @@ public class Chips extends JFrame{
 		var loadLevel = new JButton("Load level");
 		var help = new JButton("Help");
 		var restart = new JButton("Restart");
+		var text = new JLabel("");
 		
 		// Setting position and size
-		pause.setAlignmentX(0.3f);
-	    resume.setBounds(400, 400, 200, 50);
-		//resume.setAlignmentX(0.5f);
+	    resume.setBounds(200, 300, 200, 50);
+	    help.setBounds(50, 100, 200, 50);
+	    exit.setBounds(350, 100, 200, 50);
+	    saveLevel.setBounds(50, 200, 200, 50);
+	    loadLevel.setBounds(350, 200, 200, 50);
+	    
 	    // Setting font and colour
  		pause.setFont(LoadedFont.PixeloidSans.getSize(50f));
  		pause.setForeground(Color.white);
@@ -399,38 +414,31 @@ public class Chips extends JFrame{
  	    // Add Text and Buttons
  		popup.add(BorderLayout.NORTH, pause);
  		
- 		popup.add(exit);
- 		popup.add(saveLevel);
- 		popup.add(loadLevel);
- 		popup.add(help);
- 		popup.add(restart);
- 		popup.add(resume);
+ 		popup.add(BorderLayout.CENTER, exit);
+ 		popup.add(BorderLayout.CENTER, saveLevel);
+ 		popup.add(BorderLayout.CENTER, loadLevel);
+ 		popup.add(BorderLayout.CENTER, help);
+ 		popup.add(BorderLayout.CENTER, restart);
+ 		popup.add(BorderLayout.CENTER, resume);
+ 		popup.add(BorderLayout.CENTER, text);
  		
-// 		dialog.setUndecorated(true);
  		popup.setVisible(true);
  		
  		add(popup);
- 	 
- 		   
- 	    // closephase set up
-// 	    closePhase.run();
-// 	    unPause=()->{
-// 	     frame.remove(pause);
-// 	     frame.remove(resume);
-// 	     frame.remove(this);
-// 	    };
+ 		
         resume.setCursor(new Cursor(Cursor.HAND_CURSOR));  
         
-//        // Add listeners
-        resume.addActionListener(e->remove(popup));
-        resume.addActionListener(e->inPause = false);
- 	     
-// 	   setSize(new Dimension(1000,600));
-// 	    setResizable(false);
- 	     
+        // Add listeners
+        resume.addActionListener(e->closePausePopup(popup));
+        help.addActionListener(e->helpMenu());
+        exit.addActionListener(e->initialPhase());
+        saveLevel.addActionListener(e->closePausePopup(popup));
+        saveLevel.addActionListener(e->saveMenu());
+ 	    loadLevel.addActionListener(e->loadMenu());
+ 	    
  	    setVisible(true);
   
- 	   // pack();
+ 	    pack();
 	}
 	
 	/**
@@ -530,10 +538,12 @@ public class Chips extends JFrame{
 		var header = new JLabel("A little stuck?", SwingConstants.CENTER);
 		var rules = new JLabel("<html>Movement: Use the WASD keys<br><br>Goal: To collect all the apples and go through the exit<br><br>Tips: Collect pickaxes to break rocks to access apples<br>DON'T get caught by the monster<br><br>For extra help look for sign posts around the map</html>", SwingConstants.CENTER);
 		var menu = new JButton("Back to Menu");
+		var resume = new JButton("Resume");
 		
 		// Setting position and size
 		header.setBounds(200, 50, 600, 200);
 		menu.setBounds(400, 500, 200, 50);
+		resume.setBounds(400, 450, 200, 50);
 	      
 	    // Setting font and colour
  		header.setFont(LoadedFont.PixeloidSans.getSize(50f));
@@ -544,8 +554,12 @@ public class Chips extends JFrame{
  		
  		// Add Text and Buttons
 	    add(BorderLayout.CENTER, menu);
+	    if(inPause == true) {
+	    	add(BorderLayout.CENTER, resume);
+	    }
 	    add(BorderLayout.CENTER, rules);
 	    add(BorderLayout.NORTH, header);
+	    
 	 
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setVisible(true);
