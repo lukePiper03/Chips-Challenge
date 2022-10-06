@@ -20,4 +20,8 @@
 		<teleporter x="1" y="3" endx="7" endy="2"/>
 		<exit x="7" y="6"/>
 	</entities>
+	<player x="4" y="3">
+		<inventory>
+		</inventory>
+	</player>
 </level>

@@ -71,7 +71,16 @@ public class Levels {
 			entityList.stream().filter(e -> e.getName().equals("info")).forEach(k -> createInfo(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("exit")).forEach(k -> createExit(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("teleporter")).forEach(k -> createTeleporter(k,entities));
-			return new Level(next,end,map,entities,levelNum,time);
+			
+			// Creates the player
+			Set<Entity> inventory = new HashSet<Entity>();
+			int playerx = Integer.parseInt(document.getRootElement().getChild("player").getAttributeValue("x"));
+			int playery = Integer.parseInt(document.getRootElement().getChild("player").getAttributeValue("y"));
+			document.getRootElement().getChild("player").getChild("inventory").getChildren().stream()
+			.filter(e -> e.getName().equals("key")).forEach(k -> createKey(k,inventory));
+			Player player = new Player(new Point(playerx,playery),entities);
+			player.setInventory(inventory);
+			return new Level(next,end,map,entities,levelNum,time,player);
 		}catch(JDOMException e) {
 			e.printStackTrace();
 		}catch(IOException ioe) {
@@ -180,6 +189,14 @@ public class Levels {
 		level.getEntites().stream().filter(e -> e instanceof Teleporter).forEach(k -> {if(teleporters.contains(k))entities.addContent(saveTeleporter((Teleporter)k,teleporters));teleporters.remove(k);});
 		lev.addContent(entities);
 		
+		// Adds a player to the save file
+		Element player = new Element("player");
+		player.setAttribute(new Attribute("x",level.getPlayer().getPos().x()+""));
+		player.setAttribute(new Attribute("y",level.getPlayer().getPos().y()+""));
+		Element inventory = new Element("inventory");
+		level.getPlayer().inventory().stream().filter(e->e instanceof Key).forEach(k->{inventory.addContent(saveKey((Key)k));});
+		player.addContent(inventory);
+		lev.addContent(player);
 		try {
 			new XMLOutputter(Format.getPrettyFormat()).output(doc, new FileWriter("./levels/"+filename));
 		} catch (IOException e1) {
@@ -255,5 +272,5 @@ public class Levels {
 		teleList.remove(k.getOther());
 		return tel1;
 	}
-
+	
 }
