@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 /**
@@ -45,14 +46,7 @@ public class Level {
 		this.die = die; //runnable to call when player dies
 		this.countdown = countdown; 
 		
-//		Teleporter t1 = new Teleporter(new Point(1,3), null); //testing teleporter
-//		Teleporter t2 = new Teleporter(new Point(7,2), null);
-//		t1.setOther(t2);
-//		t2.setOther(t1);
-//		entities.add(t1);
-//		entities.add(t2);
-		
-		//monster = Optional.of(new Monster(new Point(2,1))); //doesn't draw yet
+		//monster = Optional.of(new Monster(new Point(3,1), List.of(Direction.Right, Direction.Down, Direction.Left, Direction.Up)));
 	}
 	
 	/**

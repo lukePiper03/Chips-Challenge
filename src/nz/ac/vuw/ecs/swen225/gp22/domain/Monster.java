@@ -1,8 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
 
@@ -14,19 +13,22 @@ public class Monster {
 	private Point pos;
 	private Point oldPos; //for smooth rendering
 	private Direction direction = Direction.Down;
-	private int timestamp = 5; //update position once every 5 ticks
-	private int timeSinceLastMove = 5; //a counter from the last move
-	private List<Direction> directions = new ArrayList<>();
-	private static final SecureRandom RANDOM = new SecureRandom();
+	private int timestamp = 20; //update position once every 20 ticks
+	private int timeSinceLastMove = 20; //a counter from the last move
+	private List<Direction> route;
+	//private static final SecureRandom RANDOM = new SecureRandom();
+	private int move = 0;
 	
 	/**
 	 * Monster constructor
 	 * @param pos the current position
+	 * @param route the list of directions the monster should follow to move
 	 */
-	public Monster(Point pos) {
+	public Monster(Point pos, List<Direction> route) {
 		this.pos = pos;
 		oldPos = getPos();
-		directions.addAll(List.of(Direction.Left, Direction.Right, Direction.Up, Direction.Down));
+		this.route = route;
+		if(!checkRouteValid()) throw new IllegalArgumentException("Route does not loop back to start. Invalid");
 	}
 	
 	/**
@@ -49,6 +51,11 @@ public class Monster {
 	public float getMoveTime() {return (float) timeSinceLastMove / (float)timestamp;}
 	
 	/**
+	 * @return the route that the monster moves
+	 */
+	public List<Direction> getRoute(){return route;}
+	
+	/**
 	 * @return the name of the class, to be used by renderer
 	 */
 	public String getName() {return this.getClass().getSimpleName();}
@@ -58,14 +65,14 @@ public class Monster {
 	 * the monster at each tick
 	 * @param cells the cells on current level
 	 */
-	public void tick(Cells cells){
+	public void tick(Cells cells){ 
 		if(timeSinceLastMove < timestamp) timeSinceLastMove++;
 		
 		//allow movement every 5 ticks
 		if(timeSinceLastMove >= timestamp) {
-			while(cells.get(pos.add(direction.point())).isSolid()) {
-				direction = randomDirection(); //generate 'random' direction until move is legal
-			}
+			direction = route.get(move%route.size()); 
+			System.out.println(move);
+			move++;
 			move(direction, cells);
 		}
 	}
@@ -85,12 +92,19 @@ public class Monster {
 		pos = newPos; 
 	}
 	
-	//generates a 'random' direction
-	private Direction randomDirection() {
-		//Collections.shuffle(directions);
-		Direction d = directions.get(RANDOM.nextInt(directions.size()));
-		System.out.println("Random direction: "+d);
-		return d;
+	//checks if the route makes a loop to where it began
+	private boolean checkRouteValid() {
+		AtomicInteger horizontal = new AtomicInteger(0);
+		AtomicInteger vertical = new AtomicInteger(0);
+		
+		//go through route
+		route.forEach(dir -> {
+			if(dir == Direction.Up)vertical.incrementAndGet();
+			if(dir == Direction.Down)vertical.decrementAndGet();
+			if(dir == Direction.Right)vertical.incrementAndGet();
+			if(dir == Direction.Left)vertical.decrementAndGet();
+		});
+		return horizontal.get() == 0 && vertical.get() == 0;
 	}
 	
 }
