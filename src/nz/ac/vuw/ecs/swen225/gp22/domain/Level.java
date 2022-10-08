@@ -111,7 +111,7 @@ public class Level {
 			if(m.getPos().equals(p.getPos())) playerDiesGameOver();
 		});
 		
-		//if player touches water, player dies
+		//if player touches water, player dies (unless boots in inventory)
 		if(!p.bootsInInventory() && cells.get(p.getPos()).state() instanceof Water) playerDiesGameOver();
 		
 		//if player has active InfoField but is not on it anymore, make it en empty Optional

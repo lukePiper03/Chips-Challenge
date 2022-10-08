@@ -382,6 +382,47 @@ class DomainTests {
 		assert l.getPlayer().inventory().isEmpty(); //key removed frm inventory
 	}
 	
+	@Test void moveToYellowKeyLegal() {
+		Runnable next = () -> {};
+		Runnable die = () -> {};
+		
+		char[][] map = {
+				{'Y', 'G', '#', '#'},
+				{'s', '.', '.', 'Y'},
+				{'.', '.', '#', '#'}
+		};
+		Set<Entity> entities = new HashSet<>();
+		Key key = new Key(new Point(1,1), 'Y');
+		entities.add(key);
+		entities.add(new Key(new Point(0,2), 'Y'));
+		entities.add(new Key(new Point(1,2), 'G'));
+		Player p = new Player(new Point(0,1), entities);
+		Level l = new Level(next,die,map,entities, 1, 60,p);
+
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on Key
+		
+		l.tick(); //call onInteraction for the key
+		
+		assert l.getPlayer().inventory().contains(key); //key added to inventory
+		assert entities.size() == 2; //key removed from entities
+		assert mapsMatch(map,l.getCells().toMap()); //lockedDoor not removed yet
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move legal pos
+		assert mapsMatch(map,l.getCells().toMap()); //lockedDoor not removed yet
+		
+		l.getPlayer().direction(Direction.Right);
+		l.getPlayer().move(l.getPlayer().direction(), l.getCells()); //move to legal pos on lockedDoor
+		char[][] newMap = {
+				{'Y', 'G', '#', '#'},
+				{'s', '.', '.', '.'},
+				{'.', '.', '#', '#'}
+		};
+		assert mapsMatch(newMap, l.getCells().toMap()); //locked door is now a floor tile
+		assert l.getPlayer().inventory().isEmpty(); //key removed frm inventory
+	}
+	
 	@Test void moveToGreenKeyLegal() {
 		Runnable next = () -> {};
 		Runnable die = () -> {};
