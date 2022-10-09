@@ -41,7 +41,12 @@ public class Levels {
 //		e.setAttribute(new Attribute("x",1+""));
 //		e.setAttribute(new Attribute("y",1+""));
 //		e.setAttribute(new Attribute("route","RRLL"));
-//		createMonster("levels/level2",e);
+//		try {
+//			createMonster("levels/level2",e);
+//		} catch (MalformedURLException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 //	}
 	
 	/**
@@ -52,7 +57,7 @@ public class Levels {
 	 * @param end - The phase to be run if the player loses in the level
 	 * @return Level - A level loaded from a file
 	 */
-	public static Level loadLevel(Runnable next,Runnable end,String filename){
+	public static Level loadLevel(Runnable next,Runnable end,String filename) throws IOException,JDOMException{
 		String prefix = "./levels/";	// Filepath prefix
 		filename = prefix + filename;
 		Set<Entity> entities = new HashSet<Entity>();
@@ -96,9 +101,9 @@ public class Levels {
 			.filter(e->e.getName().equals("monster")).forEach(k->{actors.add(createMonster("level2.jar",k));});;
 			return new Level(next,end,map,entities,levelNum,actors,time,player);
 		}catch(JDOMException e) {
-			e.printStackTrace();
+			throw e;
 		}catch(IOException ioe) {
-			ioe.printStackTrace();
+			throw ioe;
 		}
 		return null;
 	}
@@ -172,20 +177,18 @@ public class Levels {
 	 * @param e - The element that contains the details of the monster
 	 * @return The created monster
 	 */
-	private static Actor createMonster(String filename,Element e) {
+	private static Actor createMonster(String filename,Element e) throws MalformedURLException{
 		int x = Integer.parseInt(e.getAttributeValue("x"));
 		int y = Integer.parseInt(e.getAttributeValue("y"));
 		String directions = e.getAttributeValue("route");
 		File file = new File(filename+".jar");
 		ClassLoader parent = Actor.class.getClassLoader();
 		URL[] urls = null;
-		System.out.println("Creating");
 		try {
 			urls = new URL[] { file.getAbsoluteFile().toURI().toURL()};
 		} catch (MalformedURLException mue) {
-			mue.printStackTrace();
+			throw mue;
 		}
-		System.out.println(urls[0].toString());
 		URLClassLoader c = new URLClassLoader(urls,parent);
 		//System.out.println(c.toString());
 		ServiceLoader<Actor> loader = ServiceLoader.load(Actor.class,c);
@@ -231,7 +234,7 @@ public class Levels {
 	 * @param level - The level to be saved
 	 * @param filename - The name the file will be saved as
 	 */
-	public static void saveLevel(Level level,String filename){
+	public static void saveLevel(Level level,String filename) throws IOException{
 		Document doc = new Document();
 		Cells cells = level.getCells();		// A cells object containing all the cells in the level
 		Element lev = new Element("level");
@@ -273,9 +276,8 @@ public class Levels {
 		lev.addContent(player);
 		try {
 			new XMLOutputter(Format.getPrettyFormat()).output(doc, new FileWriter("./levels/"+filename));
-		} catch (IOException e1) {
-			System.out.println("failed to save level");
-			e1.printStackTrace();
+		} catch (IOException ioe) {
+			throw ioe;
 		}
 	}
 	
