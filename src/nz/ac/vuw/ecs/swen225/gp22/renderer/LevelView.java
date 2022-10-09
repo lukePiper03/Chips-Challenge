@@ -197,7 +197,7 @@ public class LevelView extends JPanel{
 	    
 	    // draw enlarged images for solid objects as they are 3D and regular if not
 	    if(c.isSolid()) {
-	    	sf.g().drawImage(Img.getValue(c.getName()).image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null); //
+	    	sf.g().drawImage(Img.getValue(c.getName()).image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null);
 	    } else {
 	    	sf.g().drawImage(Img.getValue(c.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
 	    }
@@ -255,13 +255,6 @@ public class LevelView extends JPanel{
 	    // draw image
 	    sf.g().drawImage(Img.getValue(mon.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
 
-	}
-	
-	void drawIndicator(Graphics g, int x, int y, int value){
-		g.setColor(Color.white);
-    	g.fillRect(x - RENDERSIZE/16 - RENDERSIZE/6, y - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
-    	g.setColor(Color.getHSBColor((value-1)/4f, 0.5f, 0.65f));
-    	g.fillRect(x - RENDERSIZE/16 - RENDERSIZE/8, y - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
 	}
 	
 	
@@ -331,10 +324,15 @@ public class LevelView extends JPanel{
 		int invStartX = s.width - inventoryWidth - RENDERSIZE/2;
 		AtomicInteger count = new AtomicInteger();
 		p.inventory().forEach(ent -> {
-			if(count.get() <= 4) {
-			g.drawImage(Img.getValue(ent.getName() + '_' + ((Key)ent).getColor()).image, invStartX + ((int)(RENDERSIZE/1.25)*count.get()), (int)(RENDERSIZE*1.75) + inventoryHeight, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2,
+			if(ent instanceof Key) {
+				g.drawImage(Img.getValue(ent.getName() + '_' + ((Key)ent).getColor()).image, invStartX + ((int)(RENDERSIZE/1.25)*count.get()), (int)(RENDERSIZE*1.75) + inventoryHeight, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2,
 					(int)(RENDERSIZE*1.75) + inventoryHeight+ RENDERSIZE/2, 0, 0, RENDERSIZE, RENDERSIZE, null);
-			count.getAndIncrement();}
+			} else {
+				g.drawImage(Img.getValue(ent.getName()).image, invStartX + ((int)(RENDERSIZE/1.25)*count.get()), (int)(RENDERSIZE*1.75) + inventoryHeight, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2,
+						(int)(RENDERSIZE*1.75) + inventoryHeight+ RENDERSIZE/2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+			}
+			
+			count.getAndIncrement();
 		});
 		
 		// sign
