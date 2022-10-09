@@ -59,7 +59,7 @@ public class Levels {
 	 */
 	public static Level loadLevel(Runnable next,Runnable end,String filename) throws IOException,JDOMException{
 		String prefix = "./levels/";	// Filepath prefix
-		filename = prefix + filename;
+		filename = prefix + filename + ".xml";
 		Set<Entity> entities = new HashSet<Entity>();
 		try {
 			File file = new File(filename);
@@ -98,14 +98,18 @@ public class Levels {
 			player.setInventory(inventory);
 			List<Actor> actors = new ArrayList<Actor>();
 			document.getRootElement().getChild("actors").getChildren().stream()
-			.filter(e->e.getName().equals("monster")).forEach(k->{actors.add(createMonster("level2.jar",k));});;
+			.filter(e->e.getName().equals("monster")).forEach(k->{try {
+				actors.add(createMonster("level2.jar",k));
+			} catch (MalformedURLException e1) {
+				e1.printStackTrace();
+			}});;
 			return new Level(next,end,map,entities,levelNum,actors,time,player);
 		}catch(JDOMException e) {
 			throw e;
 		}catch(IOException ioe) {
 			throw ioe;
 		}
-		return null;
+		//return null;
 	}
 	
 	/**
@@ -275,7 +279,7 @@ public class Levels {
 		player.addContent(inventory);
 		lev.addContent(player);
 		try {
-			new XMLOutputter(Format.getPrettyFormat()).output(doc, new FileWriter("./levels/"+filename));
+			new XMLOutputter(Format.getPrettyFormat()).output(doc, new FileWriter("./levels/"+filename+".xml"));
 		} catch (IOException ioe) {
 			throw ioe;
 		}
