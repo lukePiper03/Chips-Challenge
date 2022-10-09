@@ -3,8 +3,12 @@ package nz.ac.vuw.ecs.swen225.gp22.persistency;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.Set;
@@ -18,6 +22,8 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import actor.spi.Actor;
+import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 
 
@@ -31,6 +37,16 @@ public class Levels {
 //	public static void main(String args[]) {
 //		//Level testLevel = loadLevel(()->System.out.println(""),"level1.xml");
 //		//saveLevel(testLevel,"testLevel.xml");
+//		Element e = new Element("monster");
+//		e.setAttribute(new Attribute("x",1+""));
+//		e.setAttribute(new Attribute("y",1+""));
+//		e.setAttribute(new Attribute("route","RRLL"));
+//		try {
+//			createMonster("levels/level2",e);
+//		} catch (MalformedURLException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 //	}
 	
 	/**
@@ -41,7 +57,7 @@ public class Levels {
 	 * @param end - The phase to be run if the player loses in the level
 	 * @return Level - A level loaded from a file
 	 */
-	public static Level loadLevel(Runnable next,Runnable end,String filename) {
+	public static Level loadLevel(Runnable next,Runnable end,String filename) throws IOException,JDOMException{
 		String prefix = "./levels/";	// Filepath prefix
 		filename = prefix + filename;
 		Set<Entity> entities = new HashSet<Entity>();
@@ -80,11 +96,14 @@ public class Levels {
 			.filter(e -> e.getName().equals("key")).forEach(k -> createKey(k,inventory));
 			Player player = new Player(new Point(playerx,playery),entities);
 			player.setInventory(inventory);
-			return new Level(next,end,map,entities,levelNum,time,player);
+			List<Actor> actors = new ArrayList<Actor>();
+			document.getRootElement().getChild("actors").getChildren().stream()
+			.filter(e->e.getName().equals("monster")).forEach(k->{actors.add(createMonster("level2.jar",k));});;
+			return new Level(next,end,map,entities,levelNum,actors,time,player);
 		}catch(JDOMException e) {
-			e.printStackTrace();
+			throw e;
 		}catch(IOException ioe) {
-			ioe.printStackTrace();
+			throw ioe;
 		}
 		return null;
 	}
@@ -153,11 +172,69 @@ public class Levels {
 	}
 	
 	/**
+	 * Creates a monster from a jar file
+	 * @param filename - the filename to load the monster from
+	 * @param e - The element that contains the details of the monster
+	 * @return The created monster
+	 */
+	private static Actor createMonster(String filename,Element e) throws MalformedURLException{
+		int x = Integer.parseInt(e.getAttributeValue("x"));
+		int y = Integer.parseInt(e.getAttributeValue("y"));
+		String directions = e.getAttributeValue("route");
+		File file = new File(filename+".jar");
+		ClassLoader parent = Actor.class.getClassLoader();
+		URL[] urls = null;
+		try {
+			urls = new URL[] { file.getAbsoluteFile().toURI().toURL()};
+		} catch (MalformedURLException mue) {
+			throw mue;
+		}
+		URLClassLoader c = new URLClassLoader(urls,parent);
+		//System.out.println(c.toString());
+		ServiceLoader<Actor> loader = ServiceLoader.load(Actor.class,c);
+		Actor monster = null;
+		Iterator<Actor> itr = loader.iterator();
+		while(itr.hasNext()) {
+			monster = itr.next();
+			if(!monster.getClass().getSimpleName().equals("Monster")) {
+				monster = null;
+			}
+		}
+		
+		if(monster == null) {
+			return null;
+		}
+		List<Direction> dir = new ArrayList<Direction>();
+		monster.setPoint(new Point(x,y));
+		for(int i=0;i<directions.length();i++) {
+			switch(directions.charAt(i)) {
+			case 'L':
+				dir.add(Direction.Left);
+				break;
+				
+			case 'R':
+				dir.add(Direction.Right);
+				break;
+				
+			case 'U':
+				dir.add(Direction.Up);
+				break;
+				
+			case 'D':
+				dir.add(Direction.Down);
+				break;
+			}
+		}
+		monster.setRoute(dir);
+		return monster;
+	}
+	
+	/**
 	 * Saves the passed in level to a file
 	 * @param level - The level to be saved
 	 * @param filename - The name the file will be saved as
 	 */
-	public static void saveLevel(Level level,String filename){
+	public static void saveLevel(Level level,String filename) throws IOException{
 		Document doc = new Document();
 		Cells cells = level.getCells();		// A cells object containing all the cells in the level
 		Element lev = new Element("level");
@@ -199,9 +276,8 @@ public class Levels {
 		lev.addContent(player);
 		try {
 			new XMLOutputter(Format.getPrettyFormat()).output(doc, new FileWriter("./levels/"+filename));
-		} catch (IOException e1) {
-			System.out.println("failed to save level");
-			e1.printStackTrace();
+		} catch (IOException ioe) {
+			throw ioe;
 		}
 	}
 	
