@@ -10,6 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -197,7 +198,7 @@ public class LevelView extends JPanel{
 	    
 	    // draw enlarged images for solid objects as they are 3D and regular if not
 	    if(c.isSolid()) {
-	    	sf.g().drawImage(Img.getValue(c.getName()).image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null); //
+	    	sf.g().drawImage(Img.getValue(c.getName()).image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null);
 	    } else {
 	    	sf.g().drawImage(Img.getValue(c.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
 	    }
@@ -257,13 +258,6 @@ public class LevelView extends JPanel{
 
 	}
 	
-	void drawIndicator(Graphics g, int x, int y, int value){
-		g.setColor(Color.white);
-    	g.fillRect(x - RENDERSIZE/16 - RENDERSIZE/6, y - RENDERSIZE/16- RENDERSIZE/6, RENDERSIZE/6, RENDERSIZE/6);
-    	g.setColor(Color.getHSBColor((value-1)/4f, 0.5f, 0.65f));
-    	g.fillRect(x - RENDERSIZE/16 - RENDERSIZE/8, y - RENDERSIZE/16 - RENDERSIZE/8, RENDERSIZE/10, RENDERSIZE/10);
-	}
-	
 	
 	/**
 	 * Method to draw a player
@@ -304,43 +298,47 @@ public class LevelView extends JPanel{
 		int inventoryHeight = s.height - 3*RENDERSIZE;
 		int inventoryWidth = (int)(s.width * 3/12f);
 		g.setColor(new Color(120, 131, 84, fadeIn * 9));
-		g.fillRoundRect(s.width - RENDERSIZE - inventoryWidth, RENDERSIZE, inventoryWidth, inventoryHeight, 30, 30);
+		g.fillRoundRect(s.width - RENDERSIZE - inventoryWidth, RENDERSIZE/2, inventoryWidth, inventoryHeight, 30, 30);
 		
 		// draw text
 		g.setColor(Color.white);
 		g.setFont( LoadedFont.PixeloidSans.getSize(40f));
 		
 		// titles
-		g.drawString("Level",  s.width - inventoryWidth , 130);
-		g.drawString("Time",  s.width - inventoryWidth , 250);
-		g.drawString("Chips",  s.width - inventoryWidth , 370);
+		g.drawString("Level",  s.width - inventoryWidth , 100);
+		g.drawString("Time",  s.width - inventoryWidth , 220);
+		g.drawString("Chips",  s.width - inventoryWidth , 340);
 		
 		g.setFont( LoadedFont.PixeloidSans.getSize(30f));
 		g.setColor(new Color(190, 196, 161));
 		
 		// values
-		g.drawString(String.format("%03d", l.getLevelNum()),  s.width - inventoryWidth , 170);
-		g.drawString(String.format("%03d", (int)(l.getCountdown())),  s.width - inventoryWidth , 290);
-		g.drawString(String.format("%03d", l.getPlayer().treasuresToCollect()),  s.width - inventoryWidth , 410);
-		
+		g.drawString(String.format("%03d", l.getLevelNum()),  s.width - inventoryWidth , 140);
+		g.drawString(String.format("%03d", (int)(l.getCountdown())),  s.width - inventoryWidth , 260);
+		g.drawString(String.format("%03d", l.getPlayer().treasuresToCollect()),  s.width - inventoryWidth , 380);
 		
 		// inventory
 		g.setColor(new Color(120, 131, 84, fadeIn * 9));
-		g.fillRoundRect(s.width - RENDERSIZE - inventoryWidth, (int)(RENDERSIZE*1.5) + inventoryHeight, inventoryWidth, RENDERSIZE, 30, 30);
+		g.fillRoundRect(s.width - RENDERSIZE - inventoryWidth, RENDERSIZE + inventoryHeight, inventoryWidth, (int)(RENDERSIZE*1.5), 30, 30);
 		// inventory items
 		int invStartX = s.width - inventoryWidth - RENDERSIZE/2;
 		AtomicInteger count = new AtomicInteger();
+		// loop through all items in inventory
 		p.inventory().forEach(ent -> {
-			if(count.get() <= 4) {
-			g.drawImage(Img.getValue(ent.getName() + '_' + ((Key)ent).getColor()).image, invStartX + ((int)(RENDERSIZE/1.25)*count.get()), (int)(RENDERSIZE*1.75) + inventoryHeight, invStartX + ((int)(RENDERSIZE/1.25)*count.get())+ RENDERSIZE/2,
-					(int)(RENDERSIZE*1.75) + inventoryHeight+ RENDERSIZE/2, 0, 0, RENDERSIZE, RENDERSIZE, null);
-			count.getAndIncrement();}
+			BufferedImage img = ent instanceof Key ? Img.getValue(ent.getName() + '_' + ((Key)ent).getColor()).image : Img.getValue(ent.getName()).image;
+			g.drawImage(img, 
+					invStartX + ((int)(RENDERSIZE/1.25)*(count.get()-(int)(count.get()/4f)*4)),
+					(int)(RENDERSIZE*1.125) + inventoryHeight + (int)(count.get()/4f)*(int)(RENDERSIZE/1.5),
+					invStartX + ((int)(RENDERSIZE/1.25)*(count.get()-(int)(count.get()/4f)*4))+ RENDERSIZE/2,
+					(int)(RENDERSIZE*1.125) + inventoryHeight+ RENDERSIZE/2 + (int)(count.get()/4f)*(int)(RENDERSIZE/1.5), 
+					0, 0, RENDERSIZE, RENDERSIZE, null);
+			count.getAndIncrement();
 		});
 		
 		// sign
 		int infoFieldHeight = 2 * RENDERSIZE;
 		int infoFieldWidth = s.width - inventoryWidth - 3*RENDERSIZE;
-		// draw sign if present.
+		// draw sign field if present.
 		p.getActiveInfoField().ifPresent(a -> {
 			g.setColor(new Color(122, 101, 91, 225));
 			g.fillRoundRect(RENDERSIZE, s.height - infoFieldHeight - RENDERSIZE, infoFieldWidth, infoFieldHeight, 30 ,30);
