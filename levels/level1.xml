@@ -10,7 +10,7 @@
 		<row>#####..s..#####</row>
 		<row>#...#.....#...#</row>
 		<row>#...R.....B...#</row>
-		<row>###############</row>
+		<row>######Y#Y######</row>
 		<row>wwww#..#..#wwww</row>
 		<row>wwww#..#..#wwww</row>
 		<row>wwww#..#..#wwww</row>
@@ -21,7 +21,9 @@
 		<key x="5" y="7" code="B"/>
 		<key x="9" y="5" code="R"/>
 		<key x="9" y="7" code="R"/>
-		<key x="2" y="4" code="G"/>
+		<key x="2" y="4" code="Y"/>
+		<key x="12" y="4" code="Y"/>
+		<key x="8" y="12" code="G"/>
 		<info x="7" y="5">
 			<message>Collect apples and watch out for water!</message>
 		</info>
@@ -34,6 +36,8 @@
 		<treasure x="5" y="6"/>
 		<treasure x="7" y="8"/>
 		<treasure x="9" y="6"/>
+		<treasure x="6" y="11"/>
+		<treasure x="8" y="11"/>
 		<exit x="7" y="2"/>
 	</entities>
 	<player x="7" y="6">
