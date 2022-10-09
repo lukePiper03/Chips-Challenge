@@ -105,7 +105,7 @@ public class LevelView extends JPanel{
 	   ScreenFields sf = new ScreenFields(g, c, s);
 	   
 	   // draw map, player, and GUI
-	   drawMap(sf, pf);
+	   drawMap(sf, pf, curPlayer);
 	   drawPlayer(sf, pos);
 	   drawGUI(g, s, l, curPlayer);
 	 
@@ -116,7 +116,7 @@ public class LevelView extends JPanel{
 	 * @param sf  record containing screen fields
 	 * @param pf  record containing player fields
 	 */
-	void drawMap(ScreenFields sf, PlayerFields pf){
+	void drawMap(ScreenFields sf, PlayerFields pf, Player player){
 		// paint background black
 		sf.g().setColor(new Color(0, 0, 0, fadeIn *10));
 		sf.g().fillRect(0, 0, sf.size().width, sf.size().height);
@@ -131,10 +131,10 @@ public class LevelView extends JPanel{
 			.forEach(row -> IntStream.range(pf.player().y()-range+1, pf.player().y()+range)
 			.forEach(col -> {
 				if(c.get(row, col).isSolid()){
-					drawCell(sf, pf, new Cell(new Floor(), row, col));
+					drawCell(sf, pf, player, new Cell(new Floor(), row, col));
 					wallTiles.add(c.get(row, col));
 				} else {
-					drawCell(sf, pf, c.get(row, col));
+					drawCell(sf, pf, player, c.get(row, col));
 				}
 			})
 		);
@@ -144,7 +144,7 @@ public class LevelView extends JPanel{
 		entities.stream().forEach(ent -> drawEntity(sf, pf, ent));
 		
 		// walls must be drawn last for 3D effect
-		wallTiles.forEach(a -> drawCell(sf, pf, a));
+		wallTiles.forEach(a -> drawCell(sf, pf, player, a));
 		
 		// draw monsters
 		l.getMonster().ifPresent(mon -> drawEntity(sf, pf, mon));
@@ -189,7 +189,7 @@ public class LevelView extends JPanel{
 	 * @param pf  record containing player fields
 	 * @param c  current cell object
 	 */
-	void drawCell(ScreenFields sf, PlayerFields pf, Cell c) {
+	void drawCell(ScreenFields sf, PlayerFields pf, Player p, Cell c) {
 		// calculate image dimensions
 		int w1=c.x()*RENDERSIZE-(int)((sf.centre().x()+pf.xShift())*RENDERSIZE);
 	    int h1=c.y()*RENDERSIZE-(int)((sf.centre().y()+pf.yShift())*RENDERSIZE);
@@ -199,7 +199,11 @@ public class LevelView extends JPanel{
 	    // draw enlarged images for solid objects as they are 3D and regular if not
 	    if(c.isSolid()) {
 	    	sf.g().drawImage(Img.getValue(c.getName()).image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null);
-	    } else {
+	    }
+	    else if(c.state() instanceof Water && p.bootsInInventory() && Math.hypot(c.x() - p.getPos().x(), c.y() - p.getPos().y()) < 2.15 ){
+	    	sf.g().drawImage(Img.getValue("Ice").image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+	    }
+	    else {
 	    	sf.g().drawImage(Img.getValue(c.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
 	    }
 	    

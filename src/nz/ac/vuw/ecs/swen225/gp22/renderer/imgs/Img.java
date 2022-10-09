@@ -29,6 +29,7 @@ public enum Img{
   ExitLock,
   Treasure,
   Water,
+  Ice,
   Monster,
   Boots,
   Flippers,
