@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<level num="1" time="55.600000000000094">
+<level num="1" time="60.0">
   <map rows="14" cols="15">
     <row>ww#####w#####ww</row>
     <row>ww#...###...#ww</row>
@@ -17,20 +17,20 @@
     <row>wwww#######wwww</row>
   </map>
   <entities>
+    <key x="2" y="4" code="G" />
     <key x="5" y="7" code="B" />
     <key x="5" y="5" code="B" />
     <key x="9" y="7" code="R" />
     <key x="9" y="5" code="R" />
-    <key x="2" y="4" code="G" />
-    <treasure x="2" y="5" />
-    <treasure x="2" y="7" />
-    <treasure x="9" y="6" />
-    <treasure x="4" y="2" />
-    <treasure x="12" y="7" />
-    <treasure x="5" y="6" />
     <treasure x="10" y="2" />
-    <treasure x="12" y="5" />
+    <treasure x="2" y="5" />
+    <treasure x="5" y="6" />
+    <treasure x="9" y="6" />
+    <treasure x="2" y="7" />
     <treasure x="7" y="8" />
+    <treasure x="4" y="2" />
+    <treasure x="12" y="5" />
+    <treasure x="12" y="7" />
     <info x="7" y="5">
       <message>Collect apples and watch out for water!</message>
     </info>
