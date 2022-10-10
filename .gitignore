@@ -1,8 +1,6 @@
 Example.xml
 /bin/
 .DS_Store
-.project
-.classpath
 /bin1/
 .idea
 levels/savedLevel.xml
