@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author Declan Cross
  * SoundPlayer class to keep track of ongoing and loaded sounds for playing and stopping
+ * @author Declan Cross 300567901
  */
 public class SoundPlayer
 {
@@ -27,7 +27,6 @@ public class SoundPlayer
     	sounds.putAll(Stream.of(Sound.values()).collect(Collectors.toMap(a->a, a->a.clip)));
     }
     
-    
     /**
      * Returns a sound clip for usage by other functions
      * @param s  sound name to retrieve
@@ -41,7 +40,6 @@ public class SoundPlayer
     	}
     }
     
-    
     /**
      * Plays a requested sound
      * @param s  name of sound
@@ -53,7 +51,6 @@ public class SoundPlayer
     	curClip.setFramePosition(0);
     	curClip.start();
     }
-    
     
     /**
      * Loops a requested sound with a fade in effect
@@ -76,7 +73,6 @@ public class SoundPlayer
 			} catch (InterruptedException e) {e.printStackTrace();}
         }
     }
-    
     
     /**
      * Fades a sound out then stops playing it
@@ -107,7 +103,6 @@ public class SoundPlayer
     	System.out.println("Stopping sound " + s);
     	getSound(s).stop();
     }
-    
     
     /**
      * Stops all sounds
