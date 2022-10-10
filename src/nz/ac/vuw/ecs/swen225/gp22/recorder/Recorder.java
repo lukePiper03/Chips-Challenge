@@ -1,18 +1,14 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 
 /**
  * @author Quinten Smit 300584150
@@ -22,35 +18,31 @@ public class Recorder {
 	Document document;
 	Element eventsElement;
 	@SuppressWarnings("javadoc")
-	public static Recorder recorder = new Recorder((Level) null); 
+	public static Recorder recorder = new Recorder((String) null, 0); 
 	
 	/**
 	 * Makes a new recorder which is ready to receive inputs
-	 * @param level the current level
+	 * @param startTime 
+	 * @param levelFile the current level
 	 */
-	public Recorder(Level level) {
+	public Recorder(String levelFile, int startTime) {
 		document = new Document();
 		Element replayElement = new Element("replay");
 		document.setRootElement(replayElement);
 		
 		Element mapElement = new Element("map");
 		//Maybe save the map as well here? Could be expanded later
-		//mapElement.setText(level.getFileName());
+		mapElement.setText(levelFile);
 		replayElement.addContent(mapElement);
+		
+		Element timeElement = new Element("time");
+		timeElement.setText(String.valueOf(startTime));
+		replayElement.addContent(timeElement);
 		
 		eventsElement = new Element("events");
 		replayElement.addContent(eventsElement);
 	}
 	
-	/**
-	 * Loads a Recorder from a file
-	 * @param fileName The name of the file to load from
-	 * @throws IOException 
-	 * @throws JDOMException 
-	 */
-	public Recorder(String fileName) throws JDOMException, IOException {
-		document = (Document) (new SAXBuilder()).build(new File(fileName));
-	}
 	
 	/**
 	 * Adds a new player moved event to the recorder
@@ -98,7 +90,7 @@ public class Recorder {
 	 * @param args
 	 */
 	public static void main(String[] args){
-	    Recorder recorder1 = makeTestRecorder();
+	    /*Recorder recorder1 = makeTestRecorder();
 	    System.out.println("One: " + recorder1.toString());
 	    
 	    try {
@@ -121,7 +113,7 @@ public class Recorder {
 		Recorder recorder = new Recorder((Level)null);
 	    recorder.savePlayerMoveEvent(0, Direction.Left);
 	    recorder.savePlayerMoveEvent(5, Direction.Right);
-	    return recorder;
+	    return recorder;*/
 	}
 	
 }

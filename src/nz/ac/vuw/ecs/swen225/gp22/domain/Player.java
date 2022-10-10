@@ -78,7 +78,6 @@ public class Player extends Subject{
 	 */
 	public Runnable set(Function<Direction,Direction> f){
 		return ()->{
-			Recorder.recorder.savePlayerMoveEvent((int)System.currentTimeMillis(), direction);
 			direction=f.apply(direction);};
 	}
 	
