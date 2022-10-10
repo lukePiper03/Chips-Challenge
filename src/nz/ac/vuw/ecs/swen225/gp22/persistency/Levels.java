@@ -44,7 +44,6 @@ public class Levels {
 //		try {
 //			createMonster("levels/level2",e);
 //		} catch (MalformedURLException e1) {
-//			// TODO Auto-generated catch block
 //			e1.printStackTrace();
 //		}
 //	}
@@ -87,6 +86,7 @@ public class Levels {
 			entityList.stream().filter(e -> e.getName().equals("info")).forEach(k -> createInfo(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("exit")).forEach(k -> createExit(k,entities));
 			entityList.stream().filter(e -> e.getName().equals("teleporter")).forEach(k -> createTeleporter(k,entities));
+			entityList.stream().filter(e -> e.getName().equals("boots")).forEach(k -> createBoots(k,entities));
 			
 			// Creates the player
 			Set<Entity> inventory = new HashSet<Entity>();
@@ -156,6 +156,17 @@ public class Levels {
 		int x = Integer.parseInt(e.getAttributeValue("x"));
 		int y = Integer.parseInt(e.getAttributeValue("y"));
 		entities.add(new Exit(new Point(x,y)));
+	}
+	
+	/**
+	 * Creates boots from a string from the file
+	 * @param e - The element from the file
+	 * @param entities - The current list of entities
+	 */
+	private static void createBoots(Element e,Set<Entity> entities) {
+		int x = Integer.parseInt(e.getAttributeValue("x"));
+		int y = Integer.parseInt(e.getAttributeValue("y"));
+		entities.add(new Boots(new Point(x,y)));
 	}
 	
 	/**
@@ -234,6 +245,42 @@ public class Levels {
 	}
 	
 	/**
+	 * Creates a monster from a jar file for the domain tests
+	 * @param filename - the filename to load the monster from
+	 * @param p - Point where the monster should start
+	 * @param route - The route for the monster to take
+	 * @return The created monster
+	 */
+	public static Actor createTestMonster(String filename,Point p,List<Direction> route) throws MalformedURLException{
+		File file = new File(filename+".jar");
+		ClassLoader parent = Actor.class.getClassLoader();
+		URL[] urls = null;
+		try {
+			urls = new URL[] { file.getAbsoluteFile().toURI().toURL()};
+		} catch (MalformedURLException mue) {
+			throw mue;
+		}
+		URLClassLoader c = new URLClassLoader(urls,parent);
+		//System.out.println(c.toString());
+		ServiceLoader<Actor> loader = ServiceLoader.load(Actor.class,c);
+		Actor monster = null;
+		Iterator<Actor> itr = loader.iterator();
+		while(itr.hasNext()) {
+			monster = itr.next();
+			if(!monster.getClass().getSimpleName().equals("Monster")) {
+				monster = null;
+			}
+		}
+		
+		if(monster == null) {
+			return null;
+		}
+		monster.setPoint(p);
+		monster.setRoute(route);
+		return monster;
+	}
+	
+	/**
 	 * Saves the passed in level to a file
 	 * @param level - The level to be saved
 	 * @param filename - The name the file will be saved as
@@ -266,6 +313,7 @@ public class Levels {
 		level.getEntites().stream().filter(e -> e instanceof Treasure).forEach(k -> {entities.addContent(saveTreasure((Treasure)k));});
 		level.getEntites().stream().filter(e -> e instanceof InfoField).forEach(k -> {entities.addContent(saveInfo((InfoField)k));});
 		level.getEntites().stream().filter(e -> e instanceof Exit).forEach(k -> {entities.addContent(saveExit((Exit)k));});
+		level.getEntites().stream().filter(e -> e instanceof Boots).forEach(k -> {entities.addContent(saveBoots((Boots)k));});
 		List<Entity> teleporters = new ArrayList<Entity>(level.getEntites());
 		level.getEntites().stream().filter(e -> e instanceof Teleporter).forEach(k -> {if(teleporters.contains(k))entities.addContent(saveTeleporter((Teleporter)k,teleporters));teleporters.remove(k);});
 		lev.addContent(entities);
@@ -276,6 +324,7 @@ public class Levels {
 		player.setAttribute(new Attribute("y",level.getPlayer().getPos().y()+""));
 		Element inventory = new Element("inventory");
 		level.getPlayer().inventory().stream().filter(e->e instanceof Key).forEach(k->{inventory.addContent(saveKey((Key)k));});
+		level.getPlayer().inventory().stream().filter(e->e instanceof Boots).forEach(k->{inventory.addContent(saveBoots((Boots)k));});
 		player.addContent(inventory);
 		lev.addContent(player);
 		try {
@@ -351,6 +400,18 @@ public class Levels {
 		tel1.setAttribute(new Attribute("endy",k.getOther().getPos().y()+""));
 		teleList.remove(k.getOther());
 		return tel1;
+	}
+	
+	/**
+	 * Saves a boots entitiy
+	 * @param k - the boots to be saved
+	 * @return the boots as an xml element
+	 */
+	private static Element saveBoots(Boots k) {
+		Element treasure = new Element("boots");
+		treasure.setAttribute(new Attribute("x",k.getPos().x()+""));
+		treasure.setAttribute(new Attribute("y",k.getPos().y()+""));
+		return treasure;
 	}
 	
 }
