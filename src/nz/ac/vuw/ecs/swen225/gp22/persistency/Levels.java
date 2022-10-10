@@ -44,7 +44,6 @@ public class Levels {
 //		try {
 //			createMonster("levels/level2",e);
 //		} catch (MalformedURLException e1) {
-//			// TODO Auto-generated catch block
 //			e1.printStackTrace();
 //		}
 //	}
@@ -230,6 +229,42 @@ public class Levels {
 			}
 		}
 		monster.setRoute(dir);
+		return monster;
+	}
+	
+	/**
+	 * Creates a monster from a jar file for the domain tests
+	 * @param filename - the filename to load the monster from
+	 * @param p - Point where the monster should start
+	 * @param route - The route for the monster to take
+	 * @return The created monster
+	 */
+	public static Actor createTestMonster(String filename,Point p,List<Direction> route) throws MalformedURLException{
+		File file = new File(filename+".jar");
+		ClassLoader parent = Actor.class.getClassLoader();
+		URL[] urls = null;
+		try {
+			urls = new URL[] { file.getAbsoluteFile().toURI().toURL()};
+		} catch (MalformedURLException mue) {
+			throw mue;
+		}
+		URLClassLoader c = new URLClassLoader(urls,parent);
+		//System.out.println(c.toString());
+		ServiceLoader<Actor> loader = ServiceLoader.load(Actor.class,c);
+		Actor monster = null;
+		Iterator<Actor> itr = loader.iterator();
+		while(itr.hasNext()) {
+			monster = itr.next();
+			if(!monster.getClass().getSimpleName().equals("Monster")) {
+				monster = null;
+			}
+		}
+		
+		if(monster == null) {
+			return null;
+		}
+		monster.setPoint(p);
+		monster.setRoute(route);
 		return monster;
 	}
 	

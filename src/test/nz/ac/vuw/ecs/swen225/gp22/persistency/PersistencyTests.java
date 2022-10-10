@@ -5,6 +5,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 
 import java.io.IOException;
 
+import org.jdom2.JDOMException;
 import org.junit.jupiter.api.Test;
 
 public class PersistencyTests {
@@ -15,7 +16,12 @@ public class PersistencyTests {
 	@Test void createValidLevel1() {
 		Runnable next = () -> {};
 		Runnable end = () -> {};
-		assert(Levels.loadLevel(next, end, "level1.xml") instanceof Level);
+		try {
+			assert(Levels.loadLevel(next, end, "level1.xml") instanceof Level);
+		} catch (IOException | JDOMException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -24,7 +30,12 @@ public class PersistencyTests {
 	@Test void createValidLevel2() {
 		Runnable next = () -> {};
 		Runnable end = () -> {};
-		assert(Levels.loadLevel(next, end, "level2.xml") instanceof Level);
+		try {
+			assert(Levels.loadLevel(next, end, "level2.xml") instanceof Level);
+		} catch (IOException | JDOMException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -33,7 +44,12 @@ public class PersistencyTests {
 	@Test void createInvalidLevel1() {
 		Runnable next = () -> {};
 		Runnable end = () -> {};
-		assert Levels.loadLevel(next, end, "test") == null;
+		try {
+			assert Levels.loadLevel(next, end, "test") == null;
+		} catch (IOException | JDOMException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -42,9 +58,26 @@ public class PersistencyTests {
 	@Test void saveValidLevel1() {
 		Runnable next = () -> {};
 		Runnable end = () -> {};
-		Level testLevel1 = Levels.loadLevel(next, end, "level1.xml");
-		Levels.saveLevel(testLevel1, "testLevel.xml");
-		Level testLevel2 = Levels.loadLevel(next, end, "testLevel.xml");
+		Level testLevel1 = null;
+		try {
+			testLevel1 = Levels.loadLevel(next, end, "level1.xml");
+		} catch (IOException | JDOMException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			Levels.saveLevel(testLevel1, "testLevel.xml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Level testLevel2 = null;
+		try {
+			testLevel2 = Levels.loadLevel(next, end, "testLevel.xml");
+		} catch (IOException | JDOMException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assert testLevel1.getCountdown() == testLevel2.getCountdown();
 		assert testLevel1.getLevelNum() == testLevel2.getLevelNum();
 		assert testLevel1.getEntites().size() == testLevel2.getEntites().size();
