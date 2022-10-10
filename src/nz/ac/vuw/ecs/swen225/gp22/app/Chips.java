@@ -155,7 +155,7 @@ public class Chips extends JFrame{
 			ioe.printStackTrace();
 		}
 		//Create the recorder
-		Recorder.recorder = new Recorder(level);
+		//Recorder.recorder = new Recorder(fileName, time);
 		
 	    // Set up the viewport
 	    LevelView view = new LevelView(level);

@@ -56,11 +56,6 @@ public class Level {
 	public void gameOver() {
 		endSequenceStarted = true; //triggers the next Runnable in tick
 		end.ifPresent(r -> r.run());
-		try {
-			Recorder.recorder.saveToFile("Example"); //change later
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	/**
