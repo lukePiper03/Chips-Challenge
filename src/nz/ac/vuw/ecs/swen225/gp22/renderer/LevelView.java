@@ -19,8 +19,8 @@ import java.util.stream.IntStream;
 import javax.swing.JPanel;
 
 /**
- * @author Declan Cross
  * Renders all content of map and GUI on screen when playing levels
+ * @author Declan Cross 300567902
  */
 public class LevelView extends JPanel{
 	// serial number
@@ -28,7 +28,6 @@ public class LevelView extends JPanel{
 
 	// level variables
 	private final Level l;				// stored level for rendering
-	
 	
 	// animation variables
 	private int fadeIn;  				// current fade amount
@@ -56,7 +55,9 @@ public class LevelView extends JPanel{
 	public LevelView(Level newLevel) {
 		l = newLevel;
 		l.setLevelEnd(()->endLevel());
+		// set initial animation direction
 		oldDir = Direction.Down;
+		// start music
 		s = new SoundPlayer();
 		new Thread(() -> s.loop(Sound.eightbitsong, 50)).start();
 		e = new EventHandler(l, s);
@@ -132,9 +133,11 @@ public class LevelView extends JPanel{
 			.forEach(row -> IntStream.range(pf.player().y()-range+1, pf.player().y()+range)
 			.forEach(col -> {
 				if(c.get(row, col).isSolid()){
+					// draw floor then save solid tile for drawing on top later
 					drawCell(sf, pf, player, new Cell(new Floor(), row, col));
 					wallTiles.add(c.get(row, col));
 				} else {
+					// draw cell
 					drawCell(sf, pf, player, c.get(row, col));
 				}
 			})
@@ -167,16 +170,11 @@ public class LevelView extends JPanel{
 		 int w1=cellPos.x()*RENDERSIZE-(int)((sf.centre().x()+pf.xShift())*RENDERSIZE);
 		 int h1=cellPos.y()*RENDERSIZE-(int)((sf.centre().y()+pf.yShift())*RENDERSIZE);
 		 
-		 // calculate distance of shadow from player
+		 // calculate distance of shadow from player and check bounds
 		 double dist = Math.hypot(cellPos.x()- pf.player().x()-pf.xShift(), cellPos.y() - pf.player().y()-pf.yShift()) - 2;
 		 dist *= 50;
-//		 dist += Math.random() *4 -2;
-//		 dist -= (c.x()- player.x())*20 %4;
-//		 if(Math.abs(c.x()- player.x()) %4 == 1 && Math.abs(c.y()- player.y()) % 3 == 1){
-//			 dist += 15 * (xShift + yShift);
-//		 }
 		 if(dist < 0) {dist = 0;}
-		 if(dist > 255) {dist = 255;}
+		 else if(dist > 255) {dist = 255;}
 		 
 		 // draw shadow
 		 sf.g().setColor(new Color(0, 0, 0, (int)dist));
@@ -241,6 +239,7 @@ public class LevelView extends JPanel{
 	    }
 	}
 	
+	
 	/**
 	 * Method to draw a single entity
 	 * @param sf  record containing screen fields
@@ -260,7 +259,6 @@ public class LevelView extends JPanel{
 	    
 	    // draw image
 	    sf.g().drawImage(Img.getValue(mon.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
-
 	}
 	
 	
@@ -278,13 +276,8 @@ public class LevelView extends JPanel{
 		double h2=h1+RENDERSIZE*scale;
 		
 		// work out player image to use
-		String type;
-		if(l.getPlayer().direction() != Direction.None) {
-			oldDir = l.getPlayer().direction();
-			type = "walk";
-		} else{
-			type = "idle";
-		}
+		String type = (l.getPlayer().direction() != Direction.None) ? "walk" : "idle";
+		oldDir = l.getPlayer().direction();
 		int val = tickCount > 8 ? 1 : 2;
 		
 		// draw player image
@@ -340,7 +333,7 @@ public class LevelView extends JPanel{
 			count.getAndIncrement();
 		});
 		
-		// sign
+		// info field
 		int infoFieldHeight = 2 * RENDERSIZE;
 		int infoFieldWidth = s.width - inventoryWidth - 3*RENDERSIZE;
 		// draw sign field if present.

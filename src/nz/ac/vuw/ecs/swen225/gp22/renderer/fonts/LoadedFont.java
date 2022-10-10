@@ -4,38 +4,41 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 
 /**
- * @author Declan Cross
  * Loaded font class storing all fonts
+ * @author Declan Cross 300567901
  */
 public enum LoadedFont{
-	  // font declarations
+	  /** Bold font for titles */
 	  PixeloidBold,
+	  /** Default pixel font */
 	  PixeloidSans,
+	  /** Mono font for numbers */
 	  PixeloidMono;
 	
-	  /**
-	   *  Current loaded font style
-	   */
+	  /** Current loaded font style */
 	  public final Font style;
 	  
 	  /**
 	   * Constructor for LoadedFont
 	   */
-	  
 	  LoadedFont(){style=loadFont(this.name());}
+	  
 	  /**
 	   * Load font on initialisation
 	   * @param name of font
 	   * @return loaded font
 	   */
-	  
 	  static private Font loadFont(String name){
 		try {
 			// try create font and register
 			Font tempFont = Font.createFont(Font.TRUETYPE_FONT, LoadedFont.class.getResourceAsStream(name + ".ttf"));
 			GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(tempFont);
 			return tempFont;
-		} catch (Exception e) {throw new Error(e);}
+		} catch (Exception e) {
+			// throw if font file does not exist
+			System.out.println("Font does not exist: " + name+".ttf");
+			throw new Error(e);
+		}
 	    
 	  }
 	  
