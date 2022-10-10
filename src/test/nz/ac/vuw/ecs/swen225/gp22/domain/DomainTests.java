@@ -1,12 +1,8 @@
 package test.nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.net.MalformedURLException;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -18,13 +14,11 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
 import nz.ac.vuw.ecs.swen225.gp22.domain.InfoField;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
-import actor.spi.Actor;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Player;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Point;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Teleporter;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
-import nz.ac.vuw.ecs.swen225.gp22.domain.LockedDoor;
 
 /**
  * All tests that directly test the Domain module (currently 89% coverage)
@@ -747,6 +741,7 @@ class DomainTests {
 		Set<Entity> entities = Set.of();
 		Player p = new Player(new Point(1,1), entities);
 		try {
+			@SuppressWarnings("unused")
 			Level l = new Level(next, die, map,entities, 1, 
 					List.of(Levels.createTestMonster("level2", new Point(2,1), List.of(Direction.Left))), 60, p);
 		}catch(IllegalArgumentException | MalformedURLException e) {}
@@ -764,6 +759,7 @@ class DomainTests {
 		Set<Entity> entities = Set.of();
 		Player p = new Player(new Point(1,1), entities);
 		try {
+			@SuppressWarnings("unused")
 			Level l = new Level(next, die, map,entities, 1, 
 					List.of(Levels.createTestMonster("level2", new Point(2,1), List.of(Direction.Left))), 60, p);
 		}catch(IllegalArgumentException | MalformedURLException e) {}

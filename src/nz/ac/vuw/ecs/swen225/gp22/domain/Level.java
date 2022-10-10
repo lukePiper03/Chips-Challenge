@@ -1,13 +1,10 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import actor.spi.Actor;
-import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
-import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 /**
  * @author Linda Zhang 300570498

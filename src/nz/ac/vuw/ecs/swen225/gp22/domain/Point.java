@@ -37,7 +37,13 @@ public record Point(int x, int y){
 	public Point distance(Point other){
 	    return this.add(other.times(-1));
 	  }
-//	  
+	/**
+	 * @param other
+	 * @return return the euclidean distance from this point to the other
+	 */	  
+	public double euclidean(Point other) {
+		return Math.hypot(this.x-other.x, this.y-other.y);
+	}
 //	  public double size(){//Pythagoras here!
 //	    return Math.sqrt(x*x+y*y);
 //	  }

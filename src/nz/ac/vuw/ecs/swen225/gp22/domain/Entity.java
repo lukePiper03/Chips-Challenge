@@ -11,7 +11,6 @@ public abstract class Entity extends Subject{
 	 * Do the interaction with the player
 	 * @param p the player
 	 * @param cells the current cells board
-	 * @param soundplayer 
 	 */
 	public abstract void onInteraction(Player p, Cells cells);
 	
