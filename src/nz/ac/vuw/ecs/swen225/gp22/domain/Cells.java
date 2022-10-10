@@ -39,6 +39,9 @@ public class Cells {
 				case 'B':
 					tmp.add(new Cell(new BlueLockedDoor(), x, y));
 					break;
+				case 'Y':
+					tmp.add(new Cell(new YellowLockedDoor(), x, y));
+					break;
 				case 'G':
 					tmp.add(new Cell(new GreenLockedDoor(), x, y));
 					break;

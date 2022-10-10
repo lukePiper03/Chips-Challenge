@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import actor.spi.Actor;
 import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
@@ -18,36 +19,13 @@ public class Level {
 	private Set<Entity> entities;
 	private Runnable next;
 	private Integer levelNum;
-	private Optional<Monster> monster;
+	private List<Actor> monsters;
 	private int hasEnded = 0;
 	private boolean endSequenceStarted = false;
 	private Optional<Runnable> end = Optional.empty();
 	
 	private Runnable die;
 	private double countdown; 
-	/**
-	 * Makes a Level WITHOUT a Monster
-	 * @param next the next 'phase' the game will be in (e.g. homescreen, next level)
-	 * @param die the phase when the player dies (when the user loses)
-	 * @param map the map of Cells that make up the Level
-	 * @param entities the Set of Entities (Key, Treasure, etc) for the Level
-	 * @param levelNum the level number
-	 * @param countdown the countdown of the Level
-	 * @param p the player in the level
-	 */
-	public Level(Runnable next, Runnable die, char[][] map, Set<Entity> entities, Integer levelNum, double countdown, Player p){
-		this.next = next;
-		this.entities = entities;
-		this.levelNum = levelNum;
-		cells = new Cells(map);
-		this.p = p;
-		monster = Optional.empty();
-		
-		this.die = die; //runnable to call when player dies
-		this.countdown = countdown; 
-		
-		//monster = Optional.of(new Monster(new Point(3,1), List.of(Direction.Right, Direction.Down, Direction.Left, Direction.Up)));
-	}
 	
 	/**
 	 * Makes a Level WITH a Monster
@@ -60,13 +38,13 @@ public class Level {
 	 * @param countdown the countdown of the Level
 	 * @param p the player in the game
 	 */
-	public Level(Runnable next, Runnable die,char[][] map, Set<Entity> entities, Integer levelNum, Monster m, double countdown, Player p){
+	public Level(Runnable next, Runnable die,char[][] map, Set<Entity> entities, Integer levelNum, List<Actor> m, double countdown, Player p){
 		this.next = next;
 		this.entities = entities;
 		this.levelNum = levelNum;
 		cells = new Cells(map);
 		this.p = p;
-		monster = Optional.of(m);
+		this.monsters = m;
 		
 		this.die = die; //runnable to call when player dies
 		this.countdown = countdown; 
@@ -102,11 +80,11 @@ public class Level {
 		if(countdown <= 0) {playerDiesGameOver(); return;} //player dies if time runs out
 		
 		//if monster is touching player, player dies
-		monster.ifPresent(m -> {
+		monsters.forEach(m -> {
 			if(m.getPos().equals(p.getPos())) playerDiesGameOver();
 		});
 		
-		//if player touches water, player dies
+		//if player touches water, player dies (unless boots in inventory)
 		if(!p.bootsInInventory() && cells.get(p.getPos()).state() instanceof Water) playerDiesGameOver();
 		
 		//if player has active InfoField but is not on it anymore, make it en empty Optional
@@ -126,7 +104,7 @@ public class Level {
 		
 		//update player, monster and cells
 		p.tick(cells);
-		monster.ifPresent(m -> m.tick(cells));
+		monsters.forEach(m -> m.tick(cells));
 		
 		if(endSequenceStarted)hasEnded++;
 		if(hasEnded > 25) { //after 25 ticks, leave the Level
@@ -158,7 +136,7 @@ public class Level {
 	/**
 	 * @return the Monster optional. Could be empty.
 	 */
-	public Optional<Monster> getMonster(){return monster;}
+	public List<Actor> getMonsters(){return monsters;}
 	
 	/**
 	 * @return get countdown of the Level

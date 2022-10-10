@@ -40,9 +40,14 @@ class Keys implements KeyListener {
 			  chip.closePausePopup(chip.popup);
 		  }
 		  
-	  } else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S) {
+	  } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+		  System.out.println("Resuming level");
+		  if(chip.getPause() == true) {
+			  chip.closePausePopup(chip.popup);
+		  }
+		  
+  	  } else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S) {
 		  System.out.println("Saving");
-		  //Levels.saveLevel(chip.getCurrentLevel(), "savedLevel.xml");
 		  chip.saveMenu();
 		  
 	  } else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_R) {
