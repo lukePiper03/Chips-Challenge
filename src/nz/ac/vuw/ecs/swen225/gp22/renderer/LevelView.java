@@ -277,7 +277,7 @@ public class LevelView extends JPanel{
 		
 		// work out player image to use
 		String type = (l.getPlayer().direction() != Direction.None) ? "walk" : "idle";
-		oldDir = l.getPlayer().direction();
+		if(l.getPlayer().direction()!=Direction.None) oldDir = l.getPlayer().direction();
 		int val = tickCount > 8 ? 1 : 2;
 		
 		// draw player image
