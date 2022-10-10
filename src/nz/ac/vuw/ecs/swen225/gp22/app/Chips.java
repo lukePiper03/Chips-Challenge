@@ -452,7 +452,13 @@ public class Chips extends JFrame{
         help.addActionListener(e->helpMenu());
         exit.addActionListener(e->initialPhase());
         saveLevel.addActionListener(e->isSave = true);
-        saveLevel.addActionListener(e->Levels.saveLevel(getCurrentLevel(), "savedLevel"));
+        saveLevel.addActionListener(e->{
+			try {
+				Levels.saveLevel(getCurrentLevel(), "savedLevel");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		});
         saveLevel.addActionListener(e->closePausePopup(popup));
         saveLevel.addActionListener(e->saveMenu());
  	    loadLevel.addActionListener(e->loadMenu());
