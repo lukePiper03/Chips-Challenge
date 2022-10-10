@@ -17,17 +17,14 @@ public class Teleporter extends Entity{
 	public void onInteraction(Player p, Cells cells) {		
 		if(!p.getPos().equals(pos)) throw new IllegalStateException("Player is not on Teleporter!");
 		if(!p.foundMatchingTeleporter(this)) throw new IllegalArgumentException("Other teleporter not valid!");
-		if(cells.get(other.getPos().add(p.direction().point())).isSolid()) {
-			throw new IllegalStateException("the landing pos after teleporting is solid");
-		}
 		
 		if(p.getPos().euclidean(p.getOldPos()) != 1) return; //prevent recursive teleporting
 		
-		p.setPos(other.getPos().add(p.direction().point())); //teleport player to landing position (one more in direction of other pos)
+		p.setPos(other.getPos()); //teleport player to landing position (one more in direction of other pos)
 		onChange();
 		
 		assert p.getOldPos().equals(pos);
-		assert p.getPos().equals(other.getPos().add(p.direction().point()));
+		assert p.getPos().equals(other.getPos());
 	}
 
 	/**
