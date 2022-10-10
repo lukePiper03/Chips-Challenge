@@ -21,6 +21,8 @@ public class Teleporter extends Entity{
 			throw new IllegalStateException("the landing pos after teleporting is solid");
 		}
 		
+		if(p.getPos().euclidean(p.getOldPos()) != 1) return; //prevent recursive teleporting
+		
 		p.setPos(other.getPos().add(p.direction().point())); //teleport player to landing position (one more in direction of other pos)
 		onChange();
 		
