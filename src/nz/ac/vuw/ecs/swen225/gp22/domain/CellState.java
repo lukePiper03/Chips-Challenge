@@ -23,11 +23,6 @@ class Wall implements CellState{
 	public char symbol(Cell self) {return '#';}
 }
 
-class ExitLock implements CellState{
-	public boolean isSolid(Cell self) {return true;}
-	public char symbol(Cell self) {return 'X';}
-}
-
 class Spawn implements CellState{
 	public boolean isSolid(Cell self) {return false;}
 	public char symbol(Cell self) {return 's';}

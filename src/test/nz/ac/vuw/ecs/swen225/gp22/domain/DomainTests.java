@@ -815,7 +815,7 @@ class DomainTests {
 		
 		l.tick(); //calls onInteraction to teleport player
 		
-		assert l.getPlayer().getPos().equals(new Point(5,1)); //player should land right to t2
+		assert l.getPlayer().getPos().equals(t2.getPos()); //player should land on other
 		
 		l.tick();
 		l.gameOver();
