@@ -40,7 +40,7 @@ public enum Img{
 	/** Yellow Key image */
 	Key_Y,
 	/** Lock for exit gate image */
-	ExitLock,
+	ExitLock, ExitLock_1, ExitLock_2, ExitLock_3, ExitLock_4,
 	/** Treasure chip image */
 	Treasure,
 	/** Water image */
@@ -88,7 +88,8 @@ public enum Img{
    * @return Image enum
    */
   static public Img getValue(String name, int curVal, int maxVal){
-	  String image = name+"_"+(int)(curVal/(float)maxVal);
+	  if(curVal > maxVal)curVal = maxVal; 
+	  String image = name+"_"+curVal; //(int)(curVal/(float)maxVal)
 	  return Stream.of(Img.values()).anyMatch(v -> v.name().equals(image)) ? getValue(image) : getValue(name);
   }
   

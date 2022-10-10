@@ -59,8 +59,8 @@ public class LevelView extends JPanel{
 		oldDir = Direction.Down;
 		// start music
 		s = new SoundPlayer();
-		new Thread(() -> s.loop(Sound.eightbitsong, 50)).start();
 		e = new EventHandler(l, s);
+		beginLevel();
 	}
 	
 	
@@ -71,6 +71,14 @@ public class LevelView extends JPanel{
 		// fade out music and set animation to reverse
 		new Thread(() -> s.fadeOut(Sound.eightbitsong, 50)).start();
 		animationForwards = false;
+	}
+	
+	/**
+	 * Starts events upon level start
+	 */
+	public void beginLevel() {
+		// fades in music
+		new Thread(() -> s.loop(Sound.eightbitsong, 50)).start();
 	}
 	
 	
@@ -194,16 +202,20 @@ public class LevelView extends JPanel{
 	    int h1=c.y()*RENDERSIZE-(int)((sf.centre().y()+pf.yShift())*RENDERSIZE);
 	    int w2=w1+RENDERSIZE;
 	    int h2=h1+RENDERSIZE;
+	    int dimension = RENDERSIZE;
+	    if(c.isSolid()) {w2+=8; h2 += 8; dimension += 8;}
 	    
-	    // draw enlarged images for solid objects as they are 3D and regular if not
-	    if(c.isSolid()) {
-	    	sf.g().drawImage(Img.getValue(c.getName()).image,w1,h1,w2+8,h2+8,0,0,RENDERSIZE+8,RENDERSIZE+8,null);
+	    // special effects for exit lock that changes state depending on treasures left
+	    if(c.state() instanceof ExitLock) {
+	    	sf.g().drawImage(Img.getValue(c.getName(), l.getPlayer().treasuresToCollect(), 4).image, w1, h1, w2, h2, 0, 0, dimension, dimension, null);
 	    }
+	    // special effects for water that freezes with boots on
 	    else if(c.state() instanceof Water && p.bootsInInventory() && Math.hypot(c.x() - p.getPos().x(), c.y() - p.getPos().y()) < 2.15 ){
-	    	sf.g().drawImage(Img.getValue("Ice").image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+	    	sf.g().drawImage(Img.getValue("Ice").image, w1, h1, w2, h2, 0, 0, dimension, dimension, null);
 	    }
+	    // default case
 	    else {
-	    	sf.g().drawImage(Img.getValue(c.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
+	    	sf.g().drawImage(Img.getValue(c.getName()).image, w1, h1, w2, h2, 0, 0, dimension, dimension, null);
 	    }
 	    
 	}
@@ -229,12 +241,7 @@ public class LevelView extends JPanel{
 	    // draw image
 	    if(ent instanceof Key){
 	    	sf.g().drawImage(Img.getValue(ent.getName() + '_' + ((Key)ent).getColor() ).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
-	    } 
-	    else if(ent instanceof Exit) {
-	    	// changes state of exit given images
-	    	sf.g().drawImage(Img.getValue(ent.getName(), l.getPlayer().treasuresToCollect(), 4).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
-	    }
-	    else {
+	    }   else {
 	    	sf.g().drawImage(Img.getValue(ent.getName()).image, w1, h1, w2, h2, 0, 0, RENDERSIZE, RENDERSIZE, null);
 	    }
 	}
@@ -277,7 +284,7 @@ public class LevelView extends JPanel{
 		
 		// work out player image to use
 		String type = (l.getPlayer().direction() != Direction.None) ? "walk" : "idle";
-		if(l.getPlayer().direction()!=Direction.None) oldDir = l.getPlayer().direction();
+		oldDir = (l.getPlayer().direction()!=Direction.None) ? l.getPlayer().direction() : oldDir;
 		int val = tickCount > 8 ? 1 : 2;
 		
 		// draw player image
