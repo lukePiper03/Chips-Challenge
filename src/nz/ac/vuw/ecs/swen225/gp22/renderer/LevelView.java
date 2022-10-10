@@ -6,6 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.fonts.LoadedFont;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.player_sprites.PlayerImg;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
+import actor.spi.Actor;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -147,7 +148,7 @@ public class LevelView extends JPanel{
 		wallTiles.forEach(a -> drawCell(sf, pf, player, a));
 		
 		// draw monsters
-		l.getMonster().ifPresent(mon -> drawEntity(sf, pf, mon));
+		l.getMonsters().forEach(mon -> drawEntity(sf, pf, mon));
 		
 		// draw shadows over map
 		IntStream.range(pf.player().x()-range+1, pf.player().x()+range)
@@ -246,7 +247,7 @@ public class LevelView extends JPanel{
 	 * @param pf  record containing player fields
 	 * @param ent  current entity object
 	 */
-	void drawEntity(ScreenFields sf, PlayerFields pf, Monster mon){
+	void drawEntity(ScreenFields sf, PlayerFields pf, Actor mon){
 		// return if out of render distance
 		Point pos = mon.getPos();
 	    if(Math.hypot(pos.x()- pf.player().x()+0.5, pos.y() - pf.player().y()+0.5) > (int)((float)fadeIn/STEPS)) {return;}
