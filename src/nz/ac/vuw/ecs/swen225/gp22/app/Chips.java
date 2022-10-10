@@ -6,6 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,6 +27,8 @@ import java.awt.Font;
 
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+
+import org.jdom2.JDOMException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -144,8 +147,13 @@ public class Chips extends JFrame{
 		setLocationRelativeTo(null);
 		
 		// Set up new Level
-		level = Levels.loadLevel(next, end, fileName);
-		
+		try {
+			level = Levels.loadLevel(next, end, fileName);
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 		//Create the recorder
 		Recorder.recorder = new Recorder(level);
 		
@@ -346,11 +354,29 @@ public class Chips extends JFrame{
   	    	save2Button.addActionListener(e->showMessageDialog(null, "You must be playing a level to save it"));
   	    	save3Button.addActionListener(e->showMessageDialog(null, "You must be playing a level to save it"));
   	    } else {
-	  	    save1Button.addActionListener(e->Levels.saveLevel(getCurrentLevel(), "savedLevel1"));
+	  	    save1Button.addActionListener(e->{
+				try {
+					Levels.saveLevel(getCurrentLevel(), "savedLevel1");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			});
 	  	    save1Button.addActionListener(e->isSave1 = true);
-	  	    save2Button.addActionListener(e->Levels.saveLevel(getCurrentLevel(), "savedLevel2"));
+	  	    save2Button.addActionListener(e->{
+				try {
+					Levels.saveLevel(getCurrentLevel(), "savedLevel2");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			});
 	  	    save2Button.addActionListener(e->isSave2 = true);
-	  	    save3Button.addActionListener(e->Levels.saveLevel(getCurrentLevel(), "savedLevel3"));
+	  	    save3Button.addActionListener(e->{
+				try {
+					Levels.saveLevel(getCurrentLevel(), "savedLevel3");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			});
 	  	    save3Button.addActionListener(e->isSave3 = true);
   	    }
   	    
