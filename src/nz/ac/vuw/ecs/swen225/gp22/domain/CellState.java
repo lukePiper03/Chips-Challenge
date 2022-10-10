@@ -32,8 +32,3 @@ class Spawn implements CellState{
 	public boolean isSolid(Cell self) {return false;}
 	public char symbol(Cell self) {return 's';}
 }
-
-class Water implements CellState{
-	public boolean isSolid(Cell self) {return false;}
-	public char symbol(Cell self) {return 'w';}
-}
