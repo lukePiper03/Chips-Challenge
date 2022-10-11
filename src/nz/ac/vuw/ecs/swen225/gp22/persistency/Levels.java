@@ -240,7 +240,7 @@ public class Levels {
 				break;
 			}
 		}
-//		monster.setRoute(dir);
+		monster.setRoute(dir);
 		return monster;
 	}
 	
@@ -276,7 +276,7 @@ public class Levels {
 			return null;
 		}
 		monster.setPoint(p);
-//		monster.setRoute(route);
+		monster.setRoute(route);
 		return monster;
 	}
 	
