@@ -1,18 +1,22 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 /**
- * Represents an InfoField entity. Displays message.
+ * Represents an InfoField entity. Displays message when player walks on it.
+ * 
  * @author Linda Zhang 300570498
  */
 public class InfoField extends Entity{
 	private final Point pos;
 	private final String message;
+	
 	/**
+	 * The constructor for InfoField. Initialises with position and a message.
 	 * @param pos the location of the InfoField
 	 * @param message the message contained in the InfoField
 	 */
 	public InfoField(Point pos, String message){this.pos = pos; this.message = message;}
 	
+	@Override
 	public void onInteraction(Player p, Cells cells) {
 		if(!p.getPos().equals(pos)) {
 			p.removeActiveInfoField();
@@ -25,9 +29,12 @@ public class InfoField extends Entity{
 			onChange();
 		}
 	}
+	
+	@Override
+	public Point getPos() {return pos;}
+	
 	/**
 	 * @return the message that the InfoField displays
 	 */
 	public String getMessage() {return message;}
-	public Point getPos() {return pos;}
 }
