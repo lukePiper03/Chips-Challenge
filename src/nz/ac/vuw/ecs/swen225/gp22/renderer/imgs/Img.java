@@ -58,6 +58,8 @@ public enum Img {
   Ice,
   /** Monster image. */
   Monster,
+  /** Alternate monster appearance. */
+  Monster_1,
   /** Frozen water boots image. */
   Boots,
   /** Flipper image. */

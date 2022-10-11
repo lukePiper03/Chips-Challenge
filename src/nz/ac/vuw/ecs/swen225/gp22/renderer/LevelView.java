@@ -284,15 +284,21 @@ public class LevelView extends JPanel {
         > (int) ((float) fadeIn / animSteps)) {
       return;
     }
+    
+   // work out difference between positions to make movement animation
+    Point diff = mon.getOldPos().distance(pos);
+    float xShift = diff.x() * (1 - mon.getMoveTime());
+    float yShift = diff.y() * (1 - mon.getMoveTime());
+    int val = diff.x() < 0  || diff.y() < 0 ? 0 : 1;
 
     // calculate entity image dimensions
-    int w1 = pos.x() * renderSize - (int) ((sf.centre().x() + pf.xShift()) * renderSize);
-    int h1 = pos.y() * renderSize - (int) ((sf.centre().y() + pf.yShift()) * renderSize);
+    int w1 = pos.x() * renderSize - (int) ((sf.centre().x() + pf.xShift() - xShift) * renderSize);
+    int h1 = pos.y() * renderSize - (int) ((sf.centre().y() + pf.yShift() - yShift) * renderSize);
     int w2 = w1 + renderSize;
     int h2 = h1 + renderSize;
-
+    System.out.println("Cow" + val);
     // draw image
-    sf.g().drawImage(Img.getValue(mon.getName()).image,
+    sf.g().drawImage(Img.getValue(mon.getName(), val, 1).image,
         w1, h1, w2, h2, 0, 0, renderSize, renderSize, null);
   }
 
