@@ -23,8 +23,8 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import actor.spi.Actor;
-import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+import nz.ac.vuw.ecs.swen225.gp22.global.Direction;
 
 
 /**
