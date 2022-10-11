@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <replay>
-  <map />
+  <map>level/level1</map>
+  <time>0</time>
   <events>
     <event time="0">
       <actor>Player</actor>

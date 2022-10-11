@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
@@ -17,8 +18,6 @@ import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
 public class Recorder {
 	Document document;
 	Element eventsElement;
-	@SuppressWarnings("javadoc")
-	public static Recorder recorder = new Recorder((String) null, 0); 
 	
 	/**
 	 * Makes a new recorder which is ready to receive inputs
@@ -50,6 +49,8 @@ public class Recorder {
 	 * @param action The direction that the player moved in
 	 */
 	public void savePlayerMoveEvent(int time, Direction action) {
+		if(action == null)return;
+		
 		Element eventElement = new Element("event");
 		eventElement.setAttribute("time", time+"");
 		
@@ -59,7 +60,7 @@ public class Recorder {
 		eventElement.addContent(actorElement);
 		
 		Element actionElement = new Element("action");
-		//actionElement.setAttribute("length", length+"");
+
 		actionElement.setText(action.toString());
 		eventElement.addContent(actionElement);
 		
@@ -90,7 +91,7 @@ public class Recorder {
 	 * @param args
 	 */
 	public static void main(String[] args){
-	    /*Recorder recorder1 = makeTestRecorder();
+	    Recorder recorder1 = makeTestRecorder();
 	    System.out.println("One: " + recorder1.toString());
 	    
 	    try {
@@ -99,21 +100,21 @@ public class Recorder {
 			e1.printStackTrace();
 		}
 	    
-	    Recorder recorder2 = null;
+	    Replay replay = null;
 	    try {
-	    	recorder2 = new Recorder("test.xml");
+			replay = new Replay("test.xml");
 		} catch (JDOMException | IOException e) {
 			e.printStackTrace();
 		}
 	    
-	    System.out.println("Two " + recorder2.toString());
+	    System.out.println("Two " + replay.getLevelPath());
 	}
 	
 	private static Recorder makeTestRecorder() {
-		Recorder recorder = new Recorder((Level)null);
+		Recorder recorder = new Recorder("level/level1", 0);
 	    recorder.savePlayerMoveEvent(0, Direction.Left);
 	    recorder.savePlayerMoveEvent(5, Direction.Right);
-	    return recorder;*/
+	    return recorder;
 	}
 	
 }
