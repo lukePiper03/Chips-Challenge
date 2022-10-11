@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<level num="2" time="115.63999999999932">
+<level num="2" time="114.47999999999914">
   <map rows="25" cols="26">
     <row>w#########wwwwwwwwwwwwwwww</row>
     <row>w#wwwwwww#######wwwwwwwwww</row>
@@ -52,12 +52,12 @@
     </inventory>
   </player>
   <actors>
-    <monster x="19" y="10" route="DDDDUUUU" />
-    <monster x="22" y="11" route="UUUUDDDD" />
-    <monster x="20" y="11" route="RRRRLLLL" />
-    <monster x="8" y="16" route="RRRRRRRUUULLLLLLLDDD" />
-    <monster x="3" y="13" route="LLLLLLLDDDRRRRRRRUUU" />
-    <monster x="2" y="16" route="LLLDDDRRRRRRRUUULLLL" />
-    <monster x="9" y="13" route="RRRUUULLLLLLLDDDRRRR" />
+    <monster x="19" y="9" route="DDDDUUUU" progress="7" />
+    <monster x="22" y="12" route="UUUUDDDD" progress="7" />
+    <monster x="19" y="11" route="RRRRLLLL" progress="7" />
+    <monster x="9" y="16" route="RRRRRRRUUULLLLLLLDDD" progress="7" />
+    <monster x="2" y="13" route="LLLLLLLDDDRRRRRRRUUU" progress="7" />
+    <monster x="3" y="16" route="LLLDDDRRRRRRRUUULLLL" progress="7" />
+    <monster x="8" y="13" route="RRRUUULLLLLLLDDDRRRR" progress="7" />
   </actors>
 </level>

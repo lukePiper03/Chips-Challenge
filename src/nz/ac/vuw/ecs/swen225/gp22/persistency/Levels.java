@@ -241,6 +241,7 @@ public class Levels {
 			}
 		}
 		monster.setRoute(dir);
+		monster.setProgress(Integer.parseInt(e.getAttributeValue("progress")));
 		return monster;
 	}
 	
@@ -439,6 +440,7 @@ public class Levels {
 					
 		}
 		monster.setAttribute(new Attribute("route",directions));
+		monster.setAttribute(new Attribute("progress",k.getProgress()+""));
 		return monster;
 	}
 	

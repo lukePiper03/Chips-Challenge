@@ -52,12 +52,12 @@
         </inventory>
     </player>
     <actors>
-        <monster x="19" y="8" route="DDDDUUUU"/>
-        <monster x="22" y="13" route="UUUUDDDD"/>
-        <monster x="18" y="11" route="RRRRLLLL"/>
-        <monster x="2" y="16" route="RRRRRRRUUULLLLLLLDDD"/>
-        <monster x="9" y="13" route="LLLLLLLDDDRRRRRRRUUU"/>
-        <monster x="5" y="13" route="LLLDDDRRRRRRRUUULLLL"/>
-        <monster x="6" y="16" route="RRRUUULLLLLLLDDDRRRR"/>
+        <monster x="19" y="8" route="DDDDUUUU" progress="0"/>
+        <monster x="22" y="13" route="UUUUDDDD" progress="0"/>
+        <monster x="18" y="11" route="RRRRLLLL" progress="0"/>
+        <monster x="2" y="16" route="RRRRRRRUUULLLLLLLDDD" progress="0"/>
+        <monster x="9" y="13" route="LLLLLLLDDDRRRRRRRUUU" progress="0"/>
+        <monster x="5" y="13" route="LLLDDDRRRRRRRUUULLLL" progress="0"/>
+        <monster x="6" y="16" route="RRRUUULLLLLLLDDDRRRR" progress="0"/>
     </actors>
 </level>
