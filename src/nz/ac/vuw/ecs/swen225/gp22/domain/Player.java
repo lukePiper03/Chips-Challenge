@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
-import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
+import nz.ac.vuw.ecs.swen225.gp22.global.Direction;
 
 /**
  * The player of the game. Represents 'Chap'

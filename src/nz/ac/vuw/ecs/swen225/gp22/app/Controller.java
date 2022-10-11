@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.Player;
+import nz.ac.vuw.ecs.swen225.gp22.global.Direction;
 
 /**
  * Controller for all movements/functionality of the user in game

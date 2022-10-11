@@ -10,8 +10,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import javax.swing.JPanel;
-import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
+
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+import nz.ac.vuw.ecs.swen225.gp22.global.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.fonts.LoadedFont;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.player_sprites.PlayerImg;
