@@ -241,6 +241,7 @@ public class Levels {
 			}
 		}
 		monster.setRoute(dir);
+		monster.setProgress(Integer.parseInt(e.getAttributeValue("progress")));
 		return monster;
 	}
 	
@@ -327,6 +328,11 @@ public class Levels {
 		level.getPlayer().inventory().stream().filter(e->e instanceof Boots).forEach(k->{inventory.addContent(saveBoots((Boots)k));});
 		player.addContent(inventory);
 		lev.addContent(player);
+		
+		Element actors = new Element("actors");
+		level.getMonsters().stream().filter(e -> e.getClass().getSimpleName().equals("Monster"))
+		.forEach(k -> {actors.addContent(saveMonster((Actor)k));});
+		lev.addContent(actors);		
 		try {
 			new XMLOutputter(Format.getPrettyFormat()).output(doc, new FileWriter("./levels/"+filename+".xml"));
 		} catch (IOException ioe) {
@@ -412,6 +418,30 @@ public class Levels {
 		treasure.setAttribute(new Attribute("x",k.getPos().x()+""));
 		treasure.setAttribute(new Attribute("y",k.getPos().y()+""));
 		return treasure;
+	}
+	
+	private static Element saveMonster(Actor k) {
+		Element monster = new Element("monster");
+		monster.setAttribute(new Attribute("x",k.getPos().x()+""));
+		monster.setAttribute(new Attribute("y",k.getPos().y()+""));
+		String directions = "";
+		for(Direction d : k.getRoute()) {
+			if(d == Direction.Down) {
+				directions += 'D';
+			} else if(d == Direction.Up) {
+				directions += 'U';
+			} else if(d == Direction.Left) {
+				directions += 'L';
+			} else if(d == Direction.Right) {
+				directions += 'R';
+			} else {
+				System.err.println("Error saving monsters");
+			}
+					
+		}
+		monster.setAttribute(new Attribute("route",directions));
+		monster.setAttribute(new Attribute("progress",k.getProgress()+""));
+		return monster;
 	}
 	
 }
