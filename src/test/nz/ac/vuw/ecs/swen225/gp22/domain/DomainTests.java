@@ -21,7 +21,8 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Treasure;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
 
 /**
- * All tests that directly test the Domain module (currently 89% coverage)
+ * All tests that directly test the Domain module (currently 90% coverage)
+ * 
  * @author Linda Zhang 300570498
  */
 class DomainTests {

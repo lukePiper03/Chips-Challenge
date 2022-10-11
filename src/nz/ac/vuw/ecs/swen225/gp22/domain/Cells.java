@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * The board of the current level in the game. Cells consist of many single cell objects.
+ * 
  * @author Linda Zhang  300570498
- * The board of the current level in the game. Cells
- *         consist of many single cell objects.
  */
 public class Cells {
 	private int maxX;
@@ -15,7 +15,8 @@ public class Cells {
 	private final List<List<Cell>> inner = new ArrayList<>();
 
 	/**
-	 * @param map cells loaded from the demo
+	 * The constructor for Cells. Populates the inner ArrayList with the map array.
+	 * @param map cells loaded from Persistency
 	 */
 	public Cells(char[][] map) {
 		maxX = map[0].length;
@@ -60,12 +61,11 @@ public class Cells {
 	}
 
 	/**
-	 * Gets the cell on the x and y positon
+	 * Gets the cell on the x and y positon.
 	 * 
 	 * @param x x position on the board
 	 * @param y y position on the board
-	 * @return the cell on the x and y position. If out of range, return a water
-	 *         cell.
+	 * @return the cell on the x and y position. If out of range, return a water cell.
 	 */
 	public Cell get(int x, int y) {
 		if (x < 0 || y < 0 || x >= maxX || y >= maxY) {
@@ -77,8 +77,7 @@ public class Cells {
 	}
 
 	/**
-	 * Gets the cell on the point
-	 * 
+	 * Gets the cell on the point.
 	 * @param p point of cell
 	 * @return the cell on the point. If out of range, return a water cell.
 	 */
@@ -87,7 +86,7 @@ public class Cells {
 	}
 	
 	/**
-	 * Gets all Locked doors on the board of a specific color
+	 * Gets all Locked doors on the board of a specific color.
 	 * @param color the symbol that matches the color of the key
 	 * @return the list of Locked doors
 	 */
@@ -99,6 +98,7 @@ public class Cells {
 	}
 	
 	/**
+	 * Gets the cell that represents the ExitLock
 	 * @return the cell that represents the ExitLock
 	 */
 	public Cell getExitLock() {
@@ -109,6 +109,7 @@ public class Cells {
 	}
 
 	/**
+	 * Gets the point at which the player should spawn.
 	 * @return the point at which the player should spawn
 	 */
 	public Point getSpawn() {
@@ -116,6 +117,7 @@ public class Cells {
 	}
 	
 	/**
+	 * Get the maxX position of the cell board.
 	 * @return the maxX position of the cell board
 	 */
 	public int getMaxX() {
@@ -123,6 +125,7 @@ public class Cells {
 	}
 	
 	/**
+	 * Get the maxY position of the cell board.
 	 * @return the maxY position of the cell board
 	 */
 	public int getMaxY() {
@@ -130,7 +133,8 @@ public class Cells {
 	}
 	
 	/**
-	 * @return return Cells as a 2D array of symbols. Used for testing.
+	 * Returns the inner ArrayList as a 2D array. Used for unit tests.
+	 * @return return Cells as a 2D array of symbols.
 	 */
 	public char[][] toMap(){
 		char[][] newMap = new char[maxY][maxX];

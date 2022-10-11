@@ -7,8 +7,9 @@ import java.util.Set;
 import actor.spi.Actor;
 
 /**
+ *  Simulates a level of the game. Contains the playing board, entities, and player.
+ *  
  * @author Linda Zhang 300570498
- * simulates a level of the game. Contains the playing board and the player.
  */
 public class Level {
 	private Cells cells;
@@ -18,14 +19,13 @@ public class Level {
 	private Integer levelNum;
 	private List<Actor> monsters;
 	private int hasEnded = 0;
-	private boolean endSequenceStarted = false;
+	private boolean endSequenceStarted = false; //for time delay once game over
 	private Optional<Runnable> end = Optional.empty();
-	
 	private Runnable die;
 	private double countdown; 
 	
 	/**
-	 * Makes a Level WITH a Monster
+	 * Makes a Level.
 	 * @param next the next 'phase' the game will be in (e.g. homescreen, next level)
 	 * @param die the phase when the player dies (when the user loses)
 	 * @param map the map of Cells that make up the Level
@@ -35,7 +35,8 @@ public class Level {
 	 * @param countdown the countdown of the Level
 	 * @param p the player in the game
 	 */
-	public Level(Runnable next, Runnable die,char[][] map, Set<Entity> entities, Integer levelNum, List<Actor> m, double countdown, Player p){
+	public Level(Runnable next, Runnable die,char[][] map, 
+					Set<Entity> entities, Integer levelNum, List<Actor> m, double countdown, Player p){
 		this.next = next;
 		this.entities = entities;
 		this.levelNum = levelNum;
@@ -48,7 +49,7 @@ public class Level {
 	}
 
 	/**
-	 * Switches the screen to the next Level/winning screen
+	 * Switches the screen to the next Level/winning screen whgen the player wins.
 	 */
 	public void gameOver() {
 		endSequenceStarted = true; //triggers the next Runnable in tick
@@ -56,21 +57,21 @@ public class Level {
 	}
 	
 	/**
-	 * Switches to homescreen/dying screen when the player is killed
+	 * Switches the screen to homescreen/dying screen when the player is killed.
 	 */
 	public void playerDiesGameOver() {
-		System.out.println("Player dies!");
 		end.ifPresent(r -> r.run());
 		die.run();
 	}
 	
 	/**
+	 * Set the end Runnable.
 	 * @param r The runnable to call for ending sequence
 	 */
 	public void setLevelEnd(Runnable r) { end = Optional.of(r);}
 
 	/**
-	 * Every tick of the game. States of cells and entities may change.
+	 * Every tick of the game. States ofthe game may change.
 	 */
 	public void tick() {
 		countdown -= 0.04;
@@ -111,31 +112,37 @@ public class Level {
 	}
 	
 	/**
+	 * Gets the player of the level.
 	 * @return player
 	 */
 	public Player getPlayer() {return p;}
 	
 	/**
+	 * Gets the cells of the Level.
 	 * @return cell board
 	 */
 	public Cells getCells() {return cells;}
 	
 	/**
+	 * Gets an immutable version of the entities of the Level.
 	 * @return a clone of entities on the level in a list
 	 */
 	public List<Entity> getEntites(){return entities.stream().toList();}
 	
 	/**
+	 * Gets the level number this Level represents.
 	 * @return levelNum
 	 */
 	public Integer getLevelNum() {return levelNum;}
 	
 	/**
-	 * @return the Monster optional. Could be empty.
+	 * Gets the monsters of this Level.
+	 * @return the list of Actors (monsters)
 	 */
 	public List<Actor> getMonsters(){return monsters;}
 	
 	/**
+	 * Gets the coundown timer of the Level.
 	 * @return get countdown of the Level
 	 */
 	public double getCountdown() {return countdown;}

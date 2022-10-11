@@ -3,25 +3,29 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 import java.util.Optional;
 
 /**
+ * Classes that extend this class can be used to call onChange. Helps to remove unwanted dependencies (Observer Pattern).
+ * 
  * @author Linda Zhang 300570498
- * Classes that extend this can be subscribed to by others!
- * Others can listen to onChange() to do whatever they want.
  */
 public abstract class Subject{
 	/**
-	 * the Optional Observer in the subject for Observer Pattern
+	 * The Optional Observer in the subject for Observer Pattern.
 	 */
 	public Optional<Observer> ob=Optional.empty();
+	
 	/**
-	 * update the observer
+	 * Update the observer.
 	 */
 	public void onChange(){ob.ifPresent(o->o.update());}
-	 /**
+	 
+	/**
+	 * Attatch the Observer.
 	 * @param o set observer
 	 */
 	public void attach(Observer o){ob=Optional.of(o);}
-	 /**
-	 * remove observer
+	 
+	/**
+	 * Deattach the Observer.
 	 */
 	public void detatch(){ob = Optional.empty();}
 }

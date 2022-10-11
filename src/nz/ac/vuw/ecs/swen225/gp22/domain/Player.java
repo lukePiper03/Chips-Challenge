@@ -8,8 +8,9 @@ import java.util.function.Function;
 import nz.ac.vuw.ecs.swen225.gp22.app.Direction;
 
 /**
+ * The player of the game. Represents 'Chap'
+ * 
  * @author Linda Zhang 300570498
- *  the player of the game. Represents Chap
  */
 public class Player extends Subject{
 	private Point pos;
@@ -27,6 +28,7 @@ public class Player extends Subject{
 	private Optional<InfoField> activeInfoField = Optional.empty(); //for when the player is on an InfoField
 	
 	/**
+	 * The constructor of Player. Initialised with its location and a list of entities on the board.
 	 * @param p the location of the player
 	 * @param entities the entities on the board
 	 */
@@ -38,16 +40,19 @@ public class Player extends Subject{
 	}
 	
 	/**
+	 * Get the position of the Player.
 	 * @return the position of the player in a new point
 	 */
 	public Point getPos() {return new Point(pos.x(), pos.y());}
 	
 	/**
+	 * Get the previous position of the Player.
 	 * @return the previous old point of the player (for smooth animation in render)
 	 */
 	public Point getOldPos() {return new Point(oldPos.x(),oldPos.y());}
 	
 	/**
+	 * Set the position of the Player.
 	 * @param newPos set the position of the player to the newPos, assigning oldPos to pos
 	 */
 	public void setPos(Point newPos) {
@@ -56,22 +61,25 @@ public class Player extends Subject{
 	}
 	
 	/**
-	 * @return the moving time (for smooth animation in render)
+	 * Get the moving time of the Player. (for smooth animation in render)
+	 * @return the moving time
 	 */
 	public float getMoveTime() {return (float) timeSinceLastMove / (float)timestamp;}
 	
 	/**
+	 * Get the Player's current direction.
 	 * @return the player's current direction
 	 */
 	public Direction direction(){ return direction; }
 	
 	/**
-	 * set the player direction
+	 * Set the Player's current direction
 	 * @param d direction to set the player to
 	 */
 	public void direction(Direction d){ direction=d; }
 	
 	/**
+	 * Set the Player's current direction.
 	 * @param f the function to apply
 	 * @return the runnable applied to the direction
 	 */
@@ -81,16 +89,19 @@ public class Player extends Subject{
 	}
 	
 	/**
+	 * Get all the current entities on the board.
 	 * @return all the entities on the current board
 	 */
 	public Set<Entity> entitiesOnBoard() {return entitiesOnBoard;}
 	
 	/**
+	 * Get all the current entities in the inventory.
 	 * @return all the entities in the players inventory (picked up)
 	 */
 	public Set<Entity> inventory(){return inventory;}
 	
 	/**
+	 * Set the current invetory.
 	 * @param i the inventory to set to the current inventory
 	 */
 	public void setInventory(Set<Entity> i) {
@@ -98,36 +109,41 @@ public class Player extends Subject{
 	}
 	
 	/**
+	 * Get the number of treasure to collect.
 	 * @return the number of treasures on the board currently
 	 */
 	public int treasuresToCollect() {return treasuresToCollect;}
 	
 	/**
-	 * decrease the count for the number of treasures on the board
+	 * Decrease the count for the number of treasures on the board.
 	 */
 	public void decreaseTreasureCount() {treasuresToCollect --;}
 	
 	/**
+	 * Get the list of entities to me removed.
 	 * @return the set to queue entities to be removed
 	 */
 	public Set<Entity> entitiesToRemove(){return entitiesToRemove;}
 	
 	/**
+	 * Gte the optional active InfoField on the board.
 	 * @return the InfoField the player is standing on. empty optional if not
 	 */
 	public Optional<InfoField> getActiveInfoField() {return activeInfoField;}
 	
 	/**
+	 * Set the active InfoField.
 	 * @param i set i to the active info field. Could be empty optional.
 	 */
 	public void setActiveInfoField(InfoField i) {activeInfoField = Optional.of(i);}
 	
 	/**
-	 * sets the infoField Optional back to empty 
+	 * Sets the infoField Optional back to empty. 
 	 */
 	public void removeActiveInfoField() {activeInfoField = Optional.empty();}
 	
 	/**
+	 * Returns true if there exits a matching Teleporter for the given Teleporter.
 	 * @param t the teleporter to find a match for
 	 * @return if there exists a teleporter that matches the given one
 	 */
@@ -140,6 +156,7 @@ public class Player extends Subject{
 	}
 	
 	/**
+	 * Returns true if there are boots in the inventory.
 	 * @return true if there are boots in the inventory
 	 */
 	public boolean bootsInInventory() {
@@ -148,7 +165,7 @@ public class Player extends Subject{
 
 	
 	/**
-	 * the player at each tick
+	 * The player at each tick.
 	 * @param cells the cells on current level
 	 */
 	public void tick(Cells cells){
@@ -162,7 +179,7 @@ public class Player extends Subject{
 	}
 	
 	/**
-	 * makes player move in a direction
+	 * Makes player move in a direction.
 	 * @param d direction
 	 * @param cells the cells on current level
 	 */
