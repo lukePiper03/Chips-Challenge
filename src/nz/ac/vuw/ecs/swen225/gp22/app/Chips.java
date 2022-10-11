@@ -113,7 +113,12 @@ public class Chips extends JFrame{
 	    // closephase set up
 	    closePhase.run();
 	    closePhase=()->{
-	     remove(this);
+	    	remove(startLvl1);
+	    	remove(startLvl2);
+	    	remove(loadLevel);
+	    	remove(help);
+	    	remove(welcome);
+	    	remove(this);
 	     };
 	     
 	     // Add listeners
