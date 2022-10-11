@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -46,6 +47,7 @@ public class Chips extends JFrame{
 	//	State curState;
 	Controller controller;
 	Level level;
+	Recorder rec;
 	boolean inPause;
 	boolean inLevel = false;
 	
@@ -148,6 +150,9 @@ public class Chips extends JFrame{
 		System.out.println("Setting level");
 		inPause = false;
 		
+		AtomicInteger count = new AtomicInteger();
+	    Recorder r = new Recorder(fileName, count.get());
+		
 		setLayout(new OverlayLayout(getContentPane()));
 		setLocationRelativeTo(null);
 		
@@ -180,12 +185,23 @@ public class Chips extends JFrame{
 	      if(inPause == false) {
 	    	  //remove(pause);
 	    	  level.tick();
+	    	  
 	    	  view.repaint();
+	    	  r.savePlayerMoveEvent(count.getAndIncrement(), level.getPlayer().direction());
+	    	  
 	    	  //add(BorderLayout.NORTH, pause);
 	      }
 	    });
 	    closePhase.run();//close phase before adding any element of the new phase
-	    closePhase=()->{ timer.stop(); remove(view);};
+	    closePhase=()->{
+	    	timer.stop();
+	    	remove(view);
+	    	try{
+	    		r.saveToFile(fileName+"_replay");
+	    	} catch (Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    };
 	    add(view);//add the new phase viewport
 	    setPreferredSize(getSize());//to keep the current size
 	    pack();                     //after pack
