@@ -296,7 +296,6 @@ public class LevelView extends JPanel {
     int h1 = pos.y() * renderSize - (int) ((sf.centre().y() + pf.yShift() - yShift) * renderSize);
     int w2 = w1 + renderSize;
     int h2 = h1 + renderSize;
-    System.out.println("Cow" + val);
     // draw image
     sf.g().drawImage(Img.getValue(mon.getName(), val, 1).image,
         w1, h1, w2, h2, 0, 0, renderSize, renderSize, null);
