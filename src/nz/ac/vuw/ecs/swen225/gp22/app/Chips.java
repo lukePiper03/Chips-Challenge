@@ -23,13 +23,13 @@ import javax.swing.OverlayLayout;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.jdom2.JDOMException;
 
@@ -47,8 +47,11 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
+/**
+ * @author lukepiper
+ *
+ */
 public class Chips extends JFrame{
-	//	State curState;
 	Controller controller;
 	Level level;
 	LevelView view;
@@ -127,7 +130,10 @@ public class Chips extends JFrame{
 	 
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setVisible(true);
-	    
+
+	    if(level != null) {
+	    	level.gameOver();
+	    }
 	    // closephase set up
 	    closePhase.run();
 	    closePhase=()->{
@@ -231,7 +237,9 @@ public class Chips extends JFrame{
     	System.out.println("Making replay");
 		//fileName = f;
     	
-    	JFileChooser j = new JFileChooser(new File("C:\\Users\\pc\\Documents\\New folder\\"));
+    	JFileChooser j = new JFileChooser(new File("./"));
+    	j.setFileFilter(new FileNameExtensionFilter("Just XML files", "xml"));
+    	j.showSaveDialog(this);
 		fileName = j.getSelectedFile().getAbsolutePath();
 		
 		count = new AtomicInteger();
@@ -634,7 +642,7 @@ public class Chips extends JFrame{
         // Add listeners
         resume.addActionListener(e->closePausePopup(popup));
         help.addActionListener(e->helpMenu());
-        exit.addActionListener(e->{level.gameOver();initialPhase();});
+        exit.addActionListener(e->initialPhase());
         saveLevel.addActionListener(e->{isSave = true;
 			try {
 				Levels.saveLevel(getCurrentLevel(), "savedLevel");
