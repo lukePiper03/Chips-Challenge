@@ -38,12 +38,15 @@ public class Replay {
 		//Element eventsElement = replayElement.getChild("events");
 	}
 	
+	/**
+	 * @param movePlayer The consumer for the player movement
+	 */
 	public void setController(Consumer<Direction> movePlayer) {
 		this.movePlayer = movePlayer;
 	}
 	
 	/**
-	 * @return
+	 * @return The the filename of the map that was loaded
 	 */
 	public String getLevelPath() {
 		return replayElement.getChild("map").getText();
@@ -54,11 +57,15 @@ public class Replay {
 	}
 	
 	/**
+	 * @return  if the move was stored in the recorder
 	 * 
 	 */
 	public boolean movePlayer() {
 		List<Element> eventList = replayElement.getChild("events").getChildren("events");
-		Optional<Element> event = eventList.stream().filter((e)->(Integer.parseInt(e.getAttribute("time").getValue()) == time)).findFirst();
+		Optional<Element> event = eventList.stream()
+										   .filter((e)->(Integer.parseInt(e.getAttribute("time").getValue()) == time))
+										   .filter((e)->e.getChildText("actor").equals("player"))
+										   .findFirst();
 		if (event.isEmpty())return false;
 		Direction direction = Direction.valueOf(event.get().getChildText("action"));
 		movePlayer.accept(direction);
