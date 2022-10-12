@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <replay>
-  <map>level1</map>
+  <map>level2</map>
   <time>0</time>
   <events>
     <event time="0">
@@ -45,39 +45,39 @@
     </event>
     <event time="10">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="11">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="12">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="13">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="14">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="15">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="16">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="17">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="18">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="19">
       <actor>Player</actor>
@@ -100,6 +100,10 @@
       <action>None</action>
     </event>
     <event time="24">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="25">
       <actor>Player</actor>
       <action>None</action>
     </event>
