@@ -77,27 +77,27 @@
     </event>
     <event time="18">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>None</action>
     </event>
     <event time="19">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>None</action>
     </event>
     <event time="20">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>None</action>
     </event>
     <event time="21">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>None</action>
     </event>
     <event time="22">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>None</action>
     </event>
     <event time="23">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>None</action>
     </event>
     <event time="24">
       <actor>Player</actor>
@@ -165,43 +165,43 @@
     </event>
     <event time="40">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="41">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="42">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="43">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="44">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="45">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="46">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="47">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="48">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="49">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="50">
       <actor>Player</actor>
@@ -209,11 +209,11 @@
     </event>
     <event time="51">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>None</action>
     </event>
     <event time="52">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>None</action>
     </event>
     <event time="53">
       <actor>Player</actor>
@@ -221,23 +221,23 @@
     </event>
     <event time="54">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="55">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="56">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>Up</action>
     </event>
     <event time="57">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>Up</action>
     </event>
     <event time="58">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="59">
       <actor>Player</actor>
@@ -249,15 +249,15 @@
     </event>
     <event time="61">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>None</action>
     </event>
     <event time="62">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>None</action>
     </event>
     <event time="63">
       <actor>Player</actor>
-      <action>Right</action>
+      <action>None</action>
     </event>
     <event time="64">
       <actor>Player</actor>
@@ -277,39 +277,39 @@
     </event>
     <event time="68">
       <actor>Player</actor>
-      <action>Up</action>
+      <action>None</action>
     </event>
     <event time="69">
       <actor>Player</actor>
-      <action>Up</action>
+      <action>None</action>
     </event>
     <event time="70">
       <actor>Player</actor>
-      <action>Up</action>
+      <action>Down</action>
     </event>
     <event time="71">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Down</action>
     </event>
     <event time="72">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Down</action>
     </event>
     <event time="73">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Down</action>
     </event>
     <event time="74">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Down</action>
     </event>
     <event time="75">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Down</action>
     </event>
     <event time="76">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Down</action>
     </event>
     <event time="77">
       <actor>Player</actor>
@@ -353,83 +353,83 @@
     </event>
     <event time="87">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Down</action>
     </event>
     <event time="88">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>Down</action>
     </event>
     <event time="89">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>Down</action>
     </event>
     <event time="90">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>Down</action>
     </event>
     <event time="91">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>Down</action>
     </event>
     <event time="92">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>Down</action>
     </event>
     <event time="93">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>Down</action>
     </event>
     <event time="94">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="95">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="96">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="97">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="98">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="99">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="100">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="101">
       <actor>Player</actor>
-      <action>Left</action>
+      <action>None</action>
     </event>
     <event time="102">
       <actor>Player</actor>
-      <action>Up</action>
+      <action>None</action>
     </event>
     <event time="103">
       <actor>Player</actor>
-      <action>Up</action>
+      <action>None</action>
     </event>
     <event time="104">
       <actor>Player</actor>
-      <action>Up</action>
+      <action>None</action>
     </event>
     <event time="105">
       <actor>Player</actor>
-      <action>Up</action>
+      <action>None</action>
     </event>
     <event time="106">
       <actor>Player</actor>
-      <action>Up</action>
+      <action>None</action>
     </event>
     <event time="107">
       <actor>Player</actor>
@@ -477,17 +477,3097 @@
     </event>
     <event time="118">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="119">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="120">
       <actor>Player</actor>
-      <action>None</action>
+      <action>Up</action>
     </event>
     <event time="121">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="122">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="123">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="124">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="125">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="126">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="127">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="128">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="129">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="130">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="131">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="132">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="133">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="134">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="135">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="136">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="137">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="138">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="139">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="140">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="141">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="142">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="143">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="144">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="145">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="146">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="147">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="148">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="149">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="150">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="151">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="152">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="153">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="154">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="155">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="156">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="157">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="158">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="159">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="160">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="161">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="162">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="163">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="164">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="165">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="166">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="167">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="168">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="169">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="170">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="171">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="172">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="173">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="174">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="175">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="176">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="177">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="178">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="179">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="180">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="181">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="182">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="183">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="184">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="185">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="186">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="187">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="188">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="189">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="190">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="191">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="192">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="193">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="194">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="195">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="196">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="197">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="198">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="199">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="200">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="201">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="202">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="203">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="204">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="205">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="206">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="207">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="208">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="209">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="210">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="211">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="212">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="213">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="214">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="215">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="216">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="217">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="218">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="219">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="220">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="221">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="222">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="223">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="224">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="225">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="226">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="227">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="228">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="229">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="230">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="231">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="232">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="233">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="234">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="235">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="236">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="237">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="238">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="239">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="240">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="241">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="242">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="243">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="244">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="245">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="246">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="247">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="248">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="249">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="250">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="251">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="252">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="253">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="254">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="255">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="256">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="257">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="258">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="259">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="260">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="261">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="262">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="263">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="264">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="265">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="266">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="267">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="268">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="269">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="270">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="271">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="272">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="273">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="274">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="275">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="276">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="277">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="278">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="279">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="280">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="281">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="282">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="283">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="284">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="285">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="286">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="287">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="288">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="289">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="290">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="291">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="292">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="293">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="294">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="295">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="296">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="297">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="298">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="299">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="300">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="301">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="302">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="303">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="304">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="305">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="306">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="307">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="308">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="309">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="310">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="311">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="312">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="313">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="314">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="315">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="316">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="317">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="318">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="319">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="320">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="321">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="322">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="323">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="324">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="325">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="326">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="327">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="328">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="329">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="330">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="331">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="332">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="333">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="334">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="335">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="336">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="337">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="338">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="339">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="340">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="341">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="342">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="343">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="344">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="345">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="346">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="347">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="348">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="349">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="350">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="351">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="352">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="353">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="354">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="355">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="356">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="357">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="358">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="359">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="360">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="361">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="362">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="363">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="364">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="365">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="366">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="367">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="368">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="369">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="370">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="371">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="372">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="373">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="374">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="375">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="376">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="377">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="378">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="379">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="380">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="381">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="382">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="383">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="384">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="385">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="386">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="387">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="388">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="389">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="390">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="391">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="392">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="393">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="394">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="395">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="396">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="397">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="398">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="399">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="400">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="401">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="402">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="403">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="404">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="405">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="406">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="407">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="408">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="409">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="410">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="411">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="412">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="413">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="414">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="415">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="416">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="417">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="418">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="419">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="420">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="421">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="422">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="423">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="424">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="425">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="426">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="427">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="428">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="429">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="430">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="431">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="432">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="433">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="434">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="435">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="436">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="437">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="438">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="439">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="440">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="441">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="442">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="443">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="444">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="445">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="446">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="447">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="448">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="449">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="450">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="451">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="452">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="453">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="454">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="455">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="456">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="457">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="458">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="459">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="460">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="461">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="462">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="463">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="464">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="465">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="466">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="467">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="468">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="469">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="470">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="471">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="472">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="473">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="474">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="475">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="476">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="477">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="478">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="479">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="480">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="481">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="482">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="483">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="484">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="485">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="486">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="487">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="488">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="489">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="490">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="491">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="492">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="493">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="494">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="495">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="496">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="497">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="498">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="499">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="500">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="501">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="502">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="503">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="504">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="505">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="506">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="507">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="508">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="509">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="510">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="511">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="512">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="513">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="514">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="515">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="516">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="517">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="518">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="519">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="520">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="521">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="522">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="523">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="524">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="525">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="526">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="527">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="528">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="529">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="530">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="531">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="532">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="533">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="534">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="535">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="536">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="537">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="538">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="539">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="540">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="541">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="542">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="543">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="544">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="545">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="546">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="547">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="548">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="549">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="550">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="551">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="552">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="553">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="554">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="555">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="556">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="557">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="558">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="559">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="560">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="561">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="562">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="563">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="564">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="565">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="566">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="567">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="568">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="569">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="570">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="571">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="572">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="573">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="574">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="575">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="576">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="577">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="578">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="579">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="580">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="581">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="582">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="583">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="584">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="585">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="586">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="587">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="588">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="589">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="590">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="591">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="592">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="593">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="594">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="595">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="596">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="597">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="598">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="599">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="600">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="601">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="602">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="603">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="604">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="605">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="606">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="607">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="608">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="609">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="610">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="611">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="612">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="613">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="614">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="615">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="616">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="617">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="618">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="619">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="620">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="621">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="622">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="623">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="624">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="625">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="626">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="627">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="628">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="629">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="630">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="631">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="632">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="633">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="634">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="635">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="636">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="637">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="638">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="639">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="640">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="641">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="642">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="643">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="644">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="645">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="646">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="647">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="648">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="649">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="650">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="651">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="652">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="653">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="654">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="655">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="656">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="657">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="658">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="659">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="660">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="661">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="662">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="663">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="664">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="665">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="666">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="667">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="668">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="669">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="670">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="671">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="672">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="673">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="674">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="675">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="676">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="677">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="678">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="679">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="680">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="681">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="682">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="683">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="684">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="685">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="686">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="687">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="688">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="689">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="690">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="691">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="692">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="693">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="694">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="695">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="696">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="697">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="698">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="699">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="700">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="701">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="702">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="703">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="704">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="705">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="706">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="707">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="708">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="709">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="710">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="711">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="712">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="713">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="714">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="715">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="716">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="717">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="718">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="719">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="720">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="721">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="722">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="723">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="724">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="725">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="726">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="727">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="728">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="729">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="730">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="731">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="732">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="733">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="734">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="735">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="736">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="737">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="738">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="739">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="740">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="741">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="742">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="743">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="744">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="745">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="746">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="747">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="748">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="749">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="750">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="751">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="752">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="753">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="754">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="755">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="756">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="757">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="758">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="759">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="760">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="761">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="762">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="763">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="764">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="765">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="766">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="767">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="768">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="769">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="770">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="771">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="772">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="773">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="774">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="775">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="776">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="777">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="778">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="779">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="780">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="781">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="782">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="783">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="784">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="785">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="786">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="787">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="788">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="789">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="790">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="791">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="792">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="793">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="794">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="795">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="796">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="797">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="798">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="799">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="800">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="801">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="802">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="803">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="804">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="805">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="806">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="807">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="808">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="809">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="810">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="811">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="812">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="813">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="814">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="815">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="816">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="817">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="818">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="819">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="820">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="821">
+      <actor>Player</actor>
+      <action>Right</action>
+    </event>
+    <event time="822">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="823">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="824">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="825">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="826">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="827">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="828">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="829">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="830">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="831">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="832">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="833">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="834">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="835">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="836">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="837">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="838">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="839">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="840">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="841">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="842">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="843">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="844">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="845">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="846">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="847">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="848">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="849">
+      <actor>Player</actor>
+      <action>Down</action>
+    </event>
+    <event time="850">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="851">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="852">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="853">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="854">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="855">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="856">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="857">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="858">
+      <actor>Player</actor>
+      <action>Left</action>
+    </event>
+    <event time="859">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="860">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="861">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="862">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="863">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="864">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="865">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="866">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="867">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="868">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="869">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="870">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="871">
+      <actor>Player</actor>
+      <action>Up</action>
+    </event>
+    <event time="872">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="873">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="874">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="875">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="876">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="877">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="878">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="879">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="880">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="881">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="882">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="883">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="884">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="885">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="886">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="887">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="888">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="889">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="890">
+      <actor>Player</actor>
+      <action>None</action>
+    </event>
+    <event time="891">
       <actor>Player</actor>
       <action>None</action>
     </event>
