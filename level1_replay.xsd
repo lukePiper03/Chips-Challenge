@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="replay">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="map" type="xs:string" />
+        <xs:element name="time" type="xs:string" />
+        <xs:element name="events">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="event" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="actor" type="xs:string" />
+                    <xs:element name="action" type="xs:string" />
+                  </xs:sequence>
+                  <xs:attribute name="time" type="xs:integer" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
