@@ -23,6 +23,7 @@ import javax.swing.OverlayLayout;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -58,9 +59,6 @@ public class Chips extends JFrame{
 	boolean inPause;
 	boolean inLevel = false;
 	
-//	boolean isSave1 = false;
-//	boolean isSave2 = false;
-//	boolean isSave3 = false;
 	boolean isSave = false;
 	
 	Map<String, Integer> movements = new HashMap<String, Integer>();
@@ -97,13 +95,12 @@ public class Chips extends JFrame{
 	    
 		// Create Text and Buttons
 	    var welcome = new JLabel("<html>Bunny's<br>Challenge!</html>", SwingConstants.CENTER);
-		var startLvl1 = new JButton("Start! (Lvl 1)");
-		var startLvl2 = new JButton("Start! (Lvl 2)");
-		var loadLevel = new JButton("Load saved Level");
-		var help = new JButton("Help");
-		
-		var replay = new JButton("Watch replay");
-		var quit = new JButton("Quit");
+		var startLvl1 = new CustomButton("Start! (Lvl 1)");
+		var startLvl2 = new CustomButton("Start! (Lvl 2)");
+		var loadLevel = new CustomButton("Load saved Level");
+		var help = new CustomButton("Help");
+		var replay = new CustomButton("Watch replay");
+		var quit = new CustomButton("Quit");
 		
 		// Setting font and colour
 		welcome.setFont(LoadedFont.PixeloidSans.getSize(70f));
@@ -111,16 +108,11 @@ public class Chips extends JFrame{
 	   
 		// Set Bounds
 	    startLvl1.setBounds(100, 400, 200, 50);
-	    startLvl2.setBounds(400, 400, 200, 50);
-	    loadLevel.setBounds(100, 475, 200, 50);
-	    help.setBounds(400, 475, 200, 50);
-	    replay.setBounds(700, 400, 200, 50);
+	    startLvl2.setBounds(100, 475, 200, 50);
+	    loadLevel.setBounds(400, 400, 200, 50);
+	    help.setBounds(700, 400, 200, 50);
+	    replay.setBounds(400, 475, 200, 50);
 	    quit.setBounds(700, 475, 200, 50);
-	    
-	    
-	    
-	    // Change cursor type on hover
-	    //setCursor(new Cursor(Cursor.HAND_CURSOR));
 	    
 	    // Add Text and Buttons
 	    add(BorderLayout.CENTER, startLvl1);
@@ -158,7 +150,7 @@ public class Chips extends JFrame{
 	     quit.addActionListener(e->System.exit(0));
 	     
 	     setPreferredSize(new Dimension(1000,600));
-	     setResizable(true);
+	     setResizable(false);
  
 	     requestFocus();
 	     pack();
@@ -206,13 +198,9 @@ public class Chips extends JFrame{
 	    
 	    // KeyListener to listen for controls from the user
 	    view.addKeyListener(controller);
-	    controller.newInstance(level.getPlayer());
-	    
+	    controller.newInstance(level.getPlayer());	    
 	    view.setFocusable(true);
-	    
-//	    var pauseLabel = new JButton("Pause");
-	    //add(BorderLayout.NORTH, pause);
-	    
+
 	    // New timer
 	    Timer timer = new Timer(33,unused->{
 	      assert SwingUtilities.isEventDispatchThread();
@@ -252,20 +240,18 @@ public class Chips extends JFrame{
 		setLayout(new OverlayLayout(getContentPane()));
 		setLocationRelativeTo(null);
 		
-		// Set up new Level
-		
-		
 		// Create _replay
 		Replay replay = null;
 		try {
 			replay = new Replay(fileName);
 		} catch (JDOMException | IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		try {
-			level = Levels.loadLevel(()->initialPhase(), ()->deathMenu(), replay.getLevelPath());
+			if(replay != null) {
+				level = Levels.loadLevel(()->initialPhase(), ()->deathMenu(), replay.getLevelPath());
+			}
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException ioe) {
@@ -343,11 +329,11 @@ public class Chips extends JFrame{
  		var save2 = new JLabel("Save 2 Slot");
  		var save3 = new JLabel("Save 3 SLot");
  		
- 		var save1Button = new JButton("Empty");
- 		var save2Button = new JButton("Empty");
- 		var save3Button = new JButton("Empty");
+ 		var save1Button = new CustomButton("Empty");
+ 		var save2Button = new CustomButton("Empty");
+ 		var save3Button = new CustomButton("Empty");
  		var text = new JLabel("");
- 		var menu = new JButton("Back to Menu");
+ 		var menu = new CustomButton("Back to Menu");
  		
  		
  		// Setting position and size
@@ -405,41 +391,9 @@ public class Chips extends JFrame{
   	    File save1File = new File("./levels/savedLevel1.xml");
   	    File save2File = new File("./levels/savedLevel2.xml");
   	    File save3File = new File("./levels/savedLevel3.xml");
-  	    if(save1File.exists()) {
-  	    	try {
-				level = Levels.loadLevel(()->{},()->{}, "savedLevel1");
-				save1Button.setText("<html>Level: " + level.getLevelNum() + "<br>Time Left: " + (int)level.getCountdown() + "<br>Chips Left: " + level.getPlayer().treasuresToCollect() + "</html>");
-			} catch (IOException | JDOMException e1) {
-				save1Button.setText("Corrupt file");
-			}
-  	    	save1Button.addActionListener(e->{setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel1");System.out.println("Loading save slot 1");});
-  	    } else {
-  	    	save1Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
-  	    }
-  	    
-  	    if(save2File.exists()) {
-  	    	try {
-				level = Levels.loadLevel(()->{},()->{}, "savedLevel1");
-				save1Button.setText("<html>Level: " + level.getLevelNum() + "<br>Time Left: " + (int)level.getCountdown() + "<br>Chips Left: " + level.getPlayer().treasuresToCollect() + "</html>");
-			} catch (IOException | JDOMException e1) {
-				save1Button.setText("Corrupt file");
-			}
-  	    	save2Button.addActionListener(e->{setPhase(()->initialPhase(),()->deathMenu(), "savedLevel2");System.out.println("Loading save slot 2");});
-  	    } else {
-  	    	save2Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
-  	    }
-  	    
-  	    if(save3File.exists()) {
-  	    	try {
-				level = Levels.loadLevel(()->{},()->{}, "savedLevel1");
-				save1Button.setText("<html>Level: " + level.getLevelNum() + "<br>Time Left: " + (int)level.getCountdown() + "<br>Chips Left: " + level.getPlayer().treasuresToCollect() + "</html>");
-			} catch (IOException | JDOMException e1) {
-				save1Button.setText("Corrupt file");
-			}
-  	    	save3Button.addActionListener(e->{setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel3");System.out.println("Loading save slot 3");});
-  	    } else {
-  	    	save3Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
-  	    }
+  	    loadLevel(save1File, "savedLevel1", save1Button);
+  	    loadLevel(save2File, "savedLevel2", save2Button);
+  	    loadLevel(save3File, "savedLevel3", save3Button);
 
   	    menu.addActionListener(e->initialPhase());
   	    
@@ -447,6 +401,26 @@ public class Chips extends JFrame{
   	    setResizable(false);
   
  	    pack();
+    }
+    
+    /**
+     * Load level
+     * @param file
+     * @param fileName
+     * @param button
+     */
+    void loadLevel(File file, String fileName, JButton button) {
+    	if(file.exists()) {
+  	    	try {
+				level = Levels.loadLevel(()->{},()->{}, fileName);
+				button.setText("<html>Level: " + level.getLevelNum() + "<br>Time Left: " + (int)level.getCountdown() + "<br>Chips Left: " + level.getPlayer().treasuresToCollect() + "</html>");
+			} catch (IOException | JDOMException e1) {
+				button.setText("Corrupt file");
+			}
+  	    	button.addActionListener(e->{setPhase(()->initialPhase(), ()->deathMenu(), fileName);System.out.println("Loading save slot");});
+  	    } else {
+  	    	button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
+  	    }
     }
     
     /**
@@ -462,12 +436,12 @@ public class Chips extends JFrame{
  		var save1 = new JLabel("Save 1 Slot");
  		var save2 = new JLabel("Save 2 Slot");
  		var save3 = new JLabel("Save 3 SLot");
- 		var save1Button = new JButton("Save to Slot 1");
- 		var save2Button = new JButton("Save to Slot 2");
- 		var save3Button = new JButton("Save to Slot 3");
+ 		var save1Button = new CustomButton("Save to Slot 1");
+ 		var save2Button = new CustomButton("Save to Slot 2");
+ 		var save3Button = new CustomButton("Save to Slot 3");
  		var text = new JLabel("");
- 		var resume = new JButton("Resume Level");
- 		var menu = new JButton(" Back to Menu ");
+ 		var resume = new CustomButton("Resume Level");
+ 		var menu = new CustomButton(" Back to Menu ");
  		
  		// Setting position and size
  		//header.setBounds(200, 50, 600, 200);
@@ -523,38 +497,11 @@ public class Chips extends JFrame{
   	    	remove(header);
   	    	remove(this);
   	    };
- 	 	     
-  	    // Add listeners
-  	    if(level == null) {
-  	    	save1Button.addActionListener(e->showMessageDialog(null, "You must be playing a level to save it"));
-  	    	save2Button.addActionListener(e->showMessageDialog(null, "You must be playing a level to save it"));
-  	    	save3Button.addActionListener(e->showMessageDialog(null, "You must be playing a level to save it"));
-  	    } else {
-	  	    save1Button.addActionListener(e->{
-				try {
-					Levels.saveLevel(getCurrentLevel(), "savedLevel1");
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				System.out.println("Saving to save slot 1");
-			});
-	  	    save2Button.addActionListener(e->{
-				try {
-					Levels.saveLevel(getCurrentLevel(), "savedLevel2");
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				System.out.println("Saving to save slot 2");
-			});
-	  	    save3Button.addActionListener(e->{
-				try {
-					Levels.saveLevel(getCurrentLevel(), "savedLevel3");
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				System.out.println("Saving to save slot 3");
-			});
-  	    }
+  	    
+  	    savingLevel(level, save1Button, "savedLevel1");
+  	    savingLevel(level, save2Button, "savedLevel2");
+  	    savingLevel(level, save3Button, "savedLevel3");
+  	    
   	    
   	    resume.addActionListener(e->resetPhase());
   	    menu.addActionListener(e->initialPhase());
@@ -566,6 +513,23 @@ public class Chips extends JFrame{
 
     }
     
+    void savingLevel(Level level, JButton button, String fileName) {
+    	// Add listeners
+  	    if(level == null) {
+  	    	button.addActionListener(e->showMessageDialog(null, "You must be playing a level to save it"));
+  	    	
+  	    } else {
+	  	    button.addActionListener(e->{
+				try {
+					Levels.saveLevel(getCurrentLevel(), fileName);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				System.out.println("Saving to save slot");
+			});
+  	    }
+    }
+    
     /**
      * Reset to the current level the user was completing
      */
@@ -575,18 +539,16 @@ public class Chips extends JFrame{
     	setLayout(new OverlayLayout(getContentPane()));
 		setLocationRelativeTo(null);
 		
+		controller.newInstance(level.getPlayer());
 		view.setFocusable(true);
 		
 		Timer timer = new Timer(33,unused->{
 			assert SwingUtilities.isEventDispatchThread();
 			if(inPause == false) {
-	    	  //remove(pause);
 	    	  level.tick();
 	    	  
 	    	  view.repaint();
 	    	  rec.savePlayerMoveEvent(count.getAndIncrement(), level.getPlayer().direction());
-	    	  
-	    	  //add(BorderLayout.NORTH, pause);
 			}
 	    });
 	    closePhase.run();//close phase before adding any element of the new phase
@@ -666,6 +628,7 @@ public class Chips extends JFrame{
  		
  		add(popup);
  		
+ 		
         resume.setCursor(new Cursor(Cursor.HAND_CURSOR));  
         
         // Add listeners
@@ -696,8 +659,8 @@ public class Chips extends JFrame{
 		setLayout(new BorderLayout());
 	    
 		// Text and Buttons
-		var deathText = new JLabel("<html> Oh no, you DIED </html>", SwingConstants.CENTER);
-		var menu = new JButton(" Back to Menu ");
+		var deathText = new JLabel("Oh no, you DIED", SwingConstants.CENTER);
+		var menu = new CustomButton("Back to Menu");
 		
 		// Setting position and size
 		deathText.setBounds(200, 50, 600, 200);
@@ -741,7 +704,7 @@ public class Chips extends JFrame{
 	    
 		// Text and Buttons
 		var victoryText = new JLabel("<html> You have finished Bunny's Challenge <br> Congratulations </html>", SwingConstants.CENTER);
-		var menu = new JButton(" Back to Menu ");
+		var menu = new CustomButton(" Back to Menu ");
 		
 		// Setting position and size
 		victoryText.setBounds(500, 50, 600, 200);
@@ -784,13 +747,13 @@ public class Chips extends JFrame{
 		// Create text buttons
 		var header = new JLabel("A little stuck?", SwingConstants.CENTER);
 		var rules = new JLabel("<html>Movement: Use the WASD keys<br><br>Goal: To collect all chips and go through the exit<br><br>Tips: Collect tools to break through obstacles<br>DON'T get caught by the monster<br><br>For extra help look for sign posts around the map</html>", SwingConstants.CENTER);
-		var menu = new JButton("Back to Menu");
-		var resume = new JButton("Resume");
+		var menu = new CustomButton("Back to Menu");
+		var resume = new CustomButton("Resume");
 		
-		var up = new JButton("Up: " + (char) ((int)movements.get("up")));
-		var left = new JButton("Left: " + (char) ((int)movements.get("left")));
-		var down = new JButton("Down: " + (char) ((int)movements.get("down")));
-		var right = new JButton("Right: " + (char) ((int)movements.get("right")));
+		var up = new CustomButton("Up: " + (char) ((int)movements.get("up")));
+		var left = new CustomButton("Left: " + (char) ((int)movements.get("left")));
+		var down = new CustomButton("Down: " + (char) ((int)movements.get("down")));
+		var right = new CustomButton("Right: " + (char) ((int)movements.get("right")));
 		var startGame1 = new JLabel("Start game - level 1: Ctrl 1");
 		var startGame2 = new JLabel("Start game - level 2: Ctrl 2");
 		var exitGame = new JLabel("Exit game: Ctrl x");
@@ -932,6 +895,7 @@ public class Chips extends JFrame{
 	 * Update Key inside the controller map
 	 * @param movements
 	 * @param e
+	 * @param key
 	 * @return success boolean of operation
 	 */
 	public boolean updateKey(Map<String, Integer> movements, KeyEvent e, String key) {
