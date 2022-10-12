@@ -53,7 +53,7 @@
             <message>Frost boots allow you to freeze water</message>
         </info>
         <info x="15" y="14">
-            <message>Use the teleporters go somewhere new</message>
+            <message>Use teleporters to go somewhere new</message>
         </info>
     </entities>
     <player x="12" y="8">
