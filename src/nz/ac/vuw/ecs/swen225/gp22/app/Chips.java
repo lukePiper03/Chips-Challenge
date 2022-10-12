@@ -6,6 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,8 +37,10 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp22.global.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Replay;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.LevelView;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.fonts.LoadedFont;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
@@ -47,7 +51,11 @@ public class Chips extends JFrame{
 	//	State curState;
 	Controller controller;
 	Level level;
+	LevelView view;
 	Recorder rec;
+	AtomicInteger count;
+	String fileName;
+	
 	boolean inPause;
 	boolean inLevel = false;
 	
@@ -86,16 +94,23 @@ public class Chips extends JFrame{
 		var loadLevel = new JButton("Load saved Level");
 		var help = new JButton("Help");
 		
+		var replay = new JButton("Watch replay");
+		var quit = new JButton("Quit");
+		
 		// Setting font and colour
 		welcome.setFont(LoadedFont.PixeloidSans.getSize(70f));
 		welcome.setForeground(Color.white);
 	   
 		// Set Bounds
-	    startLvl1.setBounds(200, 400, 200, 50);
+	    startLvl1.setBounds(100, 400, 200, 50);
 
-	    startLvl2.setBounds(600, 400, 200, 50);
-	    loadLevel.setBounds(200, 475, 200, 50);
-	    help.setBounds(600, 475, 200, 50);
+	    startLvl2.setBounds(400, 400, 200, 50);
+	    loadLevel.setBounds(100, 475, 200, 50);
+	    help.setBounds(400, 475, 200, 50);
+	    replay.setBounds(700, 400, 200, 50);
+	    quit.setBounds(700, 475, 200, 50);
+	    
+	    
 	    
 	    // Change cursor type on hover
 	    //setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -105,6 +120,8 @@ public class Chips extends JFrame{
 	    add(BorderLayout.CENTER, startLvl2);
 	    add(BorderLayout.CENTER, loadLevel);
 	    add(BorderLayout.CENTER, help);
+	    add(BorderLayout.CENTER, replay);
+	    add(BorderLayout.CENTER, quit);
 	    add(BorderLayout.CENTER, welcome);
 	    
 	    addKeyListener(controller);
@@ -119,6 +136,8 @@ public class Chips extends JFrame{
 	    	remove(startLvl2);
 	    	remove(loadLevel);
 	    	remove(help);
+	    	remove(replay);
+	    	remove(quit);
 	    	remove(welcome);
 	    	remove(this);
 	     };
@@ -129,6 +148,8 @@ public class Chips extends JFrame{
 	     loadLevel.addActionListener(e->loadMenu());
 	     //e->setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel.xml"
 	     help.addActionListener(e->helpMenu());
+	     replay.addActionListener(e->setRecorder());
+	     //quit.addActionListener();
 	     
 	     setPreferredSize(new Dimension(1000,600));
 	     setResizable(true);
@@ -146,12 +167,13 @@ public class Chips extends JFrame{
     	setPhase(()->victoryMenu(),()->deathMenu(), "level2");
 	}
 	
-    void setPhase(Runnable next, Runnable end, String fileName){
+    void setPhase(Runnable next, Runnable end, String f){
 		System.out.println("Setting level");
 		inPause = false;
+		fileName = f;
 		
-		AtomicInteger count = new AtomicInteger();
-	    Recorder r = new Recorder(fileName, count.get());
+		count = new AtomicInteger();
+	    rec = new Recorder(fileName, count.get());
 		
 		setLayout(new OverlayLayout(getContentPane()));
 		setLocationRelativeTo(null);
@@ -168,7 +190,7 @@ public class Chips extends JFrame{
 		//Recorder.recorder = new Recorder(fileName, time);
 		
 	    // Set up the viewport
-	    LevelView view = new LevelView(level);
+	    view = new LevelView(level);
 	    
 	    // KeyListener to listen for controls from the user
 	    view.addKeyListener(controller);
@@ -183,13 +205,9 @@ public class Chips extends JFrame{
 	    Timer timer = new Timer(33,unused->{
 	      assert SwingUtilities.isEventDispatchThread();
 	      if(inPause == false) {
-	    	  //remove(pause);
 	    	  level.tick();
-	    	  
 	    	  view.repaint();
-	    	  r.savePlayerMoveEvent(count.getAndIncrement(), level.getPlayer().direction());
-	    	  
-	    	  //add(BorderLayout.NORTH, pause);
+	    	  rec.savePlayerMoveEvent(count.getAndIncrement(), level.getPlayer().direction());
 	      }
 	    });
 	    closePhase.run();//close phase before adding any element of the new phase
@@ -197,7 +215,7 @@ public class Chips extends JFrame{
 	    	timer.stop();
 	    	remove(view);
 	    	try{
-	    		r.saveToFile(fileName+"_replay");
+	    		rec.saveToFile(fileName+"_replay");
 	    	} catch (Exception e) {
 	    		e.printStackTrace();
 	    	}
@@ -207,7 +225,72 @@ public class Chips extends JFrame{
 	    pack();                     //after pack
 	    view.requestFocus();//need to be after pack
 	    timer.start();
-	  }
+	}
+    
+    void setRecorder() {
+    	System.out.println("Making replay");
+		//fileName = f;
+    	
+    	JFileChooser j = new JFileChooser(new File("C:\\Users\\pc\\Documents\\New folder\\"));
+		fileName = j.getSelectedFile().getAbsolutePath();
+		
+		count = new AtomicInteger();
+	    //rec = new Recorder(fileName, count.get());
+		
+		setLayout(new OverlayLayout(getContentPane()));
+		setLocationRelativeTo(null);
+		
+		// Set up new Level
+		
+		
+		// Create _replay
+		Replay replay = new Replay(fileName);
+		
+		try {
+			level = Levels.loadLevel(()->initialPhase(), ()->deathMenu(), replay.getLevelPath());
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		replay.setController((Direction d) -> level.getPlayer.direction(d));
+	    // Set up the viewport
+	    view = new LevelView(level);
+	    
+	    // KeyListener to listen for controls from the user
+	    view.addKeyListener(controller);
+	    controller.newInstance(level.getPlayer());
+	    
+	    view.setFocusable(true);
+	    
+	    //var pause = new JButton("Pause");
+	    
+	    // New timer
+	    Timer timer = new Timer(33,unused->{
+	      assert SwingUtilities.isEventDispatchThread();
+	      if(inPause == false) {
+	    	  level.tick();
+	    	  view.repaint();
+	      }
+	      
+	    });
+	    closePhase.run();//close phase before adding any element of the new phase
+	    closePhase=()->{
+	    	timer.stop();
+	    	remove(view);
+	    	try{
+	    		rec.saveToFile(fileName+"_replay");
+	    	} catch (Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    };
+	    add(view);//add the new phase viewport
+	    setPreferredSize(getSize());//to keep the current size
+	    pack();                     //after pack
+	    view.requestFocus();//need to be after pack
+	    timer.start();
+    }
     
     public Level getCurrentLevel() {
     	return level;
@@ -281,19 +364,22 @@ public class Chips extends JFrame{
   	    };
  	 	     
   	    // Add listeners
-  	    if(isSave1 == true) {
+  	    File save1File = new File("/levels/savedLevel1.xml");
+  	    File save2File = new File("/levels/savedLevel2.xml");
+  	    File save3File = new File("/levels/savedLevel3.xmml");
+  	    if(save1File.exists()) {
   	    	save1Button.addActionListener(e->setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel1"));
   	    } else {
   	    	save1Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
   	    }
   	    
-  	    if(isSave2 == true) {
+  	    if(save2File.exists()) {
   	    	save2Button.addActionListener(e->setPhase(()->initialPhase(),()->deathMenu(), "savedLevel2"));
   	    } else {
   	    	save2Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
   	    }
   	    
-  	    if(isSave3 == true) {
+  	    if(save3File.exists()) {
   	    	save3Button.addActionListener(e->setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel3"));
   	    } else {
   	    	save3Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
@@ -366,7 +452,17 @@ public class Chips extends JFrame{
   	    // closephase set up
   	    closePhase.run();
   	    closePhase=()->{
-  	     remove(this);
+  	    	remove(resume);
+  	    	remove(menu);
+  	    	remove(save1);
+  	    	remove(save2);
+  	    	remove(save3);
+  	    	remove(save1Button);
+  	    	remove(save2Button);
+  	    	remove(save3Button);
+  	    	remove(text);
+  	    	remove(header);
+  	    	remove(this);
   	    };
  	 	     
   	    // Add listeners
@@ -382,7 +478,7 @@ public class Chips extends JFrame{
 					e1.printStackTrace();
 				}
 			});
-	  	    save1Button.addActionListener(e->isSave1 = true);
+	  	   //save1Button.addActionListener(e->isSave1 = true);
 	  	    save2Button.addActionListener(e->{
 				try {
 					Levels.saveLevel(getCurrentLevel(), "savedLevel2");
@@ -390,7 +486,7 @@ public class Chips extends JFrame{
 					e1.printStackTrace();
 				}
 			});
-	  	    save2Button.addActionListener(e->isSave2 = true);
+	  	    //save2Button.addActionListener(e->isSave2 = true);
 	  	    save3Button.addActionListener(e->{
 				try {
 					Levels.saveLevel(getCurrentLevel(), "savedLevel3");
@@ -398,9 +494,10 @@ public class Chips extends JFrame{
 					e1.printStackTrace();
 				}
 			});
-	  	    save3Button.addActionListener(e->isSave3 = true);
+	  	    //save3Button.addActionListener(e->isSave3 = true);
   	    }
   	    
+  	    resume.addActionListener(e->resetPhase());
   	    menu.addActionListener(e->initialPhase());
   	    
   	    setPreferredSize(new Dimension(1000,600));
@@ -408,6 +505,43 @@ public class Chips extends JFrame{
   
  	    pack();
 
+    }
+    
+    void resetPhase() {
+    	//inPause = false;
+    	
+    	setLayout(new OverlayLayout(getContentPane()));
+		setLocationRelativeTo(null);
+		
+		view.setFocusable(true);
+		
+		 Timer timer = new Timer(33,unused->{
+		      assert SwingUtilities.isEventDispatchThread();
+		      if(inPause == false) {
+		    	  //remove(pause);
+		    	  level.tick();
+		    	  
+		    	  view.repaint();
+		    	  rec.savePlayerMoveEvent(count.getAndIncrement(), level.getPlayer().direction());
+		    	  
+		    	  //add(BorderLayout.NORTH, pause);
+		      }
+		    });
+		    closePhase.run();//close phase before adding any element of the new phase
+		    closePhase=()->{
+		    	timer.stop();
+		    	remove(view);
+		    	try{
+		    		rec.saveToFile(fileName+"_replay");
+		    	} catch (Exception e) {
+		    		e.printStackTrace();
+		    	}
+		    };
+		    add(view);//add the new phase viewport
+		    setPreferredSize(getSize());//to keep the current size
+		    pack();                     //after pack
+		    view.requestFocus();//need to be after pack
+		    timer.start();
     }
 	
     void closePausePopup(JPanel popup) {
@@ -691,6 +825,7 @@ public class Chips extends JFrame{
 	    	}
 	    });
 	    
+	    resume.addActionListener(e->resetPhase());
 	    // Add listeners
  	    menu.addActionListener(e->initialPhase());
  	    
