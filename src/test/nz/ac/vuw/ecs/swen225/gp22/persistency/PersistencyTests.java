@@ -6,13 +6,17 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import org.jdom2.JDOMException;
 import org.junit.jupiter.api.Test;
 
-import actor.spi.Actor;
 
+/**
+ * Tests for the persistency module.
+ *
+ * @author Jarvis Warnock 300 578342
+ *
+ */
 public class PersistencyTests {
 	
 	/**
@@ -65,6 +69,7 @@ public class PersistencyTests {
 			e.printStackTrace();
 		}
 		try {
+			assert testLevel1 != null : "Error loading level";
 			Levels.saveLevel(testLevel1, "testLevel");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -75,6 +80,10 @@ public class PersistencyTests {
 		} catch (IOException | JDOMException e) {
 			e.printStackTrace();
 		}
+		
+		assert testLevel1 != null : "Error loading original level";
+		assert testLevel2 != null : "Error loading saved level";
+		
 		assert testLevel1.getCountdown() == testLevel2.getCountdown();
 		
 		File toDelete = new File("levels/testLevel.xml");
@@ -95,6 +104,7 @@ public class PersistencyTests {
 			e.printStackTrace();
 		}
 		try {
+			assert testLevel1 != null : "Error loading level";
 			Levels.saveLevel(testLevel1, "testLevel");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -105,6 +115,10 @@ public class PersistencyTests {
 		} catch (IOException | JDOMException e) {
 			e.printStackTrace();
 		}
+		
+		assert testLevel1 != null : "Error loading original level";
+		assert testLevel2 != null : "Error loading saved level";
+		
 		assert testLevel1.getPlayer().getPos().x() == testLevel2.getPlayer().getPos().x()
 				&&testLevel1.getPlayer().getPos().y() == testLevel2.getPlayer().getPos().y();
 		
@@ -126,6 +140,7 @@ public class PersistencyTests {
 			e.printStackTrace();
 		}
 		try {
+			assert testLevel1 != null : "Error loading level";
 			Levels.saveLevel(testLevel1, "testLevel");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -136,6 +151,9 @@ public class PersistencyTests {
 		} catch (IOException | JDOMException e) {
 			e.printStackTrace();
 		}
+		
+		assert testLevel1 != null : "Error loading original level";
+		assert testLevel2 != null : "Error loading saved level";
 		
 		// Checks that no monsters are missing and that all of them are in the correct position
 		// along with the same point in their route
@@ -170,6 +188,7 @@ public class PersistencyTests {
 			e.printStackTrace();
 		}
 		try {
+			assert testLevel1 != null : "Error loading level";
 			Levels.saveLevel(testLevel1, "testLevel");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -180,6 +199,9 @@ public class PersistencyTests {
 		} catch (IOException | JDOMException e) {
 			e.printStackTrace();
 		}
+		
+		assert testLevel1 != null : "Error loading original level";
+		assert testLevel2 != null : "Error loading saved level";
 		
 		assert testLevel1.getEntites().size() == testLevel2.getEntites().size();
 		for(int i=0;i<testLevel1.getEntites().size();i++) {
@@ -209,6 +231,7 @@ public class PersistencyTests {
 			e.printStackTrace();
 		}
 		try {
+			assert testLevel1 != null : "Error loading level";
 			Levels.saveLevel(testLevel1, "testLevel");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -219,6 +242,9 @@ public class PersistencyTests {
 		} catch (IOException | JDOMException e) {
 			e.printStackTrace();
 		}
+		
+		assert testLevel1 != null : "Error loading original level";
+		assert testLevel2 != null : "Error loading saved level";
 		
 		assert testLevel1.getPlayer().inventory().size() == testLevel2.getPlayer().inventory().size();
 		for(int i=0;i<testLevel1.getPlayer().inventory().size();i++) {

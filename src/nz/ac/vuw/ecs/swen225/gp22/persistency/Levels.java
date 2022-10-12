@@ -55,6 +55,8 @@ public class Levels {
 	 * @param next - The next phase to be run after the level being loaded
 	 * @param end - The phase to be run if the player loses in the level
 	 * @return Level - A level loaded from a file
+	 * @throws IOException - Throws if the file being loaded is invalid
+	 * @throws JDOMException - Throws if the XML file is incorrectly formatted
 	 */
 	public static Level loadLevel(Runnable next,Runnable end,String filename) throws IOException,JDOMException{
 		String prefix = "./levels/";	// Filepath prefix
@@ -251,6 +253,7 @@ public class Levels {
 	 * @param p - Point where the monster should start
 	 * @param route - The route for the monster to take
 	 * @return The created monster
+	 * @throws MalformedURLException - Throws if the URL to load is invalid
 	 */
 	public static Actor createTestMonster(String filename,Point p,List<Direction> route) throws MalformedURLException{
 		File file = new File(filename+".jar");
@@ -285,6 +288,7 @@ public class Levels {
 	 * Saves the passed in level to a file
 	 * @param level - The level to be saved
 	 * @param filename - The name the file will be saved as
+	 * @throws IOException - Throws if there was an error writing to the XML file output
 	 */
 	public static void saveLevel(Level level,String filename) throws IOException{
 		Document doc = new Document();
