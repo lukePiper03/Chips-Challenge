@@ -69,7 +69,7 @@ public class LevelView extends JPanel {
    */
   public void endLevel() {
     // fade out music and set animation to reverse
-    new Thread(() -> sounds.fadeOut(Sound.eightbitsong, 50)).start();
+    new Thread(() -> sounds.fadeOut(Sound.Eightbitsong, 50)).start();
     animationForwards = false;
   }
 
@@ -78,7 +78,7 @@ public class LevelView extends JPanel {
    */
   public void beginLevel() {
     // fades in music
-    new Thread(() -> sounds.loop(Sound.eightbitsong, 50)).start();
+    new Thread(() -> sounds.loop(Sound.Eightbitsong, 50)).start();
   }
 
   /**

@@ -13,9 +13,21 @@ import javax.sound.sampled.Clip;
  */
 public enum Sound {
   /** Level music. */
-  eightbitsong,
-  /** Beep sound effect for interactions. */
-  beep;
+  Eightbitsong,
+  /** default sound effect for interactions. */
+  Interact,
+  /** Door unlock sound */
+  Door,
+  /** Escape sound */
+  Escape,
+  /** Footstep in grass sound */
+  Footstep,
+  /** Portal teleport sound */
+  Portal,
+  /** Sign interaction sound */
+  Sign,
+  /** Treasure collect sound */
+  Treasure;
 
   /** Loaded sound clip for playing. */
   public final Clip clip;
