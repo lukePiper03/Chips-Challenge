@@ -343,13 +343,9 @@ public class Chips extends JFrame{
  		var save2 = new JLabel("Save 2 Slot");
  		var save3 = new JLabel("Save 3 SLot");
  		
-// 		var timeLeftLabel = new JLabel("Time Left: ");
-// 		var levelLabel = new JLabel("Level: ");
-// 		var treasuresToCollectLabel = new JLabel("Treasure To Collect: ");
- 		
- 		var save1Button = new JButton("Load Save 1");
- 		var save2Button = new JButton("Load Save 2");
- 		var save3Button = new JButton("Load Save 3");
+ 		var save1Button = new JButton("Empty");
+ 		var save2Button = new JButton("Empty");
+ 		var save3Button = new JButton("Empty");
  		var text = new JLabel("");
  		var menu = new JButton("Back to Menu");
  		
@@ -410,18 +406,36 @@ public class Chips extends JFrame{
   	    File save2File = new File("./levels/savedLevel2.xml");
   	    File save3File = new File("./levels/savedLevel3.xml");
   	    if(save1File.exists()) {
+  	    	try {
+				level = Levels.loadLevel(()->{},()->{}, "savedLevel1");
+				save1Button.setText("<html>Level: " + level.getLevelNum() + "<br>Time Left: " + (int)level.getCountdown() + "<br>Chips Left: " + level.getPlayer().treasuresToCollect() + "</html>");
+			} catch (IOException | JDOMException e1) {
+				save1Button.setText("Corrupt file");
+			}
   	    	save1Button.addActionListener(e->{setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel1");System.out.println("Loading save slot 1");});
   	    } else {
   	    	save1Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
   	    }
   	    
   	    if(save2File.exists()) {
+  	    	try {
+				level = Levels.loadLevel(()->{},()->{}, "savedLevel1");
+				save1Button.setText("<html>Level: " + level.getLevelNum() + "<br>Time Left: " + (int)level.getCountdown() + "<br>Chips Left: " + level.getPlayer().treasuresToCollect() + "</html>");
+			} catch (IOException | JDOMException e1) {
+				save1Button.setText("Corrupt file");
+			}
   	    	save2Button.addActionListener(e->{setPhase(()->initialPhase(),()->deathMenu(), "savedLevel2");System.out.println("Loading save slot 2");});
   	    } else {
   	    	save2Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
   	    }
   	    
   	    if(save3File.exists()) {
+  	    	try {
+				level = Levels.loadLevel(()->{},()->{}, "savedLevel1");
+				save1Button.setText("<html>Level: " + level.getLevelNum() + "<br>Time Left: " + (int)level.getCountdown() + "<br>Chips Left: " + level.getPlayer().treasuresToCollect() + "</html>");
+			} catch (IOException | JDOMException e1) {
+				save1Button.setText("Corrupt file");
+			}
   	    	save3Button.addActionListener(e->{setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel3");System.out.println("Loading save slot 3");});
   	    } else {
   	    	save3Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
@@ -858,7 +872,6 @@ public class Chips extends JFrame{
 	    up.addKeyListener(new KeyAdapter() {
 	    	public void keyPressed(KeyEvent e) {
 	    		if(updateKey(movements, e, "up") == true) {
-	    			//char keyChar = e.getKeyChar();
 			    	up.setText("Up: " + Character.toUpperCase(e.getKeyChar()));			    	
 	    		}
 	    	}
@@ -867,7 +880,6 @@ public class Chips extends JFrame{
 	    left.addKeyListener(new KeyAdapter() {
 	    	public void keyPressed(KeyEvent e) {
 	    		if(updateKey(movements, e, "left") == true) {
-		    		//char keyChar = e.getKeyChar();
 			    	left.setText("Left: " + Character.toUpperCase(e.getKeyChar()));
 	    		}
 	    	}
@@ -876,7 +888,6 @@ public class Chips extends JFrame{
 	    down.addKeyListener(new KeyAdapter() {
 	    	public void keyPressed(KeyEvent e) {
 	    		if(updateKey(movements, e, "down") == true) {
-		    		//String keyChar = e.getKeyChar() + "";
 			    	down.setText("Down: " + Character.toUpperCase(e.getKeyChar()));
 	    		}
 	    	}
@@ -885,7 +896,6 @@ public class Chips extends JFrame{
 	    right.addKeyListener(new KeyAdapter() {
 	    	public void keyPressed(KeyEvent e) {
 	    		if(updateKey(movements, e, "right") == true) {
-		    		//char keyChar = e.getKeyChar();
 			    	right.setText("Right: " + Character.toUpperCase(e.getKeyChar()));
 	    		}
 	    	}
