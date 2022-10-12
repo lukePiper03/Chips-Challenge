@@ -197,6 +197,7 @@ public class Player extends Subject{
 					inventory.remove(key); //remove from inventory if red or blue, and green if last door
 				}
 				nextCell.setState(new Floor());
+				onChange(); //Observer pattern for Renderer
 			}
 			else return; //otherwise don't move
 		}
@@ -207,7 +208,6 @@ public class Player extends Subject{
 		}
 		oldPos = getPos();
 		pos = newPos; 
-		onChange(); //Observer pattern for Renderer
 	}
 	
 	//total treasure count on the board
