@@ -244,7 +244,13 @@ public class Chips extends JFrame{
 		
 		
 		// Create _replay
-		Replay replay = new Replay(fileName);
+		Replay replay = null;
+		try {
+			replay = new Replay(fileName);
+		} catch (JDOMException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		try {
 			level = Levels.loadLevel(()->initialPhase(), ()->deathMenu(), replay.getLevelPath());
@@ -254,7 +260,7 @@ public class Chips extends JFrame{
 			ioe.printStackTrace();
 		}
 		
-		replay.setController((Direction d) -> level.getPlayer.direction(d));
+		replay.setController((Direction d) -> level.getPlayer().direction(d));
 	    // Set up the viewport
 	    view = new LevelView(level);
 	    
