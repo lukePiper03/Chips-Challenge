@@ -37,9 +37,10 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp22.global.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.persistency.Levels;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
-import nz.ac.vuw.ecs.swen225.gp22.recorder.Replayer;
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Replay;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.LevelView;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.fonts.LoadedFont;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.imgs.Img;
@@ -240,17 +241,20 @@ public class Chips extends JFrame{
 		setLocationRelativeTo(null);
 		
 		// Set up new Level
+		
+		
+		// Create _replay
+		Replay replay = new Replay(fileName);
+		
 		try {
-			level = Levels.loadLevel(()->initialPhase(), ()->deathMenu(), fileName);
+			level = Levels.loadLevel(()->initialPhase(), ()->deathMenu(), replay.getLevelPath());
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 		
-		// Create _replay
-		Replayer replay = new Replayer(fileName, (Direction d) -> level.getPlayer.direction(d));
-		
+		replay.setController((Direction d) -> level.getPlayer.direction(d));
 	    // Set up the viewport
 	    view = new LevelView(level);
 	    
