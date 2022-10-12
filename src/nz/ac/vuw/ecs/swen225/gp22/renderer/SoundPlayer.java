@@ -50,6 +50,7 @@ public class SoundPlayer {
     // take argument to play specific sound
     System.out.println("Playing sound " + s);
     Clip curClip = getSound(s);
+    curClip.stop();
     curClip.setFramePosition(0);
     curClip.start();
   }
@@ -63,16 +64,18 @@ public class SoundPlayer {
   public void loop(Sound s, int maxVol) {
     System.out.println("Looping sound " + s);
     // get sound control and set to min volume
-    FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);
+    Clip curClip = getSound(s);
+    FloatControl gainControl = (FloatControl) curClip.getControl(FloatControl.Type.MASTER_GAIN);
     gainControl.setValue(20f * (float) Math.log10(0.01));
     // set song to loop mode
-    getSound(s).loop(Clip.LOOP_CONTINUOUSLY);
+    curClip.stop();
+    curClip.loop(Clip.LOOP_CONTINUOUSLY);
     // loop to gradually fade in sound
     for (double i = 0; i < maxVol; i++) {
       try {
         Thread.sleep(45);
         gainControl.setValue(20f * (float) Math.log10(i / 100));
-        getSound(s).loop(Clip.LOOP_CONTINUOUSLY);
+        curClip.loop(Clip.LOOP_CONTINUOUSLY);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
@@ -88,7 +91,8 @@ public class SoundPlayer {
   public void fadeOut(Sound s, int startVol) {
     System.out.println("Fade out sound " + s);
     // get sound control
-    FloatControl gainControl = (FloatControl) getSound(s).getControl(FloatControl.Type.MASTER_GAIN);
+    Clip curClip = getSound(s);
+    FloatControl gainControl = (FloatControl) curClip.getControl(FloatControl.Type.MASTER_GAIN);
     // loop to gradually fade out sound
     for (double i = startVol; i > -100; i -= 5) {
       try {
@@ -100,7 +104,7 @@ public class SoundPlayer {
       }
     }
     // stop sound
-    getSound(s).stop();
+    curClip.stop();
   }
 
   /**

@@ -2,9 +2,9 @@ package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
 import java.util.ArrayList;
 import java.util.List;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Observer;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Subject;
+import java.util.Map;
+
+import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
 
 
@@ -15,8 +15,16 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.sounds.Sound;
  */
 public class EventHandler {
   // active listeners and sound player variables
-  List<Subject> activeListeners = new ArrayList<>();
-  SoundPlayer sounds;
+  final List<Subject> activeListeners = new ArrayList<>();
+  final SoundPlayer sounds;
+  // create a mapping of different object interactions to sounds
+  final Map<Object, Object> soundMaps = Map.of(
+		    Exit.class, Sound.Escape,
+		    Treasure.class, Sound.Treasure,
+		    Teleporter.class, Sound.Portal,
+		    InfoField.class, Sound.Sign,
+		    Player.class, Sound.Door
+		);
 
   /**
    * Constructor.
@@ -28,15 +36,15 @@ public class EventHandler {
     this.sounds = s;
     // add beep sound to all entity interactions
     l.getEntites().forEach(a -> {
-      a.attach(() -> s.play(Sound.beep));
+      a.attach(() -> s.play((Sound)soundMaps.getOrDefault(a.getClass(), Sound.Interact)));
       activeListeners.add(a);
     });
     // walking sound effect for player
-    // l.getPlayer().attach(()->s.play(Sound.beep));
-    // activeListeners.add(l.getPlayer());
+     l.getPlayer().attach(()->s.play((Sound)soundMaps.getOrDefault(Player.class, Sound.Interact)));
+     activeListeners.add(l.getPlayer());
 
   }
-
+  
   /**
    * Attach an listener observer to a subject.
    *
