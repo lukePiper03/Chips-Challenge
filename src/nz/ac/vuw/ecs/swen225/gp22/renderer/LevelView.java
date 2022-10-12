@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import javax.swing.JPanel;
-
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.global.Direction;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.fonts.LoadedFont;
@@ -94,8 +93,7 @@ public class LevelView extends JPanel {
     // fade in or out animation
     if (fadeIn < animLength && animationForwards) {
       fadeIn++;
-    }
-    else if (fadeIn > 0 && !animationForwards) {
+    } else if (fadeIn > 0 && !animationForwards) {
       fadeIn--;
     }
       
@@ -110,9 +108,9 @@ public class LevelView extends JPanel {
 
     // work out difference between positions to make movement animation
     Point diff = curPlayer.getOldPos().distance(pos);
-    float xShift = diff.x() * (1 - curPlayer.getMoveTime());
-    float yShift = diff.y() * (1 - curPlayer.getMoveTime());
-    PlayerFields pf = new PlayerFields(pos, xShift, yShift);
+    float shiftX = diff.x() * (1 - curPlayer.getMoveTime());
+    float shiftY = diff.y() * (1 - curPlayer.getMoveTime());
+    PlayerFields pf = new PlayerFields(pos, shiftX, shiftY);
 
     // find centre of map relative to player
     var centerP = new Point(-(int) (s.width * 0.65) / (int) (2 * renderSize),
@@ -182,12 +180,12 @@ public class LevelView extends JPanel {
    */
   void drawShadow(ScreenFields sf, PlayerFields pf, Point cellPos) {
     // calculate shadow dimensions
-    final int w1 = cellPos.x() * renderSize - (int) ((sf.centre().x() + pf.xShift()) * renderSize);
-    final int h1 = cellPos.y() * renderSize - (int) ((sf.centre().y() + pf.yShift()) * renderSize);
+    final int w1 = cellPos.x() * renderSize - (int) ((sf.centre().x() + pf.shiftX()) * renderSize);
+    final int h1 = cellPos.y() * renderSize - (int) ((sf.centre().y() + pf.shiftY()) * renderSize);
 
     // calculate distance of shadow from player and check bounds
-    double dist = Math.hypot(cellPos.x() - pf.player().x() - pf.xShift(),
-        cellPos.y() - pf.player().y() - pf.yShift())
+    double dist = Math.hypot(cellPos.x() - pf.player().x() - pf.shiftX(),
+        cellPos.y() - pf.player().y() - pf.shiftY())
         - 2;
     dist *= 50;
     if (dist < 0) {
@@ -210,8 +208,8 @@ public class LevelView extends JPanel {
    */
   void drawCell(ScreenFields sf, PlayerFields pf, Player p, Cell c) {
     // calculate image dimensions
-    int w1 = c.x() * renderSize - (int) ((sf.centre().x() + pf.xShift()) * renderSize);
-    int h1 = c.y() * renderSize - (int) ((sf.centre().y() + pf.yShift()) * renderSize);
+    int w1 = c.x() * renderSize - (int) ((sf.centre().x() + pf.shiftX()) * renderSize);
+    int h1 = c.y() * renderSize - (int) ((sf.centre().y() + pf.shiftY()) * renderSize);
     int w2 = w1 + renderSize;
     int h2 = h1 + renderSize;
     int dimension = renderSize;
@@ -221,19 +219,17 @@ public class LevelView extends JPanel {
       dimension += 8;
     }
 
-    // special effects for exit lock that changes state depending on treasures left
     if (c.state() instanceof ExitLock) {
+      // special effects for exit lock that changes state depending on treasures left
       sf.g().drawImage(Img.getValue(c.getName(), 
           curLevel.getPlayer().treasuresToCollect(), 4).image,
           w1, h1, w2, h2, 0, 0, dimension, dimension, null);
-    }
-    // special effects for water that freezes with boots on
-    else if (c.state() instanceof Water && p.bootsInInventory()
+    } else if (c.state() instanceof Water && p.bootsInInventory()
         && Math.hypot(c.x() - p.getPos().x(), c.y() - p.getPos().y()) < 2.15) {
+    	// special effects for water that freezes with boots on
       sf.g().drawImage(Img.getValue("Ice").image, w1, h1, w2, h2, 0, 0, dimension, dimension, null);
-    }
-    // default case
-    else {
+    } else {
+    	// default case
       sf.g().drawImage(Img.getValue(c.getName()).image, 
           w1, h1, w2, h2, 0, 0, dimension, dimension, null);
     }
@@ -256,8 +252,8 @@ public class LevelView extends JPanel {
     }
 
     // calculate entity image dimensions
-    int w1 = pos.x() * renderSize - (int) ((sf.centre().x() + pf.xShift()) * renderSize);
-    int h1 = pos.y() * renderSize - (int) ((sf.centre().y() + pf.yShift()) * renderSize);
+    int w1 = pos.x() * renderSize - (int) ((sf.centre().x() + pf.shiftX()) * renderSize);
+    int h1 = pos.y() * renderSize - (int) ((sf.centre().y() + pf.shiftY()) * renderSize);
     int w2 = w1 + renderSize;
     int h2 = h1 + renderSize;
 
@@ -286,15 +282,15 @@ public class LevelView extends JPanel {
       return;
     }
     
-   // work out difference between positions to make movement animation
+    // work out difference between positions to make movement animation
     Point diff = mon.getOldPos().distance(pos);
-    float xShift = diff.x() * (1 - mon.getMoveTime());
-    float yShift = diff.y() * (1 - mon.getMoveTime());
+    float shiftX = diff.x() * (1 - mon.getMoveTime());
+    float shiftY = diff.y() * (1 - mon.getMoveTime());
     int val = diff.x() < 0  || diff.y() < 0 ? 0 : 1;
 
     // calculate entity image dimensions
-    int w1 = pos.x() * renderSize - (int) ((sf.centre().x() + pf.xShift() - xShift) * renderSize);
-    int h1 = pos.y() * renderSize - (int) ((sf.centre().y() + pf.yShift() - yShift) * renderSize);
+    int w1 = pos.x() * renderSize - (int) ((sf.centre().x() + pf.shiftX() - shiftX) * renderSize);
+    int h1 = pos.y() * renderSize - (int) ((sf.centre().y() + pf.shiftY() - shiftY) * renderSize);
     int w2 = w1 + renderSize;
     int h2 = h1 + renderSize;
     // draw image
@@ -414,10 +410,10 @@ public class LevelView extends JPanel {
    *
    * @author Declan Cross
    * @param player position of player object
-   * @param xShift calculated dist between old and new player pos
-   * @param yShift calculated dist between old and new player pos
+   * @param shiftX calculated dist between old and new player pos
+   * @param shiftY calculated dist between old and new player pos
    */
-  private record PlayerFields(Point player, float xShift, float yShift) {
+  private record PlayerFields(Point player, float shiftX, float shiftY) {
   }
 
 }
