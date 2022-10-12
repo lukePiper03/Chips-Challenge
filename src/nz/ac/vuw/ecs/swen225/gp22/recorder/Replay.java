@@ -2,6 +2,10 @@ package nz.ac.vuw.ecs.swen225.gp22.recorder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -10,6 +14,8 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import nz.ac.vuw.ecs.swen225.gp22.global.Direction;
+
 /**
  * @author Quinten Smit 300584150
  *
@@ -17,8 +23,7 @@ import org.jdom2.output.XMLOutputter;
 public class Replay {
 	Element replayElement;
 	double time;
-	double replaySpeed = 1;
-	boolean autoReplay = true;
+	Consumer<Direction> movePlayer;
 	
 	
 	/**
@@ -33,6 +38,10 @@ public class Replay {
 		//Element eventsElement = replayElement.getChild("events");
 	}
 	
+	public void setController(Consumer<Direction> movePlayer) {
+		this.movePlayer = movePlayer;
+	}
+	
 	/**
 	 * @return
 	 */
@@ -40,35 +49,20 @@ public class Replay {
 		return replayElement.getChild("map").getText();
 	}
 	
-	/**
-	 * 
-	 */
-	public void autoReplay() {autoReplay = true;}
-
-	/**
-	 * 
-	 */
-	public void stepByStep() {autoReplay = false;}
-	
-	
-	
 	public String toString() {
 		return new XMLOutputter(Format.getPrettyFormat()).outputString(replayElement);
 	}
 	
-	/*private class Event{
-		int time;
-		String actor;
-		Direction action;
-		
-		public Event(int time, String actor, Direction action) {
-			this.time = time;
-			this.actor = actor;
-			this.action = action;
-		}
-		
-		public Event(Element Event) {
-			
-		}
-	}*/
+	/**
+	 * 
+	 */
+	public boolean movePlayer() {
+		List<Element> eventList = replayElement.getChild("events").getChildren("events");
+		Optional<Element> event = eventList.stream().filter((e)->(Integer.parseInt(e.getAttribute("time").getValue()) == time)).findFirst();
+		if (event.isEmpty())return false;
+		Direction direction = Direction.valueOf(event.get().getChildText("action"));
+		movePlayer.accept(direction);
+		time++;
+		return true;
+	}
 }
