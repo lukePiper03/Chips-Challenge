@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <replay>
-  <map>level1</map>
+  <map>level2</map>
   <time>0</time>
   <events>
     <event time="0">
@@ -104,98 +104,6 @@
       <action>None</action>
     </event>
     <event time="25">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="26">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="27">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="28">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="29">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="30">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="31">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="32">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="33">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="34">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="35">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="36">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="37">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="38">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="39">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="40">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="41">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="42">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="43">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="44">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="45">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="46">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="47">
-      <actor>Player</actor>
-      <action>None</action>
-    </event>
-    <event time="48">
       <actor>Player</actor>
       <action>None</action>
     </event>

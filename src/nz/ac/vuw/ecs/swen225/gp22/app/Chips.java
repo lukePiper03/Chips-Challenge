@@ -14,7 +14,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -59,20 +58,29 @@ public class Chips extends JFrame{
 	boolean inPause;
 	boolean inLevel = false;
 	
-	boolean isSave1 = false;
-	boolean isSave2 = false;
-	boolean isSave3 = false;
+//	boolean isSave1 = false;
+//	boolean isSave2 = false;
+//	boolean isSave3 = false;
 	boolean isSave = false;
+	
+	Map<String, Integer> movements = new HashMap<String, Integer>();
 	
 	JPanel popup;
 		
 	Runnable closePhase = ()->{};
 	
+	/**
+	 * Chips Controller
+	 */
 	public Chips(){
 	    assert SwingUtilities.isEventDispatchThread();
 	    controller = new Controller(this);
 	    initialPhase();
 	    System.out.println("Initialising pane");
+	    movements.put("up", KeyEvent.VK_W);
+		movements.put("left", KeyEvent.VK_A);
+		movements.put("down", KeyEvent.VK_S);
+		movements.put("right", KeyEvent.VK_D);
 	    addWindowListener(new WindowAdapter(){
 	      public void windowClosed(WindowEvent e){closePhase.run();}
 	    });
@@ -103,7 +111,6 @@ public class Chips extends JFrame{
 	   
 		// Set Bounds
 	    startLvl1.setBounds(100, 400, 200, 50);
-
 	    startLvl2.setBounds(400, 400, 200, 50);
 	    loadLevel.setBounds(100, 475, 200, 50);
 	    help.setBounds(400, 475, 200, 50);
@@ -146,10 +153,9 @@ public class Chips extends JFrame{
 	     startLvl1.addActionListener(e->phaseOne());
 	     startLvl2.addActionListener(e->phaseTwo());
 	     loadLevel.addActionListener(e->loadMenu());
-	     //e->setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel.xml"
 	     help.addActionListener(e->helpMenu());
 	     replay.addActionListener(e->setRecorder());
-	     //quit.addActionListener();
+	     quit.addActionListener(e->System.exit(0));
 	     
 	     setPreferredSize(new Dimension(1000,600));
 	     setResizable(true);
@@ -159,10 +165,16 @@ public class Chips extends JFrame{
 	     setLocationRelativeTo(null);
 	}
 	
+	/**
+	 * Call setPhase to load the first level
+	 */
 	public void phaseOne(){
 	    setPhase(()->phaseTwo(),()->deathMenu(), "level1");
 	}
 		  
+    /**
+     * Call setPahse to load the second level
+     */
     public void phaseTwo() {
     	setPhase(()->victoryMenu(),()->deathMenu(), "level2");
 	}
@@ -198,7 +210,7 @@ public class Chips extends JFrame{
 	    
 	    view.setFocusable(true);
 	    
-	    var pause = new JButton("Pause");
+//	    var pauseLabel = new JButton("Pause");
 	    //add(BorderLayout.NORTH, pause);
 	    
 	    // New timer
@@ -212,13 +224,13 @@ public class Chips extends JFrame{
 	    });
 	    closePhase.run();//close phase before adding any element of the new phase
 	    closePhase=()->{
-	    	timer.stop();
-	    	remove(view);
+	    	timer.stop();	    	
 	    	try{
 	    		rec.saveToFile(fileName+"_replay");
 	    	} catch (Exception e) {
 	    		e.printStackTrace();
 	    	}
+	    	remove(view);
 	    };
 	    add(view);//add the new phase viewport
 	    setPreferredSize(getSize());//to keep the current size
@@ -260,7 +272,10 @@ public class Chips extends JFrame{
 			ioe.printStackTrace();
 		}
 		
-		replay.setController((Direction d) -> level.getPlayer().direction(d));
+		if(replay != null) {
+			replay.setController((Direction d) -> level.getPlayer().direction(d));
+		}
+		
 	    // Set up the viewport
 	    view = new LevelView(level);
 	    
@@ -298,13 +313,25 @@ public class Chips extends JFrame{
 	    timer.start();
     }
     
+    /**
+     * Return current level
+     * @return level
+     */
     public Level getCurrentLevel() {
     	return level;
     }
     
+    /**
+     * Return whether game is in pause
+     * @return inPause
+     */
     public boolean getPause() {
     	return inPause;
     }
+    
+    /**
+     * Load menu to allow users to load saved levels
+     */
     void loadMenu() {
     	setContentPane(new JLabel(new ImageIcon(Img.Background.image)));
  		setLayout(new BorderLayout());
@@ -316,9 +343,9 @@ public class Chips extends JFrame{
  		var save2 = new JLabel("Save 2 Slot");
  		var save3 = new JLabel("Save 3 SLot");
  		
- 		var timeLeft = new JLabel("Time Left: ");
- 		var level = new JLabel("Level: ");
- 		var treasuresToCollect = new JLabel("Treasure To Collect: ");
+// 		var timeLeftLabel = new JLabel("Time Left: ");
+// 		var levelLabel = new JLabel("Level: ");
+// 		var treasuresToCollectLabel = new JLabel("Treasure To Collect: ");
  		
  		var save1Button = new JButton("Load Save 1");
  		var save2Button = new JButton("Load Save 2");
@@ -366,27 +393,36 @@ public class Chips extends JFrame{
   	    // closephase set up
   	    closePhase.run();
   	    closePhase=()->{
-  	     remove(this);
+  	    	remove(header);
+  	    	remove(save1);
+  	    	remove(save2);
+  	    	remove(save3);
+  	    	remove(save1Button);
+  	    	remove(save2Button);
+  	    	remove(save3Button);
+  	    	remove(text);
+  	    	remove(menu);
+  	    	remove(this);
   	    };
  	 	     
   	    // Add listeners
-  	    File save1File = new File("/levels/savedLevel1.xml");
-  	    File save2File = new File("/levels/savedLevel2.xml");
-  	    File save3File = new File("/levels/savedLevel3.xmml");
+  	    File save1File = new File("./levels/savedLevel1.xml");
+  	    File save2File = new File("./levels/savedLevel2.xml");
+  	    File save3File = new File("./levels/savedLevel3.xml");
   	    if(save1File.exists()) {
-  	    	save1Button.addActionListener(e->setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel1"));
+  	    	save1Button.addActionListener(e->{setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel1");System.out.println("Loading save slot 1");});
   	    } else {
   	    	save1Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
   	    }
   	    
   	    if(save2File.exists()) {
-  	    	save2Button.addActionListener(e->setPhase(()->initialPhase(),()->deathMenu(), "savedLevel2"));
+  	    	save2Button.addActionListener(e->{setPhase(()->initialPhase(),()->deathMenu(), "savedLevel2");System.out.println("Loading save slot 2");});
   	    } else {
   	    	save2Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
   	    }
   	    
   	    if(save3File.exists()) {
-  	    	save3Button.addActionListener(e->setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel3"));
+  	    	save3Button.addActionListener(e->{setPhase(()->initialPhase(), ()->deathMenu(), "savedLevel3");System.out.println("Loading save slot 3");});
   	    } else {
   	    	save3Button.addActionListener(e->showMessageDialog(null, "There is no saved level in this slot"));
   	    }
@@ -399,6 +435,9 @@ public class Chips extends JFrame{
  	    pack();
     }
     
+    /**
+     * Save menu to allow users to save the current level they are on
+     */
     void saveMenu() {
     	setContentPane(new JLabel(new ImageIcon(Img.Background.image)));
  		setLayout(new BorderLayout());
@@ -483,24 +522,24 @@ public class Chips extends JFrame{
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				System.out.println("Saving to save slot 1");
 			});
-	  	   //save1Button.addActionListener(e->isSave1 = true);
 	  	    save2Button.addActionListener(e->{
 				try {
 					Levels.saveLevel(getCurrentLevel(), "savedLevel2");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				System.out.println("Saving to save slot 2");
 			});
-	  	    //save2Button.addActionListener(e->isSave2 = true);
 	  	    save3Button.addActionListener(e->{
 				try {
 					Levels.saveLevel(getCurrentLevel(), "savedLevel3");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				System.out.println("Saving to save slot 3");
 			});
-	  	    //save3Button.addActionListener(e->isSave3 = true);
   	    }
   	    
   	    resume.addActionListener(e->resetPhase());
@@ -513,43 +552,50 @@ public class Chips extends JFrame{
 
     }
     
+    /**
+     * Reset to the current level the user was completing
+     */
     void resetPhase() {
-    	//inPause = false;
-    	
+    	inPause = false;
+    	System.out.println("Resetting");
     	setLayout(new OverlayLayout(getContentPane()));
 		setLocationRelativeTo(null);
 		
 		view.setFocusable(true);
 		
-		 Timer timer = new Timer(33,unused->{
-		      assert SwingUtilities.isEventDispatchThread();
-		      if(inPause == false) {
-		    	  //remove(pause);
-		    	  level.tick();
-		    	  
-		    	  view.repaint();
-		    	  rec.savePlayerMoveEvent(count.getAndIncrement(), level.getPlayer().direction());
-		    	  
-		    	  //add(BorderLayout.NORTH, pause);
-		      }
-		    });
-		    closePhase.run();//close phase before adding any element of the new phase
-		    closePhase=()->{
-		    	timer.stop();
-		    	remove(view);
-		    	try{
-		    		rec.saveToFile(fileName+"_replay");
-		    	} catch (Exception e) {
-		    		e.printStackTrace();
-		    	}
-		    };
-		    add(view);//add the new phase viewport
-		    setPreferredSize(getSize());//to keep the current size
-		    pack();                     //after pack
-		    view.requestFocus();//need to be after pack
-		    timer.start();
+		Timer timer = new Timer(33,unused->{
+			assert SwingUtilities.isEventDispatchThread();
+			if(inPause == false) {
+	    	  //remove(pause);
+	    	  level.tick();
+	    	  
+	    	  view.repaint();
+	    	  rec.savePlayerMoveEvent(count.getAndIncrement(), level.getPlayer().direction());
+	    	  
+	    	  //add(BorderLayout.NORTH, pause);
+			}
+	    });
+	    closePhase.run();//close phase before adding any element of the new phase
+	    closePhase=()->{
+	    	timer.stop();
+	    	try{
+	    		rec.saveToFile(fileName+"_replay");
+	    	} catch (Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    	remove(view);
+	    };
+	    add(view);//add the new phase viewport
+	    setPreferredSize(getSize());//to keep the current size
+	    pack();                     //after pack
+	    view.requestFocus();//need to be after pack
+	    timer.start();
     }
 	
+    /**
+     * Close pause popup
+     * @param popup
+     */
     void closePausePopup(JPanel popup) {
     	remove(popup);
     	inPause = false;
@@ -594,12 +640,12 @@ public class Chips extends JFrame{
  	    // Add Text and Buttons
  		popup.add(BorderLayout.NORTH, pause);
  		
- 		popup.add(BorderLayout.CENTER, exit);
- 		popup.add(BorderLayout.CENTER, saveLevel);
- 		popup.add(BorderLayout.CENTER, loadLevel);
- 		popup.add(BorderLayout.CENTER, help);
- 		popup.add(BorderLayout.CENTER, restart);
- 		popup.add(BorderLayout.CENTER, resume);
+ 		popup.add(exit);
+ 		popup.add(saveLevel);
+ 		popup.add(loadLevel);
+ 		popup.add(help);
+ 		popup.add(restart);
+ 		popup.add(resume);
  		popup.add(BorderLayout.CENTER, text);
  		
  		popup.setVisible(true);
@@ -611,17 +657,15 @@ public class Chips extends JFrame{
         // Add listeners
         resume.addActionListener(e->closePausePopup(popup));
         help.addActionListener(e->helpMenu());
-        exit.addActionListener(e->initialPhase());
-        saveLevel.addActionListener(e->isSave = true);
-        saveLevel.addActionListener(e->{
+        exit.addActionListener(e->{level.gameOver();initialPhase();});
+        saveLevel.addActionListener(e->{isSave = true;
 			try {
 				Levels.saveLevel(getCurrentLevel(), "savedLevel");
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		});
-        saveLevel.addActionListener(e->closePausePopup(popup));
-        saveLevel.addActionListener(e->saveMenu());
+        saveLevel.addActionListener(e->{closePausePopup(popup);saveMenu();});
  	    loadLevel.addActionListener(e->loadMenu());
  	    
  	    setVisible(true);
@@ -659,7 +703,9 @@ public class Chips extends JFrame{
  	    // closephase set up
  	    closePhase.run();
  	    closePhase=()->{
- 	     remove(this);
+ 	    	remove(deathText);
+ 	    	remove(menu);
+ 	    	remove(this);
  	    };
 	 	     
  	    // Add listeners
@@ -713,6 +759,9 @@ public class Chips extends JFrame{
 	     pack();
 	}
 	
+	/**
+	 * Help Menu to let users change movement keyBinds and give information on how to play
+	 */
 	void helpMenu() {
 		// Set background
 	    setContentPane(new JLabel(new ImageIcon(Img.Background.image)));
@@ -720,29 +769,24 @@ public class Chips extends JFrame{
 		
 		// Create text buttons
 		var header = new JLabel("A little stuck?", SwingConstants.CENTER);
-		var rules = new JLabel("<html>Movement: Use the WASD keys<br><br>Goal: To collect all the apples and go through the exit<br><br>Tips: Collect pickaxes to break rocks to access apples<br>DON'T get caught by the monster<br><br>For extra help look for sign posts around the map</html>");
+		var rules = new JLabel("<html>Movement: Use the WASD keys<br><br>Goal: To collect all chips and go through the exit<br><br>Tips: Collect tools to break through obstacles<br>DON'T get caught by the monster<br><br>For extra help look for sign posts around the map</html>", SwingConstants.CENTER);
 		var menu = new JButton("Back to Menu");
 		var resume = new JButton("Resume");
 		
-		var up = new JButton("Up: w");
-		var left = new JButton("Left: a");
-		var down = new JButton("Down: s");
-		var right = new JButton("Right: d");
+		var up = new JButton("Up: " + (char) ((int)movements.get("up")));
+		var left = new JButton("Left: " + (char) ((int)movements.get("left")));
+		var down = new JButton("Down: " + (char) ((int)movements.get("down")));
+		var right = new JButton("Right: " + (char) ((int)movements.get("right")));
 		var startGame1 = new JLabel("Start game - level 1: Ctrl 1");
 		var startGame2 = new JLabel("Start game - level 2: Ctrl 2");
 		var exitGame = new JLabel("Exit game: Ctrl x");
 		var saveGame = new JLabel("Save game: Ctrl s");
 		var loadGame = new JLabel("Load game: Ctrl r");
 		var pause = new JLabel("Pause: SpaceBar");
-		
-		Map<String, Integer> movements = new HashMap<String, Integer>();
-	    movements.put("up", KeyEvent.VK_W);
-		movements.put("left", KeyEvent.VK_A);
-		movements.put("down", KeyEvent.VK_S);
-		movements.put("right", KeyEvent.VK_D);
+		var text = new JLabel("");
 	    
 		// Setting position and size
-		header.setBounds(200, 50, 600, 200);
+		header.setBounds(300, 50, 600, 200);
 		menu.setBounds(400, 500, 200, 50);
 		resume.setBounds(400, 450, 200, 50);
 		
@@ -763,7 +807,9 @@ public class Chips extends JFrame{
  		
  		setFont(new Font("Calibri", Font.BOLD, 16));
  		setForeground(Color.white);
- 		rules.setBounds(50, 200, 500, 400);
+ 		rules.setFont(new Font("Calibri", Font.BOLD, 20));
+ 		rules.setForeground(Color.white);
+ 		rules.setBounds(50, 100, 500, 400);
  		
  		// Add Text and Buttons
  		add(up);
@@ -776,11 +822,12 @@ public class Chips extends JFrame{
 	    add(saveGame);
 	    add(loadGame);
 	    add(pause);
-	    add(BorderLayout.CENTER, menu);
+	    add(menu);
 	    if(inPause == true) {
-	    	add(BorderLayout.CENTER, resume);
+	    	add(resume);
 	    }
 	    add(rules);
+	    add(BorderLayout.CENTER, text);
 	    add(BorderLayout.NORTH, header);
 	    
 	 
@@ -790,43 +837,56 @@ public class Chips extends JFrame{
 	    // closephase set up
 	    closePhase.run();
 	    closePhase=()->{
-	     remove(this);
+	    	remove(up);
+		    remove(left);
+		    remove(down);
+		    remove(right);
+		    remove(startGame1);
+		    remove(startGame2);
+		    remove(exitGame);
+		    remove(saveGame);
+		    remove(loadGame);
+		    remove(pause);
+		    remove(header);
+		    remove(menu);
+		    remove(resume);
+		    remove(rules);
+		    remove(text);
+		    remove(this);
 	    };
 	    
 	    up.addKeyListener(new KeyAdapter() {
 	    	public void keyPressed(KeyEvent e) {
-	    		if(updateKey(movements, e) == true) {
-	    			char keyChar = e.getKeyChar();
-			    	up.setText("Up: " + keyChar);
+	    		if(updateKey(movements, e, "up") == true) {
+	    			//char keyChar = e.getKeyChar();
+			    	up.setText("Up: " + Character.toUpperCase(e.getKeyChar()));			    	
 	    		}
-	    		
 	    	}
-	    	
 	    });
 	    
 	    left.addKeyListener(new KeyAdapter() {
 	    	public void keyPressed(KeyEvent e) {
-	    		if(updateKey(movements, e) == true) {
-		    		char keyChar = e.getKeyChar();
-			    	left.setText("Left: " + keyChar);
+	    		if(updateKey(movements, e, "left") == true) {
+		    		//char keyChar = e.getKeyChar();
+			    	left.setText("Left: " + Character.toUpperCase(e.getKeyChar()));
 	    		}
 	    	}
 	    });
 	    
 	    down.addKeyListener(new KeyAdapter() {
 	    	public void keyPressed(KeyEvent e) {
-	    		if(updateKey(movements, e) == true) {
-		    		char keyChar = e.getKeyChar();
-			    	down.setText("Down: " + keyChar);
+	    		if(updateKey(movements, e, "down") == true) {
+		    		//String keyChar = e.getKeyChar() + "";
+			    	down.setText("Down: " + Character.toUpperCase(e.getKeyChar()));
 	    		}
 	    	}
 	    });
 	    
 	    right.addKeyListener(new KeyAdapter() {
 	    	public void keyPressed(KeyEvent e) {
-	    		if(updateKey(movements, e) == true) {
-		    		char keyChar = e.getKeyChar();
-			    	right.setText("Right: " + keyChar);
+	    		if(updateKey(movements, e, "right") == true) {
+		    		//char keyChar = e.getKeyChar();
+			    	right.setText("Right: " + Character.toUpperCase(e.getKeyChar()));
 	    		}
 	    	}
 	    });
@@ -841,6 +901,12 @@ public class Chips extends JFrame{
 	    pack();
 	}
 
+	/**
+	 * Check for duplicates in the controller map
+	 * @param movements
+	 * @param e
+	 * @return success boolean of operation
+	 */
 	private boolean checkForDuplicates(Map<String, Integer> movements, KeyEvent e) {
 	  int keyCode = e.getKeyCode();
 	  for(Entry<String, Integer> entry : movements.entrySet()) {
@@ -852,15 +918,18 @@ public class Chips extends JFrame{
 	  return false;
 	}
 	
-	public boolean updateKey(Map<String, Integer> movements, KeyEvent e) {
+	/**
+	 * Update Key inside the controller map
+	 * @param movements
+	 * @param e
+	 * @return success boolean of operation
+	 */
+	public boolean updateKey(Map<String, Integer> movements, KeyEvent e, String key) {
 		int keyCode = e.getKeyCode();
 		// Check a move with already that key set as its action
 		if(checkForDuplicates(movements, e) == false) {
-			// Display in terminal
-			char keyChar = e.getKeyChar();
-    		System.out.println("New Right Key is " + keyChar);
     		// Update keys in controller
-    		movements.put("right", keyCode);
+    		movements.put(key, keyCode);
     		Controller.updateMoves(movements);
     		return true;
 		}
