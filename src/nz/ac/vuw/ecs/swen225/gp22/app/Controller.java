@@ -42,10 +42,13 @@ public class Controller extends Keys {
 	}
 	
 	// Copy all new key binds for all moves to map
+	/**
+	 * @param movements
+	 */
 	public static void updateMoves(Map<String, Integer> movements) {
 		  keyConfig.putAll(movements);
 	}
-
+	
 	/**
 	 * @param name
 	 * @param code
