@@ -46,6 +46,15 @@
         <treasure x="20" y="14"/>
         <treasure x="24" y="10"/>
         <treasure x="11" y="21"/>
+        <info x="12" y="7">
+            <message>Don't touch the cows!      This way --></message>
+        </info>
+        <info x="24" y="7">
+            <message>Frost boots allow you to freeze water</message>
+        </info>
+        <info x="15" y="14">
+            <message>Use the teleporters go somewhere new</message>
+        </info>
     </entities>
     <player x="12" y="8">
         <inventory>

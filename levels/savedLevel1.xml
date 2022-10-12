@@ -1,46 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<level num="1" time="58.880000000000024">
-  <map rows="14" cols="15">
-    <row>ww#####w#####ww</row>
-    <row>ww#...###...#ww</row>
-    <row>ww#...#.#...#ww</row>
-    <row>#####G#X#G#####</row>
-    <row>#...B.....R...#</row>
-    <row>#...#.....#...#</row>
-    <row>#####..s..#####</row>
-    <row>#...#.....#...#</row>
-    <row>#...R.....B...#</row>
-    <row>######Y#Y######</row>
-    <row>wwww#..#..#wwww</row>
-    <row>wwww#..#..#wwww</row>
-    <row>wwww#..#..#wwww</row>
-    <row>wwww#######wwww</row>
+<level num="2" time="116.8399999999995">
+  <map rows="25" cols="26">
+    <row>w#########wwwwwwwwwwwwwwww</row>
+    <row>w#wwwwwww#######wwwwwwwwww</row>
+    <row>w#www##.w#.....#wwwwwwwwww</row>
+    <row>w#www#..w#.....#wwwwwwwwww</row>
+    <row>w#www##.w#.....#wwwwwwwwww</row>
+    <row>w#wwwwwww###X###w#########</row>
+    <row>w#..wwwww#.....#w#.#..#..#</row>
+    <row>w#########.....###.#..#..#</row>
+    <row>w#...G......s.........#..#</row>
+    <row>w#########...............#</row>
+    <row>wwww###ww#.....###.......#</row>
+    <row>wwww#.#ww###.###w#.....###</row>
+    <row>w####.############.......#</row>
+    <row>##........###...##.#.....#</row>
+    <row>#..######..##....#.#..#..#</row>
+    <row>##.######.###..#########.#</row>
+    <row>##........#w#.....B..#...#</row>
+    <row>#..###.####w#.....#..R...#</row>
+    <row>####w###wwww##############</row>
+    <row>wwwwwwwwwwwwwwwwwwwwwwwwww</row>
+    <row>######ww######ww##########</row>
+    <row>##...#ww##...#ww#........#</row>
+    <row>#...##ww#...##ww#.......##</row>
+    <row>##...#ww##...#ww#........#</row>
+    <row>######ww######ww##########</row>
   </map>
   <entities>
-    <key x="5" y="7" code="B" />
-    <key x="12" y="4" code="Y" />
-    <key x="2" y="4" code="Y" />
-    <key x="8" y="12" code="G" />
-    <key x="5" y="5" code="B" />
-    <key x="9" y="5" code="R" />
-    <key x="9" y="7" code="R" />
-    <treasure x="12" y="7" />
-    <treasure x="2" y="5" />
-    <treasure x="12" y="5" />
-    <treasure x="2" y="7" />
-    <treasure x="9" y="6" />
-    <treasure x="10" y="2" />
-    <treasure x="8" y="11" />
-    <treasure x="6" y="11" />
-    <treasure x="7" y="8" />
-    <treasure x="4" y="2" />
-    <info x="7" y="5">
-      <message>Collect apples and watch out for water!</message>
-    </info>
-    <exit x="7" y="2" />
+    <key x="5" y="11" code="G" />
+    <key x="21" y="6" code="B" />
+    <treasure x="10" y="14" />
+    <treasure x="18" y="14" />
+    <treasure x="24" y="10" />
+    <treasure x="11" y="21" />
+    <treasure x="20" y="14" />
+    <treasure x="1" y="14" />
+    <treasure x="6" y="17" />
+    <treasure x="2" y="6" />
+    <exit x="12" y="2" />
+    <boots x="24" y="6" />
+    <teleporter x="16" y="14" endx="1" endy="22" />
+    <teleporter x="12" y="21" endx="2" endy="8" />
+    <teleporter x="6" y="3" endx="4" endy="21" />
+    <teleporter x="4" y="23" endx="9" endy="22" />
+    <teleporter x="1" y="17" endx="12" endy="23" />
   </entities>
-  <player x="5" y="6">
-    <inventory />
+  <player x="12" y="9">
+    <inventory>
+      <key x="12" y="11" code="R" />
+    </inventory>
   </player>
-  <actors />
+  <actors>
+    <monster x="19" y="12" route="DDDDUUUU" progress="4" />
+    <monster x="22" y="9" route="UUUUDDDD" progress="4" />
+    <monster x="22" y="11" route="RRRRLLLL" progress="4" />
+    <monster x="6" y="16" route="RRRRRRRUUULLLLLLLDDD" progress="4" />
+    <monster x="5" y="13" route="LLLLLLLDDDRRRRRRRUUU" progress="4" />
+    <monster x="2" y="14" route="LLLDDDRRRRRRRUUULLLL" progress="4" />
+    <monster x="9" y="15" route="RRRUUULLLLLLLDDDRRRR" progress="4" />
+  </actors>
 </level>
