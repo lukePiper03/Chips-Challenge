@@ -742,8 +742,7 @@ class DomainTests {
 		Set<Entity> entities = Set.of();
 		Player p = new Player(new Point(1,1), entities);
 		try {
-			@SuppressWarnings("unused")
-			Level l = new Level(next, die, map,entities, 1, 
+			new Level(next, die, map,entities, 1, 
 					List.of(Levels.createTestMonster("level2", new Point(2,1), List.of(Direction.Left))), 60, p);
 		}catch(IllegalArgumentException | MalformedURLException e) {}
 	}
@@ -760,8 +759,7 @@ class DomainTests {
 		Set<Entity> entities = Set.of();
 		Player p = new Player(new Point(1,1), entities);
 		try {
-			@SuppressWarnings("unused")
-			Level l = new Level(next, die, map,entities, 1, 
+			new Level(next, die, map,entities, 1, 
 					List.of(Levels.createTestMonster("level2", new Point(2,1), List.of(Direction.Left))), 60, p);
 		}catch(IllegalArgumentException | MalformedURLException e) {}
 	}
