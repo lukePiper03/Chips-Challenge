@@ -50,8 +50,8 @@ public class SoundPlayer {
     // take argument to play specific sound
     System.out.println("Playing sound " + s);
     Clip curClip = getSound(s);
-    curClip.stop();
     curClip.setFramePosition(0);
+    curClip.stop();
     curClip.start();
   }
 

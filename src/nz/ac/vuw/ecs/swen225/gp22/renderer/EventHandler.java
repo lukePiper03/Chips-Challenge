@@ -36,12 +36,13 @@ public class EventHandler {
     this.sounds = s;
     // add beep sound to all entity interactions
     l.getEntites().forEach(a -> {
-      a.attach(() -> s.play((Sound)soundMaps.getOrDefault(a.getClass(), Sound.Interact)));
+      a.attach(() -> s.play((Sound) soundMaps.getOrDefault(a.getClass(), Sound.Interact)));
       activeListeners.add(a);
     });
     // walking sound effect for player
-     l.getPlayer().attach(()->s.play((Sound)soundMaps.getOrDefault(Player.class, Sound.Interact)));
-     activeListeners.add(l.getPlayer());
+    l.getPlayer().attach(() -> s.play((Sound) soundMaps.getOrDefault(Player.class,
+    		Sound.Interact)));
+    activeListeners.add(l.getPlayer());
 
   }
   
