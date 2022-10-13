@@ -5,8 +5,10 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
  *
  * @author Linda Zhang 300570498
  */
-public class BlueLockedDoor extends LockedDoor{
-	
-	@Override
-	public char symbol(Cell self) {return 'B';}
+public class BlueLockedDoor extends LockedDoor {
+
+  @Override
+  public char symbol(Cell self) {
+    return 'B';
+  }
 }
