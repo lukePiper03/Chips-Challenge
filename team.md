@@ -6,4 +6,4 @@
 | Renderer | Declan Cross | crossdecl |
 | Persistence | Jarvis Warnock | warnocjarv |
 | Recorder | Quinten Smit | smitquin |
-| Fuzz | Willy K | khowill |
+| Fuzz | William Kho | khowill |
