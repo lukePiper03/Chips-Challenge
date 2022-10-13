@@ -1,32 +1,29 @@
 package test.nz.ac.vuw.ecs.swen225.gp22.fuzz;
+
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.awt.AWTException;
+import java.awt.Dimension;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.util.concurrent.TimeUnit;
+import javax.swing.SwingUtilities;
 import nz.ac.vuw.ecs.swen225.gp22.app.Chips;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
-import javax.swing.*;
-
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.time.Duration;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-
+/**
+ * Automated fuzz testing that simulates random key inputs.
+ *
+ * @author William Kho
+ */
 public class FuzzTests {
-/*    public FuzzTests() throws InterruptedException {
-        assertTimeoutPreemptively(Duration.ofSeconds(10), this::FuzzTest1);
-        wait(100);
-        assertTimeoutPreemptively(Duration.ofSeconds(10), this::FuzzTest2);
-    }*/
-
+    @SuppressWarnings("checkstyle:Indentation")
     @Test
     @Timeout(value = 60, unit = TimeUnit.SECONDS)
-    public void FuzzTest1() throws AWTException {
+    public void fuzzTest1() throws AWTException {
         SwingUtilities.invokeLater(Chips::new);
         try {
             //  setup phase1
@@ -35,12 +32,13 @@ public class FuzzTests {
             MyRobot bot = new MyRobot();
             bot.delay(1000);
 
-            // two methods here to load the level, using mouse to simulate button click and keyboard inputs
-            // to load the level. However, the Control method does not work on all machines so a more
-            // consistent mouse press is used
+            // two methods here to load the level, using mouse to simulate button click and
+            // keyboard inputs to load the level. However, the Control method does not work on all
+            // machines so a more consistent mouse press is used
 
             //  position of level1
-            bot.mouseMove((int) ((screenSize.getWidth() / 2) - 230), (int) ((screenSize.getHeight() / 2) + 120));
+            bot.mouseMove((int) ((screenSize.getWidth() / 2) - 230),
+                    (int) ((screenSize.getHeight() / 2) + 120));
             bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
             bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 
@@ -58,9 +56,9 @@ public class FuzzTests {
                 stroke = randomKeystroke(stroke);
                 bot.keyPress(randomKeystroke(stroke));
 
-               //testGame.controller.keyPressed(randomKey(testGame));
+                //testGame.controller.keyPressed(randomKey(testGame));
             }
-        } catch (AWTException|IllegalArgumentException e) {
+        } catch (AWTException | IllegalArgumentException e) {
             e.printStackTrace();
             System.out.println("Bad key");
             fail();
@@ -69,7 +67,7 @@ public class FuzzTests {
 
     @Test
     @Timeout(value = 60, unit = TimeUnit.SECONDS)
-    public void FuzzTest2() throws AWTException {
+    public void fuzzTest2() throws AWTException {
         SwingUtilities.invokeLater(Chips::new);
         try {
             //  setup phase1
@@ -78,7 +76,8 @@ public class FuzzTests {
             MyRobot bot = new MyRobot();
             bot.delay(1000);
             //  position of phase 2
-            bot.mouseMove((int) ((screenSize.getWidth() / 2) - 230), (int) ((screenSize.getHeight() / 2) +  220));
+            bot.mouseMove((int) ((screenSize.getWidth() / 2) - 230),
+                    (int) ((screenSize.getHeight() / 2) +  220));
             bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
             bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 
@@ -98,7 +97,7 @@ public class FuzzTests {
 
                 //testGame.controller.keyPressed(randomKey(testGame));
             }
-        } catch (AWTException|IllegalArgumentException e) {
+        } catch (AWTException | IllegalArgumentException e) {
             e.printStackTrace();
             System.out.println("Bad key");
             fail();
@@ -118,7 +117,7 @@ public class FuzzTests {
         // Only movement keys
         String s;
 
-        switch (lastStroke){
+        switch (lastStroke) {
             case KeyEvent.VK_A -> s = "wsd";
             case KeyEvent.VK_S -> s = "wad";
             case KeyEvent.VK_D -> s = "was";
@@ -129,7 +128,7 @@ public class FuzzTests {
         //  Full set of inputs
         /*String s = "abcdefghijklmnopqrstuvwxyz`0123456789-=!@#$^&*()_+TN[]\\;:" +
                 "'\",./ ";*/
-        int l = (int)(Math.random()* s.length());
+        int l = (int) (Math.random() * s.length());
         char ch = s.charAt(l);
 
 
@@ -201,11 +200,13 @@ public class FuzzTests {
                 throw new IllegalArgumentException("Cannot type character " + ch);
         }
     }
-    static class MyRobot extends Robot{
+
+    static class MyRobot extends Robot {
         public MyRobot() throws AWTException {
         }
+
         @Override
-        public void keyPress(int keycode){
+        public void keyPress(int keycode) {
             super.keyPress(keycode);
             super.delay(195);
             super.keyRelease(keycode);
