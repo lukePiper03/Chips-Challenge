@@ -70,18 +70,23 @@ public class FuzzTests {
     public void fuzzTest2() throws AWTException {
         SwingUtilities.invokeLater(Chips::new);
         try {
-            //  setup phase1
+            //  setup phase2
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            //Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
+
             MyRobot bot = new MyRobot();
             bot.delay(1000);
-            //  position of phase 2
+
+            // two methods here to load the level, using mouse to simulate button click and
+            // keyboard inputs to load the level. However, the Control method does not work on all
+            // machines so a more consistent mouse press is used
+
+            //  position of level1
             bot.mouseMove((int) ((screenSize.getWidth() / 2) - 230),
-                    (int) ((screenSize.getHeight() / 2) +  220));
+                    (int) ((screenSize.getHeight() / 2) + 220));
             bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
             bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 
-            //  defunct code to load phase2, dosen't work on all machines
+            //  defunct code to load phase1, dosen't work on all machines
             /*
             Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
             bot.keyPress(KeyEvent.VK_CONTROL);
@@ -89,7 +94,7 @@ public class FuzzTests {
             bot.keyRelease(KeyEvent.VK_2);
             bot.keyRelease(KeyEvent.VK_CONTROL);*/
 
-            //  randomly hit keys using robot
+            // randomly hit keys using robot
             int stroke = 0;
             for (int i = 0; i < 5000; i++) {
                 stroke = randomKeystroke(stroke);
