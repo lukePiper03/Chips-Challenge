@@ -38,6 +38,7 @@ public class LevelView extends JPanel {
 
   // rendering variables
   private final int renderSize = 64; // default rendering size of cells
+  private final int iconSize = renderSize / 2;
   private boolean animationForwards = true; // toggle between enter and exit animation
 
   // player variables
@@ -226,10 +227,10 @@ public class LevelView extends JPanel {
           w1, h1, w2, h2, 0, 0, dimension, dimension, null);
     } else if (c.state() instanceof Water && p.bootsInInventory()
         && Math.hypot(c.x() - p.getPos().x(), c.y() - p.getPos().y()) < 2.15) {
-    	// special effects for water that freezes with boots on
+      // special effects for water that freezes with boots on
       sf.g().drawImage(Img.getValue("Ice").image, w1, h1, w2, h2, 0, 0, dimension, dimension, null);
     } else {
-    	// default case
+      // default case
       sf.g().drawImage(Img.getValue(c.getName()).image, 
           w1, h1, w2, h2, 0, 0, dimension, dimension, null);
     }
@@ -371,11 +372,13 @@ public class LevelView extends JPanel {
       BufferedImage img = ent instanceof Key
           ? Img.getValue(ent.getName() + '_' + ((Key) ent).getColor()).image
           : Img.getValue(ent.getName()).image;
-      g.drawImage(img, invX + ((int) (renderSize /1.25) * (count.get() - (int) (count.get() /4f) *4)),
-          (int) (renderSize * 1.125) + inventoryHeight + (int) (count.get() / 4f) * (int) (renderSize / 1.5),
-          invX + ((int) (renderSize / 1.25) * (count.get() - (int) (count.get() / 4f) * 4)) + renderSize / 2,
-          (int) (renderSize * 1.125) + inventoryHeight + renderSize / 2
-              + (int) (count.get() / 4f) * (int) (renderSize / 1.5),
+     
+      int col = (int) (count.get() / 4f);
+      int row = (int) col * 4;
+      g.drawImage(img, invX + ((int) (renderSize / 1.25) * (count.get() - row)),
+          (int) (renderSize * 1.125) + inventoryHeight + col * (int) (renderSize / 1.5),
+          invX + ((int) (renderSize / 1.25) * (count.get() - row)) + iconSize,
+          (int) (renderSize * 1.125) + inventoryHeight + iconSize + col * (int) (renderSize / 1.5),
           0, 0, renderSize, renderSize, null);
       count.getAndIncrement();
     });
