@@ -23,7 +23,7 @@ public class CustomButton extends JButton {
     this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     this.setFont(LoadedFont.PixeloidSans.getSize(14f));
     this.setForeground(Color.white);
-    this.setBackground(new Color(110, 74, 47, 150));
+    this.setBackground(new Color(110, 74, 47));
     this.setBorder(BorderFactory.createLineBorder(Color.white, 4));
     this.setOpaque(true);
   }
