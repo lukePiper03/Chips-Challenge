@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class FuzzTests {
-    public FuzzTests(){
+    /*public FuzzTests(){
         assertTimeoutPreemptively(Duration.ofSeconds(10), this::FuzzTest1);
         assertTimeoutPreemptively(Duration.ofSeconds(10), this::FuzzTest2);
-    }
+    }*/
 
     @Test
     @Timeout(value = 5, unit = TimeUnit.SECONDS)
@@ -55,7 +55,7 @@ public class FuzzTests {
             Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
             MyRobot bot = new MyRobot();
             bot.delay(1000);
-            bot.mouseMove((int) ((screenSize.getWidth() / 2)), (int) ((screenSize.getHeight() / 2) + 120));
+            bot.mouseMove((int) ((screenSize.getWidth() / 2) - 230), (int) ((screenSize.getHeight() / 2) +  220));
             bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
             bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
             while(true){
