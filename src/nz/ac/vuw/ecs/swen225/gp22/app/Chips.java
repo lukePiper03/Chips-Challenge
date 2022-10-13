@@ -270,6 +270,7 @@ public class Chips extends JFrame {
 
     if (replay != null) {
       replay.setController((Direction d) -> level.getPlayer().direction(d));
+      replay.setAdvanceByTick(()->level.tick());
     }
 
     // Set up the viewport
@@ -280,8 +281,6 @@ public class Chips extends JFrame {
     controller.newInstance(level.getPlayer());
 
     view.setFocusable(true);
-
-    // var pause = new JButton("Pause");
 
     // New timer
     Timer timer = new Timer(33, unused -> {
@@ -302,6 +301,9 @@ public class Chips extends JFrame {
         e.printStackTrace();
       }
     };
+    setLayout(new BorderLayout());
+    add(BorderLayout.SOUTH, replay);
+    
     add(view); // add the new phase viewport
     setPreferredSize(getSize()); // to keep the current size
     pack(); // after pack
