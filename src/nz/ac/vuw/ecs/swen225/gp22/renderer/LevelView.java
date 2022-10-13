@@ -345,19 +345,20 @@ public class LevelView extends JPanel {
     g.setFont(LoadedFont.PixeloidSans.getSize(40f));
 
     // titles
-    g.drawString("Level", s.width - inventoryWidth, 100);
-    g.drawString("Time", s.width - inventoryWidth, 220);
-    g.drawString("Chips", s.width - inventoryWidth, 340);
+    g.drawString("Level", s.width - inventoryWidth,  (int) (inventoryHeight*0.3));
+    g.drawString("Time", s.width - inventoryWidth, (int) (inventoryHeight*0.6));
+    g.drawString("Chips", s.width - inventoryWidth,  (int) (inventoryHeight*0.9));
 
     g.setFont(LoadedFont.PixeloidSans.getSize(30f));
     g.setColor(new Color(190, 196, 161));
 
     // values
-    g.drawString(String.format("%03d", l.getLevelNum()), s.width - inventoryWidth, 140);
+    g.drawString(String.format("%03d", l.getLevelNum()), 
+    	s.width - inventoryWidth, (int) (inventoryHeight*0.3) + 40);
     g.drawString(String.format("%03d", (int) (l.getCountdown())),
-        s.width - inventoryWidth, 260);
+        s.width - inventoryWidth, (int) (inventoryHeight*0.6) + 40);
     g.drawString(String.format("%03d", l.getPlayer().treasuresToCollect()),
-        s.width - inventoryWidth, 380);
+        s.width - inventoryWidth, (int) (inventoryHeight*0.9) + 40);
 
     // inventory
     g.setColor(new Color(120, 131, 84, fadeIn * 9));
