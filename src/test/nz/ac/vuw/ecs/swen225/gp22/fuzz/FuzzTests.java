@@ -72,7 +72,7 @@ public class FuzzTests {
         try {
             //  setup phase1
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
+            //Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
             MyRobot bot = new MyRobot();
             bot.delay(1000);
             //  position of phase 2
