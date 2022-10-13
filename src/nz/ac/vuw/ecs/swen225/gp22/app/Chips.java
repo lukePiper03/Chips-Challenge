@@ -58,6 +58,7 @@ public class Chips extends JFrame {
   Recorder rec;
   AtomicInteger count;
   String fileName;
+  Replay replay;
 
   boolean inPause;
   boolean inLevel = false;
@@ -251,7 +252,7 @@ public class Chips extends JFrame {
     setLocationRelativeTo(null);
 
     // Create _replay
-    Replay replay = null;
+    replay = null;
     try {
       replay = new Replay(fileName);
     } catch (JDOMException | IOException e1) {
@@ -270,8 +271,7 @@ public class Chips extends JFrame {
 
     if (replay != null) {
       replay.setController((Direction d) -> level.getPlayer().direction(d));
-      replay.setAdvanceByTick(()->level.tick());
-      replay.setAdvanceByTick(()->view.repaint());
+      replay.setAdvanceByTick(()->{level.tick(); view.repaint();});
     }
 
     // Set up the viewport
@@ -283,24 +283,8 @@ public class Chips extends JFrame {
 
     view.setFocusable(true);
 
-    // New timer
-//    Timer timer = new Timer(33, unused -> {
-//      assert SwingUtilities.isEventDispatchThread();
-//      if (inPause == false) {
-//        level.tick();
-//        view.repaint();
-//      }
-//
-//    });
     closePhase.run(); // close phase before adding any element of the new phase
     closePhase = () -> {
-      //timer.stop();
-//      remove(view);
-//      try {
-//        rec.saveToFile(fileName + "_replay");
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//      }
     	replay.stop();
     };
     setLayout(new BorderLayout());
