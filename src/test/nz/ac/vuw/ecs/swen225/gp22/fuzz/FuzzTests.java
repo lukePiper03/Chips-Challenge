@@ -1,69 +1,83 @@
 package test.nz.ac.vuw.ecs.swen225.gp22.fuzz;
 import nz.ac.vuw.ecs.swen225.gp22.app.Chips;
-import nz.ac.vuw.ecs.swen225.gp22.app.Controller;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class FuzzTests {
-    @Test
-    public void FuzzTest1() {
+    public FuzzTests(){
+        assertTimeoutPreemptively(Duration.ofSeconds(10), this::FuzzTest1);
+        assertTimeoutPreemptively(Duration.ofSeconds(10), this::FuzzTest2);
+    }
 
+    @Test
+    @Timeout(value = 5, unit = TimeUnit.SECONDS)
+    public void FuzzTest1() throws AWTException {
         SwingUtilities.invokeLater(Chips::new);
-        // create new bot
-        Robot bot;
         try {
-            bot = new Robot();
-            //HashMap<String, Integer> controls = cont.getKeyset();
-            int l;
-            for (int i = 0; i < 50; i++) {
-                l = randomKey();
-                System.out.println(l);
-                bot.keyPress(l);
+            //setup phase1
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
+            MyRobot bot = new MyRobot();
+            bot.delay(1000);
+            bot.mouseMove((int) ((screenSize.getWidth() / 2) - 230), (int) ((screenSize.getHeight() / 2) + 120));
+            bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+            bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+            while(true){
+                bot.keyPress(randomKeystroke());
+               //testGame.controller.keyPressed(randomKey(testGame));
             }
         } catch (AWTException|IllegalArgumentException e) {
             e.printStackTrace();
             System.out.println("Bad key");
             fail();
         }
-
-
-
-        assertTrue(true);
     }
 
     @Test
-    public void FuzzTest2() {
-        for (int i = 0; i < 50; i++) {
-            SwingUtilities.invokeLater(Chips::new);
-            // create new bot
-            Robot bot;
-            try {
-                bot = new Robot();
-                //HashMap<String, Integer> controls = cont.getKeyset();
-                int l;
-                for (int j = 0; j < 50; j++) {
-                    l = randomKey();
-                    System.out.println(l);
-                    bot.keyPress(l);
-                }
-            } catch (AWTException | IllegalArgumentException e) {
-                e.printStackTrace();
-                System.out.println("Bad key");
-                fail();
+    public void FuzzTest2() throws AWTException {
+        SwingUtilities.invokeLater(Chips::new);
+        try {
+            //setup phase1
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
+            MyRobot bot = new MyRobot();
+            bot.delay(1000);
+            bot.mouseMove((int) ((screenSize.getWidth() / 2)), (int) ((screenSize.getHeight() / 2) + 120));
+            bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+            bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+            while(true){
+                bot.keyPress(randomKeystroke());
+                //testGame.controller.keyPressed(randomKey(testGame));
             }
+        } catch (AWTException|IllegalArgumentException e) {
+            e.printStackTrace();
+            System.out.println("Bad key");
+            fail();
         }
-
-        assertFalse(false);
     }
 
-    int randomKey() {
+    /*KeyEvent randomKey(Chips c) {
+        HashMap<String,Integer> keys = c.controller.getKeyset();
+        String s = "wasd";
+        int l = (int)(Math.random()* s.length());
+        char ch = s.charAt(l);
+        return keys.get(String.valueOf(ch));
+    }*/
+
+    int randomKeystroke() {
         // generate a random key
         // Only movement keys
         String s = "wasd";
@@ -140,6 +154,17 @@ public class FuzzTests {
             case ' ': return KeyEvent.VK_SPACE;
             default:
                 throw new IllegalArgumentException("Cannot type character " + ch);
+        }
+    }
+    class MyRobot extends Robot{
+
+        public MyRobot() throws AWTException {
+        }
+        @Override
+        public void keyPress(int keycode){
+            super.keyPress(keycode);
+            delay(200);
+            super.keyRelease(keycode);
         }
     }
 }
