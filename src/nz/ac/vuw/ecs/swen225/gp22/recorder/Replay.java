@@ -49,13 +49,14 @@ public class Replay extends JPanel{
 	public Replay(String fileName) throws JDOMException, IOException {
 		replayElement = ((Document) (new SAXBuilder()).build(new File(fileName))).getRootElement();
 		time = Integer.parseInt(replayElement.getChild("time").getText());
+		//Element eventsElement = replayElement.getChild("events");
 		JButton step = new JButton("Advance By Step");
 		step.addActionListener(e->advanceByTick());
 		
 		JButton autoReplay = new JButton("Auto Replay");
 		autoReplay.addActionListener(e->startRunning());
 		
-		JSlider replaySpeed = new JSlider(0,1000, speed);
+		JSlider replaySpeed = new JSlider(0,100, speed);
 		replaySpeed.addChangeListener((e)->timer.setDelay(speed=((JSlider)e.getSource()).getValue()));
 		
 		JButton pause = new JButton("Pause");
@@ -65,11 +66,6 @@ public class Replay extends JPanel{
 		add(autoReplay);
 		add(replaySpeed);
 		add(pause);
-		
-		timer = new Timer(1000-speed,unused->{
-		      assert SwingUtilities.isEventDispatchThread();
-		      advanceByTick();
-		});
 	}
 	
 	/**
@@ -87,7 +83,6 @@ public class Replay extends JPanel{
 		if (!end) {
 			advanceByTick.run();
 			movePlayer();
-			System.out.println("Tick");
 			if (time >= findEndTime()) {
 				end = true;
 				if (timer != null)timer.stop();
@@ -96,6 +91,10 @@ public class Replay extends JPanel{
 	}
 	
 	public void startRunning() {
+		timer = new Timer(100-speed,unused->{
+		      assert SwingUtilities.isEventDispatchThread();
+		      advanceByTick();
+		});
 		timer.start();
 	}
 	
@@ -119,7 +118,7 @@ public class Replay extends JPanel{
 	 * 
 	 */
 	private boolean movePlayer() {
-		List<Element> eventList = replayElement.getChild("events").getChildren("event");
+		List<Element> eventList = replayElement.getChild("events").getChildren("events");
 		Optional<Element> event = eventList.stream()
 										   .filter((e)->(Integer.parseInt(e.getAttribute("time").getValue()) == time))
 										   .filter((e)->e.getChildText("actor").equals("player"))
@@ -132,8 +131,7 @@ public class Replay extends JPanel{
 	}
 	
 	private int findEndTime() {
-		List<Element> eventList = replayElement.getChild("events").getChildren("event");
-		if (eventList.isEmpty())return 0;
+		List<Element> eventList = replayElement.getChild("events").getChildren("events");
 		return Integer.parseInt(eventList.get(eventList.size()-1).getAttributeValue("time"));
 	}
 }
