@@ -241,7 +241,7 @@ public class Chips extends JFrame {
 
     JFileChooser j = new JFileChooser(new File("./"));
     j.setFileFilter(new FileNameExtensionFilter("Just XML files", "xml"));
-    j.showSaveDialog(this);
+    j.showOpenDialog(this);
     fileName = j.getSelectedFile().getAbsolutePath();
 
     count = new AtomicInteger();
@@ -270,8 +270,7 @@ public class Chips extends JFrame {
 
     if (replay != null) {
       replay.setController((Direction d) -> level.getPlayer().direction(d));
-      replay.setAdvanceByTick(()->level.tick());
-      replay.setAdvanceByTick(()->view.repaint());
+      replay.setAdvanceByTick(()->{level.tick(); view.repaint();});
     }
 
     // Set up the viewport
