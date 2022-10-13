@@ -37,7 +37,7 @@ public class Replay extends JPanel{
 	boolean end;
 	Consumer<Direction> movePlayer;
 	Runnable advanceByTick;
-	Timer timer;
+	Timer timer = null;
 	
 	
 	/**
@@ -56,15 +56,16 @@ public class Replay extends JPanel{
 		JButton autoReplay = new JButton("Auto Replay");
 		autoReplay.addActionListener(e->startRunning());
 		
-		JSlider replaySpeed = new JSlider(0,10, speed);
+		JSlider replaySpeed = new JSlider(0,100, speed);
 		replaySpeed.addChangeListener((e)->timer.setDelay(speed=((JSlider)e.getSource()).getValue()));
 		
-		JButton stop = new JButton("Stop");
-		stop.addActionListener(e->timer.stop());
+		JButton pause = new JButton("Pause");
+		pause.addActionListener(e->stop());
 		
 		add(step);
 		add(autoReplay);
 		add(replaySpeed);
+		add(pause);
 	}
 	
 	/**
@@ -84,7 +85,7 @@ public class Replay extends JPanel{
 			movePlayer();
 			if (time >= findEndTime()) {
 				end = true;
-				timer.stop();
+				if (timer != null)timer.stop();
 			}
 		}
 	}
@@ -95,6 +96,10 @@ public class Replay extends JPanel{
 		      advanceByTick();
 		});
 		timer.start();
+	}
+	
+	public void stop() {
+		timer.stop();
 	}
 	
 	/**
