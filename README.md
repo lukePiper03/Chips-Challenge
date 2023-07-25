@@ -2,7 +2,7 @@
 
 Group Project for SWEN225 - recreating the famous Chips Challenge game
 
-Chips challenge is a famous tile based puzzle game. The requirments from this project was to develop our own Chips Challenge.
+Chips Challenge is a famous tile-based puzzle game. The requirement for this project was to develop our own Chips Challenge.
 
 ![Level 1](images/lvl1.png)
 
@@ -13,12 +13,12 @@ The application will open to this screen:
 ![Home Screen](images/home-screen.png)
 
 # My own components
-For this project I was in charge of the app parts. My responsibilities included create the GUI for the game, saving game states, loading game states, help Menu and keyboard accessibility.
+For this project, I was in charge of the app parts. My responsibilities included create the GUI for the game, saving game states, loading game states, help Menu and keyboard accessibility.
 
 # My classes
-My class are found in the app folder, and include - 
-Chips - Create the game and the different GUI and load different parts of game
-Controller - for player movement within game
+My class are found in the app folder and include - 
+Chips - Create the game and the different GUI and load different parts of the game
+Controller - for player movement within the game
 CustomButton - custom button for GUI design
-Keys - for player movement within game
+Keys - for player movement within the game
 Main - starts game and calls Chips class
